@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="ajustes caja - Ingreso" model="ir.ui.view">
+        <field name="name">Ingreso de caja</field>
+        <field name="model">box.session.cash.in</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group> <field name="description" /> </group>
+                    <group> <field name="amount" /> </group>
+                    <!-- <group> <field name="box_session_id" invisible="True"/> </group> -->                    
+                </group>
+                <footer>
+                    <button type="object" name="do_cash_in"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="Retirar efectivo" model="ir.ui.view">
+        <field name="name">Retiro de efectivo</field>
+        <field name="model">box.session.cash.out</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group> <field name="description" /> </group>
+                    <group> <field name="amount" /> </group>
+                    <!-- <group> <field name="box_session_id" invisible="True"/> </group> -->                    
+                </group>
+                <footer>
+                    <button type="object" name="do_cash_out"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="Abrir caja" model="ir.ui.view">
+        <field name="name">Apertura de caja</field>
+        <field name="model">box.session.cash.open</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <!-- <group> <field name="description" /> </group> -->
+                    <group> <field name="amount" /> </group>
+                    <!-- <group> <field name="box_session_id" invisible="True"/> </group> -->                    
+                </group>
+                <footer>
+                    <button type="object" name="do_box_open"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="Informar saldo final" model="ir.ui.view">
+        <field name="name">Informar saldo final</field>
+        <field name="model">box.session.cash.close</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <!-- <group> <field name="description" /> </group> -->
+                    <group> <field name="amount" /> </group>
+                    <!-- <group> <field name="box_session_id" invisible="True"/> </group> -->                    
+                </group>
+                <footer>
+                    <button type="object" name="do_box_close"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

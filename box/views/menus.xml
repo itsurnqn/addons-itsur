@@ -1,0 +1,24 @@
+<odoo>
+  <data>
+
+    <menuitem id="menu_box_root"
+        name="Caja"
+        sequence="10"/>
+        <!-- parent="account_accountant.menu_accounting" -->
+
+  <menuitem id="menu_box_dashboard" action="action_pos_config_kanban" parent="menu_box_root" name="Dashboard" sequence="1"/>
+
+    <menuitem id="menu_box_box" 
+        name="Cajas"
+        parent="menu_box_root"
+        action="box_action"
+        sequence="100"/>
+
+    <menuitem id="menu_box_session" 
+        name="Sesiones"
+        parent="menu_box_root"
+        action="box_session_action"
+        sequence="200"/>
+
+  </data>
+</odoo>

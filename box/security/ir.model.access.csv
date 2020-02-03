@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_box_session,access_box_session,model_box_session,base.group_user,1,1,1,1
+access_box_box,access_box_box,model_box_box,base.group_user,1,1,1,1
+access_box_session_journal_line,access_box_session_journal_line,model_box_session_journal_line,base.group_user,1,1,1,1
+access_box_session_journal,access_box_session_journal,model_box_session_journal,base.group_user,1,1,1,1
