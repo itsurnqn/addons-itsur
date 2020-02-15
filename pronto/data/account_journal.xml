@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Ej. tomado desde odoo-argentina\l10n_ar_account\demo\account_journal_demo.xml -->
+    <record id="caja_salon" model="account.journal">
+        <field name="type">cash</field>
+        <field name="sequence">1</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="code">CSH2</field>
+        <field name="name">Efectivo - Caja Salón - Módulo</field>
+    </record>
+
+</odoo>

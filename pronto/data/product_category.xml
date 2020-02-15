@@ -1,0 +1,1109 @@
+<?xml version="1.0" ?>
+<odoo>
+	<data noupdate="1">
+		<record id="product_category_todos0" model="product.category">
+			<field name="name">Todos</field>
+			<field name="complete_name">Todos</field>
+			<field name="parent_path">6/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-09 19:28:08.512189</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-09 19:28:08.512189</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_refrigeracin0" model="product.category">
+			<field name="name">Refrigeración</field>
+			<field name="complete_name">Todos / Refrigeración</field>
+			<field name="parent_id" ref="product_category_todos0"/>
+			<field name="parent_path">6/7/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-09 19:36:37.293961</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-09 19:36:37.293961</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_insumosrefrigeracin0" model="product.category">
+			<field name="name">Insumos Refrigeración</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración</field>
+			<field name="parent_id" ref="product_category_refrigeracin0"/>
+			<field name="parent_path">6/7/10/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-09 19:40:30.114642</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-09 19:40:30.114642</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre0" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / Caño de cobre</field>
+			<field name="parent_id" ref="product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/10/8/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-09 19:38:07.169852</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-09 19:40:41.650618</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_splits0" model="product.category">
+			<field name="name">Splits</field>
+			<field name="complete_name">Todos / Refrigeración / Splits</field>
+			<field name="parent_id" ref="product_category_refrigeracin0"/>
+			<field name="parent_path">6/7/9/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-09 19:39:47.261163</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-09 19:39:47.261163</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_surrey0" model="product.category">
+			<field name="name">Surrey</field>
+			<field name="complete_name">Todos / Refrigeración / Splits / Surrey</field>
+			<field name="parent_id" ref="product_category_splits0"/>
+			<field name="parent_path">6/7/9/11/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-09 19:42:12.854439</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-09 19:42:12.854439</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_midea0" model="product.category">
+			<field name="name">Midea</field>
+			<field name="complete_name">Todos / Refrigeración / Splits / Midea</field>
+			<field name="parent_id" ref="product_category_splits0"/>
+			<field name="parent_path">6/7/9/11/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-09 19:42:12.854439</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-09 19:42:12.854439</field>
+		</record>
+	</data>
+
+	<data noupdate="1">
+		<record id="product_category_refrigeracin0" model="product.category">
+			<field name="name">Refrigeración</field>
+			<field name="complete_name">Todos / CALEFACCIÓN</field>
+			<field name="parent_id" ref="pronto.product_category_todos0"/>
+			<field name="parent_path">6/32/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:14:24.327901</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:14:27.620542</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_equipamiento0" model="product.category">
+			<field name="name">EQUIPAMIENTO</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CALEFACTORES</field>
+			<field name="parent_id" ref="product_category_refrigeracin0"/>
+			<field name="parent_path">6/32/34/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:16:11.687314</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:16:20.543206</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_daikin0" model="product.category">
+			<field name="name">DAIKIN</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CALEFACTORES / CIROC</field>
+			<field name="parent_id" ref="product_category_equipamiento0"/>
+			<field name="parent_path">6/32/34/50/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:21:39.622280</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:21:44.615213</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_daikin1" model="product.category">
+			<field name="name">DAIKIN</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CALEFACTORES / DAIKIN</field>
+			<field name="parent_id" ref="product_category_equipamiento0"/>
+			<field name="parent_path">6/32/34/49/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:21:29.917584</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:21:29.917584</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_equipamiento1" model="product.category">
+			<field name="name">EQUIPAMIENTO</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA</field>
+			<field name="parent_id" ref="product_category_refrigeracin0"/>
+			<field name="parent_path">6/32/35/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:16:23.229920</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:16:31.022151</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_equipamiento2" model="product.category">
+			<field name="name">EQUIPAMIENTO</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / ACCESORIOS GENERALES CAÑERÍA</field>
+			<field name="parent_id" ref="product_category_equipamiento1"/>
+			<field name="parent_path">6/32/35/53/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:22:50.528604</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:22:58.793797</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_equipamiento3" model="product.category">
+			<field name="name">EQUIPAMIENTO</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA RADIADORES</field>
+			<field name="parent_id" ref="product_category_equipamiento1"/>
+			<field name="parent_path">6/32/35/52/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:22:39.818918</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:22:48.236019</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caoradiadores0" model="product.category">
+			<field name="name">CAÑO RADIADORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA RADIADORES / ACCESORIO RADIADORES</field>
+			<field name="parent_id" ref="product_category_equipamiento3"/>
+			<field name="parent_path">6/32/35/52/84/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:34:00.240752</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:34:04.026074</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caoradiadores1" model="product.category">
+			<field name="name">CAÑO RADIADORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA RADIADORES / AISLACIÓN CAÑO</field>
+			<field name="parent_id" ref="product_category_equipamiento3"/>
+			<field name="parent_path">6/32/35/52/85/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:34:05.619876</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:34:17.740010</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caoradiadores2" model="product.category">
+			<field name="name">CAÑO RADIADORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA RADIADORES / CAÑO RADIADORES</field>
+			<field name="parent_id" ref="product_category_equipamiento3"/>
+			<field name="parent_path">6/32/35/52/83/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:33:45.441032</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:33:45.441032</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_equipamiento4" model="product.category">
+			<field name="name">EQUIPAMIENTO</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA SUELO RADIANTE</field>
+			<field name="parent_id" ref="product_category_equipamiento1"/>
+			<field name="parent_path">6/32/35/51/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:22:15.564036</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:22:31.756111</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_colectores0" model="product.category">
+			<field name="name">COLECTORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA SUELO RADIANTE / CABEZALES ELÉCTRICOS</field>
+			<field name="parent_id" ref="product_category_equipamiento4"/>
+			<field name="parent_path">6/32/35/51/82/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:32:58.790922</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:33:04.442170</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_colectores1" model="product.category">
+			<field name="name">COLECTORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA SUELO RADIANTE / CAÑO DANFOSS</field>
+			<field name="parent_id" ref="product_category_equipamiento4"/>
+			<field name="parent_path">6/32/35/51/80/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:32:43.875968</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:32:49.394682</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_colectores2" model="product.category">
+			<field name="name">COLECTORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA SUELO RADIANTE / CAÑO GIACOMINI</field>
+			<field name="parent_id" ref="product_category_equipamiento4"/>
+			<field name="parent_path">6/32/35/51/79/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:32:36.618686</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:32:41.950870</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_colectores3" model="product.category">
+			<field name="name">COLECTORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA SUELO RADIANTE / CAÑO PRONTO</field>
+			<field name="parent_id" ref="product_category_equipamiento4"/>
+			<field name="parent_path">6/32/35/51/78/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:32:30.156570</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:32:35.159318</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_colectores4" model="product.category">
+			<field name="name">COLECTORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA SUELO RADIANTE / COLECTORES</field>
+			<field name="parent_id" ref="product_category_equipamiento4"/>
+			<field name="parent_path">6/32/35/51/77/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:32:28.513877</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:32:28.513877</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_colectores5" model="product.category">
+			<field name="name">COLECTORES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / CAÑERÍA / CAÑERÍA SUELO RADIANTE / PLACAS AISLANTES</field>
+			<field name="parent_id" ref="product_category_equipamiento4"/>
+			<field name="parent_path">6/32/35/51/81/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:32:54.804662</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:32:57.401437</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_equipamiento5" model="product.category">
+			<field name="name">EQUIPAMIENTO</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO</field>
+			<field name="parent_id" ref="product_category_refrigeracin0"/>
+			<field name="parent_path">6/32/36/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:16:32.951006</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:16:32.951006</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas0" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / ACCESORIOS RADIADOR</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/45/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:20:13.695984</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:20:19.754564</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas1" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / AGUA SANITARIA</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/38/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:18:30.918534</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:18:37.161273</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calefones0" model="product.category">
+			<field name="name">CALEFONES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / AGUA SANITARIA / ACUMULADORES</field>
+			<field name="parent_id" ref="product_category_calderas1"/>
+			<field name="parent_path">6/32/36/38/62/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:26:31.762204</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:26:37.779910</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calefones1" model="product.category">
+			<field name="name">CALEFONES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / AGUA SANITARIA / CALEFONES</field>
+			<field name="parent_id" ref="product_category_calderas1"/>
+			<field name="parent_path">6/32/36/38/61/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:26:29.559336</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:26:29.559336</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calefones2" model="product.category">
+			<field name="name">CALEFONES</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / AGUA SANITARIA / MOCAS</field>
+			<field name="parent_id" ref="product_category_calderas1"/>
+			<field name="parent_path">6/32/36/38/63/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:26:39.290612</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:26:44.868896</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas2" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / BOMBAS</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/47/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:20:31.561177</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:20:37.131168</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_circuladoraspresurizadoras0" model="product.category">
+			<field name="name">CIRCULADORAS PRESURIZADORAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / BOMBAS / CIRCULADORAS</field>
+			<field name="parent_id" ref="product_category_calderas2"/>
+			<field name="parent_path">6/32/36/47/73/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:30:24.756802</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:31:13.117840</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_circuladoraspresurizadoras1" model="product.category">
+			<field name="name">CIRCULADORAS PRESURIZADORAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / BOMBAS / PRESURIZADORAS</field>
+			<field name="parent_id" ref="product_category_calderas2"/>
+			<field name="parent_path">6/32/36/47/74/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:30:26.812186</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:30:36.630189</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas3" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CALDERAS</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/37/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:18:21.993164</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:18:21.993164</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderamuralespeisa0" model="product.category">
+			<field name="name">CALDERA MURALES PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CALDERAS / ACCESORIOS CALDERAS</field>
+			<field name="parent_id" ref="product_category_calderas3"/>
+			<field name="parent_path">6/32/36/37/57/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:25:17.769130</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:25:23.837344</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderamuralespeisa1" model="product.category">
+			<field name="name">CALDERA MURALES PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CALDERAS / CALDERA MURALES PEISA</field>
+			<field name="parent_id" ref="product_category_calderas3"/>
+			<field name="parent_path">6/32/36/37/54/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:24:52.630267</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:24:52.630267</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderamuralespeisa2" model="product.category">
+			<field name="name">CALDERA MURALES PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CALDERAS / CALDERAS DE PIE</field>
+			<field name="parent_id" ref="product_category_calderas3"/>
+			<field name="parent_path">6/32/36/37/56/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:25:09.859299</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:25:15.844639</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderamuralespeisa3" model="product.category">
+			<field name="name">CALDERA MURALES PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CALDERAS / CALDERAS MURALES EUTERMA</field>
+			<field name="parent_id" ref="product_category_calderas3"/>
+			<field name="parent_path">6/32/36/37/55/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:25:00.826405</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:25:08.112280</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderamuralespeisa4" model="product.category">
+			<field name="name">CALDERA MURALES PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CALDERAS / CAÑO SALIDA DE GASES 6 METROS</field>
+			<field name="parent_id" ref="product_category_calderas3"/>
+			<field name="parent_path">6/32/36/37/60/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:25:43.622903</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:25:49.293185</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderamuralespeisa5" model="product.category">
+			<field name="name">CALDERA MURALES PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CALDERAS / SALIDA DE GASES EUTERMA</field>
+			<field name="parent_id" ref="product_category_calderas3"/>
+			<field name="parent_path">6/32/36/37/59/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:25:35.156059</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:25:41.541612</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderamuralespeisa6" model="product.category">
+			<field name="name">CALDERA MURALES PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CALDERAS / SALIDA DE GASES PEISA</field>
+			<field name="parent_id" ref="product_category_calderas3"/>
+			<field name="parent_path">6/32/36/37/58/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:25:26.256923</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:25:33.138405</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas4" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CLIMATIZADORES PISCINA</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/39/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:18:39.350823</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:18:46.766748</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisaeuterma0" model="product.category">
+			<field name="name">PEISA EUTERMA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CLIMATIZADORES PISCINA / EUTERMA</field>
+			<field name="parent_id" ref="product_category_calderas4"/>
+			<field name="parent_path">6/32/36/39/64/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:27:06.624535</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:27:57.091099</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisaeuterma1" model="product.category">
+			<field name="name">PEISA EUTERMA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / CLIMATIZADORES PISCINA / PEISA</field>
+			<field name="parent_id" ref="product_category_calderas4"/>
+			<field name="parent_path">6/32/36/39/65/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:27:10.818565</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:27:26.550762</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas5" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / RADIADORES</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/40/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:18:48.849434</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:18:57.763597</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisa0" model="product.category">
+			<field name="name">PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / RADIADORES / FONDITAL</field>
+			<field name="parent_id" ref="product_category_calderas5"/>
+			<field name="parent_path">6/32/36/40/69/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:28:53.373959</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:28:56.675784</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisa1" model="product.category">
+			<field name="name">PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / RADIADORES / LIBRA</field>
+			<field name="parent_id" ref="product_category_calderas5"/>
+			<field name="parent_path">6/32/36/40/67/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:28:34.242678</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:28:41.531804</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisa2" model="product.category">
+			<field name="name">PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / RADIADORES / MOSCU</field>
+			<field name="parent_id" ref="product_category_calderas5"/>
+			<field name="parent_path">6/32/36/40/68/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:28:43.316094</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:28:48.412727</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisa3" model="product.category">
+			<field name="name">PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / RADIADORES / PEISA</field>
+			<field name="parent_id" ref="product_category_calderas5"/>
+			<field name="parent_path">6/32/36/40/66/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:28:32.609802</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:28:32.609802</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas6" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / RADIADORES ELÉCTRICOS</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/42/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:19:08.366661</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:19:23.568428</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas7" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / REPUESTO CALDERAS</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/48/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:20:39.512790</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:20:44.905495</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisapequeos0" model="product.category">
+			<field name="name">PEISA PEQUEÑOS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / REPUESTO CALDERAS / PEISA GRANDES</field>
+			<field name="parent_id" ref="product_category_calderas7"/>
+			<field name="parent_path">6/32/36/48/76/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:31:48.307743</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:31:53.988278</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisapequeos1" model="product.category">
+			<field name="name">PEISA PEQUEÑOS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / REPUESTO CALDERAS / PEISA PEQUEÑOS</field>
+			<field name="parent_id" ref="product_category_calderas7"/>
+			<field name="parent_path">6/32/36/48/75/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:31:46.140762</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:31:46.140762</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas8" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / TERMOSTATOS</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/46/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:20:21.753937</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:20:29.844988</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas9" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / TOALLEROS</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/41/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:18:59.530357</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:19:06.720077</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisa4" model="product.category">
+			<field name="name">PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / TOALLEROS / FONDITAL</field>
+			<field name="parent_id" ref="product_category_calderas9"/>
+			<field name="parent_path">6/32/36/41/71/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:29:41.458709</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:29:46.651318</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisa5" model="product.category">
+			<field name="name">PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / TOALLEROS / LIBRA</field>
+			<field name="parent_id" ref="product_category_calderas9"/>
+			<field name="parent_path">6/32/36/41/72/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:29:48.794223</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:29:53.956125</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_peisa6" model="product.category">
+			<field name="name">PEISA</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / TOALLEROS / PEISA</field>
+			<field name="parent_id" ref="product_category_calderas9"/>
+			<field name="parent_path">6/32/36/41/70/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:29:39.686204</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:29:39.686204</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas10" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / TOALLEROS ELÉCTRICOS</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/43/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:19:53.813046</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:19:59.497556</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_calderas11" model="product.category">
+			<field name="name">CALDERAS</field>
+			<field name="complete_name">Todos / CALEFACCIÓN / EQUIPAMIENTO / VALVULA Y DETENTOR</field>
+			<field name="parent_id" ref="product_category_equipamiento5"/>
+			<field name="parent_path">6/32/36/44/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:20:05.776720</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:20:12.118118</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_refrigeracin1" model="product.category">
+			<field name="name">Refrigeración</field>
+			<field name="complete_name">Todos / HERRAMIENTAS</field>
+			<field name="parent_id" ref="pronto.product_category_todos0"/>
+			<field name="parent_path">6/31/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:12:57.068642</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:13:00.728772</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_insumosrefrigeracin0" model="product.category">
+			<field name="name">Insumos Refrigeración</field>
+			<field name="complete_name">Todos / Refrigeración / BAJA SILUETA</field>
+			<field name="parent_id" ref="pronto.product_category_refrigeracin0"/>
+			<field name="parent_path">6/7/27/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:10:40.511080</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:10:43.295931</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre0" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / ACCESORIO COBRE PARA SOLDAR</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/19/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:07:55.131493</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:07:58.088883</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre1" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / AISLACION COBRE</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/14/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:06:52.451559</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:07:01.257030</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre2" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / CABLE SPLIT</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/13/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:06:33.333913</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:06:41.585715</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre3" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / CAPACITORES</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/21/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:08:09.990605</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:08:17.590498</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre4" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / CAÑO TIGRE Y ACCESORIOS</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/18/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:07:46.386696</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:07:49.492431</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre5" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / COMPRESORES</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/22/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:08:27.054979</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:08:29.938867</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre6" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / CONDUCTOS Y ACCESORIOS CONDUCTOS</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/23/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:08:36.997021</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:08:40.458124</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre7" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / GASES REFRIGERANTES</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/24/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:08:42.733157</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:08:50.078357</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre8" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / INSUMOS SPLIT (CINTAS-MANGUERA-VARIOS)</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/16/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:07:17.348143</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:07:26.678521</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre9" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / MENSULAS</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/15/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:07:03.677188</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:07:11.659792</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre10" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / TERMINAL BOX</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/17/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:07:36.755067</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:07:39.848254</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_caodecobre11" model="product.category">
+			<field name="name">Caño de cobre</field>
+			<field name="complete_name">Todos / Refrigeración / Insumos Refrigeración / TUERCA FLARE - UNION FLARE</field>
+			<field name="parent_id" ref="pronto.product_category_insumosrefrigeracin0"/>
+			<field name="parent_path">6/7/8/20/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:08:00.811515</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:08:07.007473</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_insumosrefrigeracin1" model="product.category">
+			<field name="name">Insumos Refrigeración</field>
+			<field name="complete_name">Todos / Refrigeración / MULTISPLIT</field>
+			<field name="parent_id" ref="pronto.product_category_refrigeracin0"/>
+			<field name="parent_path">6/7/25/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:09:49.823153</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:10:03.029797</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_insumosrefrigeracin2" model="product.category">
+			<field name="name">Insumos Refrigeración</field>
+			<field name="complete_name">Todos / Refrigeración / PISO TECHO</field>
+			<field name="parent_id" ref="pronto.product_category_refrigeracin0"/>
+			<field name="parent_path">6/7/26/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:10:29.739088</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:10:33.363254</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_insumosrefrigeracin3" model="product.category">
+			<field name="name">Insumos Refrigeración</field>
+			<field name="complete_name">Todos / Refrigeración / ROOF TOP</field>
+			<field name="parent_id" ref="pronto.product_category_refrigeracin0"/>
+			<field name="parent_path">6/7/28/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:10:45.037194</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:10:51.830762</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_surrey0" model="product.category">
+			<field name="name">Surrey</field>
+			<field name="complete_name">Todos / Refrigeración / Splits / DAIKIN</field>
+			<field name="parent_id" ref="pronto.product_category_splits0"/>
+			<field name="parent_path">6/7/10/30/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:11:51.671598</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:12:08.025726</field>
+		</record>
+	</data>
+	<data noupdate="1">
+		<record id="product_category_insumosrefrigeracin4" model="product.category">
+			<field name="name">Insumos Refrigeración</field>
+			<field name="complete_name">Todos / Refrigeración / WESTRIC</field>
+			<field name="parent_id" ref="pronto.product_category_refrigeracin0"/>
+			<field name="parent_path">6/7/29/</field>
+			<field eval="[(6,0,[])]" name="route_ids"/>
+			<field eval="0" name="allow_negative_stock"/>
+			<field name="create_uid" ref="base.user_admin"/>
+			<field name="create_date">2020-01-19 21:10:54.028898</field>
+			<field name="write_uid" ref="base.user_admin"/>
+			<field name="write_date">2020-01-19 21:11:03.055721</field>
+		</record>
+	</data>
+</odoo>

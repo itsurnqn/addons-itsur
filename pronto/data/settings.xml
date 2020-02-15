@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="my_config_settings" model="res.config.settings">
+        <field name="group_multi_company" eval="True"/>
+        <field name="company_share_partner" eval="False"/>
+        <field name="group_use_lead" eval="True"/>
+        <field name="group_uom" eval="True"/>
+    </record>
+    <function model="res.config.settings" name="execute">
+        <value model="res.config.settings"
+               search="[('id', '=', ref('my_config_settings'))]"/>
+    </function>
+</odoo>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Grupos account:  
+    
+        account.group_account_invoice (Billing)
+        account.group_account_manager (Billing Manager)
+    -->
+
+<!--     <menuitem
+        id="menu_pronto_caja"
+        name="Caja"
+        groups="pronto.group_cajeros"
+        sequence="100"
+        /> -->
+
+<!--     <menuitem
+        parent="menu_pronto_caja"
+        action="account.action_invoice_tree1"
+        id="menu_pronto_caja_factura"
+        sequence="20"
+        name="Facturas"
+        groups="pronto.group_cajeros"
+        /> -->
+
+    <!-- <menuitem
+        parent="account.menu_finance"
+        action="account_financial_report.action_general_ledger_wizard"
+        id="menu_pronto_caja_planilla"
+        sequence="10"
+        name="Planilla"
+        groups="pronto.group_cajeros"
+        /> -->
+
+<!--    este no sirve porque te borra el atributo name 
+        <menuitem
+        id="account.menu_finance"
+        groups="pronto.group_cajeros"
+        /> -->
+
+    <!-- cuidado: borra todos los grupos y agrega los que defino acá -->
+    <!-- <record model="ir.ui.menu" id="account.menu_finance">
+        <field name="groups_id" eval="[(6,0,[ref('pronto.group_cajeros'),ref('account.group_account_invoice')])]"/>
+    </record> -->
+    
+    <!-- Ej. si quiero que el cajero no vea las NC 
+        eval 6 borra todos los registros y agrega el que le indicas
+        eval 4 NO borra, solo agrega el que le indicas
+
+    -->
+    <record model="ir.ui.menu" id="account.menu_action_invoice_out_refund">
+        <field name="groups_id" eval="[(6,0,[ref('account.group_account_manager')])]"/>
+    </record>
+
+    <!-- Ej. si quiero que el vea el menú reportes de account
+        no lo ve porque no es miembro de group_account_manager -->
+    <record model="ir.ui.menu" id="account.menu_finance_reports">        
+        <field name="groups_id" eval="[(4,ref('pronto.group_cajeros'))]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account.account_reports_management_menu">        
+        <field name="groups_id" eval="[(4,ref('account.group_account_manager'))]"/>
+    </record> 	
+
+    <!-- le tengo que agregar al grupo de los administradores. sino tendría que indicar que cada usuario dentro de los
+        administradores es también un cajero
+     -->
+    <record model="ir.ui.menu" id="account_financial_report.menu_general_ledger_wizard">        
+        <field name="groups_id" eval="[(4,ref('pronto.group_cajeros')),(4,ref('account.group_account_manager'))]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account_financial_report.menu_journal_ledger_wizard">        
+        <field name="groups_id" eval="[(4,ref('account.group_account_manager'))]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account_financial_report.menu_trial_balance_wizard">        
+        <field name="groups_id" eval="[(4,ref('account.group_account_manager'))]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account_financial_report.menu_open_items_wizard">        
+        <field name="groups_id" eval="[(4,ref('account.group_account_manager'))]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account_financial_report.menu_aged_partner_balance_wizard">        
+        <field name="groups_id" eval="[(4,ref('account.group_account_manager'))]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account_financial_report.menu_vat_report_wizard">        
+        <field name="groups_id" eval="[(4,ref('account.group_account_manager'))]"/>
+    </record>
+
+</odoo>
