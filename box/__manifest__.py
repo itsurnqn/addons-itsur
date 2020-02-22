@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','point_of_sale'],
+    'depends': ['base','account','account_payment_group'],
 
     # always loaded
     'data': [
