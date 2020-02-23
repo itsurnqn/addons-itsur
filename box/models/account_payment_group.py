@@ -17,7 +17,6 @@ class AccountPaymentGroup(models.Model):
     box_session_id = fields.Many2one('box.session', 
                     string='Sesión de caja', 
                     ondelete='Restrict',
-                    required=True,
                     domain="[('state', '=', 'opened'),('user_id', '=', uid)]",
                     default=_get_default_box_session_id)
 
