@@ -35,8 +35,10 @@
         # 'views/menuitems.xml',
         'views/report_stockpicking.xml',
         'views/purchase_order_views.xml',       
+        'views/company.xml',
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',       
         # 'data/settings2.xml',  
+        
     ],
 }
