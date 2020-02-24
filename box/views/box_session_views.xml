@@ -151,7 +151,7 @@
                             <field name="balance_start" />
                             <field name="total_entry_encoding" />
                             <field name="balance_end_real" />
-                            <field name="difference" />
+                            <!-- <field name="difference" /> -->
                             <field name="currency_id" groups="base.group_multi_currency" />
                             <!-- <field name="state" /> -->
                         </tree>

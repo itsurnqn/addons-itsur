@@ -22,7 +22,7 @@
                             <tree editable="bottom" string="Statement lines" limit="500">
                                 <!-- <field name="sequence"  widget="handle"/> -->
                                 <field name="date"/>
-                                <field name="name"/>
+                                <field name="ref"/>
                                 <field name="partner_id"/>
                                 <field name="account_payment_id"/>
                                 <field name="amount"/>

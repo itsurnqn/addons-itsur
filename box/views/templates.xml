@@ -55,9 +55,9 @@
                                     <th class="text-right">
                                         <strong>Saldo final</strong>
                                     </th>
-                                    <th class="text-right">
+                                    <!-- <th class="text-right">
                                         <strong>Diferencia</strong>
-                                    </th>
+                                    </th> -->
                                     <!-- <th class="text-right" groups="base.group_multi_currency">
                                         <strong>Currency</strong>
                                     </th> -->
@@ -79,10 +79,10 @@
                                         <span t-field="statement.balance_end_real"
                                             t-field-options='{"widget": "monetary", "display_currency": "statement.currency_id"}'/>
                                     </td>
-                                    <td class="text-right">
+                                    <!-- <td class="text-right">
                                         <span t-field="statement.difference"
                                             t-field-options='{"widget": "monetary", "display_currency": "statement.currency_id"}'/>
-                                    </td>
+                                    </td> -->
                                     <!-- <td class="text-right" groups="base.group_multi_currency">
                                         <span t-field="statement.currency_id"/>
                                     </td> -->
