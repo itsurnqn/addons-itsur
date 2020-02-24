@@ -4,6 +4,7 @@
 ##############################################################################
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from datetime import datetime
 
 class AccountPaymentGroup(models.Model):
     _inherit = 'account.payment.group'
@@ -30,16 +31,48 @@ class AccountPaymentGroup(models.Model):
                 box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',rec2.journal_id.id)])
                 #import pdb;pdb.set_trace()
 
+                
+
                 if self.partner_type == 'supplier':
-                        amount = - rec2.amount
+                    amount = - rec2.amount
+
+                    ref = 'pago a proveedor'
+
                 else:
-                        amount = rec2.amount                
+                    amount = rec2.amount                
+
+                    inbound_payment_method_codes = rec2.journal_id.inbound_payment_method_ids.mapped('code')
+
+                    if 'received_third_check' in inbound_payment_method_codes:
+                        # cheque de tercero
+                        ref = rec2.check_bank_id.name + ' - ' + rec2.check_payment_date.strftime("%m/%d/%Y")
+                    elif 'electronic' in inbound_payment_method_codes:
+                        # transferencia bancaria
+                        ref = 'Transferencia '
+                    elif 'withholding' in inbound_payment_method_codes:
+                        # retenciones
+                        ref = 'Retenciones '
+                    elif 'inbound_credit_card' in inbound_payment_method_codes:
+                        # tarjeta crédito
+                        ref = 'Tarjeta de crédito '
+                    elif 'outbound_debit_card' in inbound_payment_method_codes:
+                        # tarjeta débito
+                        ref = 'Tarjeta de débito'
+                    else:
+                        ref = rec2.display_name
+
+                    # if rec2.journal_id.type == 'bank':                        
+                    # else:
+                    #     ref = rec2.display_name
+
+                if rec2.communication:
+                    ref = ref + ' - ' + rec2.communication
 
                 vals = {
                     'name': rec2.display_name, 
                     'amount': amount, 
                     'partner_id': self.partner_id.id,
-                    # 'ref': self.pos_session_id.name
+                    'ref': ref,
                     'account_payment_id': rec2.id,
                     'box_session_journal_id': box_session_journal_id.id
                 }

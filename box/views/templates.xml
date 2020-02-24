@@ -13,28 +13,29 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page">
-                        <h2>Session Summary: <span t-field="o.name"/></h2>
+                        <h2><span t-field="o.box_id.name"/></h2>
+                        <h3>Resumen de sesión: <span t-field="o.name"/></h3>
 
                         <div class="row mt32 mb32">
                             <div class="col-auto mw-100 mb-3">
-                                <strong>Responsible</strong>:<br/>
+                                <strong>Responsable</strong>:<br/>
                                 <span t-field="o.user_id"/>
                             </div>
                             <div class="col-auto mw-100 mb-3">
-                                <strong>Point of Sale</strong>:<br/>
+                                <strong>Caja</strong>:<br/>
                                 <span t-field="o.box_id"/>
                             </div>
                             <div class="col-auto mw-100 mb-3">
-                                <strong>Opening Date</strong>:<br/>
+                                <strong>Apertura</strong>:<br/>
                                 <span t-field="o.start_at"/>
                             </div>
                             <div class="col-auto mw-100 mb-3">
-                                <strong>Closing Date</strong>:<br/>
+                                <strong>Cierre</strong>:<br/>
                                 <span t-field="o.stop_at"/>
                             </div>
                         </div>
 
-                        <h4>Statement Summary</h4>             
+                        <h4>Resumen</h4>
 
                         <table class="table table-sm o_main_table">
                             <thead>
@@ -43,19 +44,19 @@
                                         <strong>Reference</strong>
                                     </th> -->
                                     <th>
-                                        <strong>Journal</strong>
+                                        <strong>Medio de pago</strong>
                                     </th>
                                     <th class="text-right">
-                                        <strong>Starting Balance</strong>
+                                        <strong>Saldo inicial</strong>
                                     </th>
                                     <th class="text-right">
-                                        <strong>Total Transactions</strong>
+                                        <strong>Total de transacciones</strong>
                                     </th>
                                     <th class="text-right">
-                                        <strong>Ending Balance</strong>
+                                        <strong>Saldo final</strong>
                                     </th>
                                     <th class="text-right">
-                                        <strong>Difference</strong>
+                                        <strong>Diferencia</strong>
                                     </th>
                                     <!-- <th class="text-right" groups="base.group_multi_currency">
                                         <strong>Currency</strong>
@@ -91,23 +92,24 @@
                         </table>
 
                         <t t-foreach="o.box_session_journal_ids" t-as="statement">
-                            <h4 t-if="statement.line_ids">Statement Details: <span t-esc="statement.name"/></h4>
+                            <h4 t-if="statement.line_ids">Medio de pago: <span t-esc="statement.journal_id.name"/></h4>
 
                             <table class="table table-sm o_main_table" t-if="statement.line_ids">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Description</th>
+                                        <th>Fecha</th>
+                                        <th>Descripción</th>
                                         <!-- <th>Reference</th> -->
-                                        <th>Partner</th>
-                                        <th class="text-right">Amount</th>
-                                        <th>Payment</th>
+                                        <th>Socio</th>
+                                        <th class="text-right">Importe</th>
+                                        <th>Pago</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr t-foreach="statement.line_ids" t-as="line">
                                         <td><span t-field="line.date"/></td>
-                                        <td><span t-field="line.name"/></td>
+                                        <!-- <td><span t-field="line.name"/></td> -->
+                                        <td><span t-field="line.ref"/></td>
                                         <!-- <td><span t-field="line.ref"/></td> -->
                                         <td><span t-field="line.partner_id"/></td>
                                         <td class="text-right">
