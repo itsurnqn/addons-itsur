@@ -51,21 +51,21 @@ class AccountPaymentGroup(models.Model):
                         ref = 'Transferencia '
                     elif 'withholding' in inbound_payment_method_codes:
                         # retenciones
-                        ref = 'Retenciones '
+                        ref = rec2.tax_withholding_id.name + ' - ' + rec2.withholding_number
                     elif 'inbound_credit_card' in inbound_payment_method_codes:
                         # tarjeta crédito
-                        ref = 'Tarjeta de crédito '
+                        ref = rec2.tipo_tarjeta_id.name + " - " + rec2.nro_cupon
                     elif 'outbound_debit_card' in inbound_payment_method_codes:
                         # tarjeta débito
-                        ref = 'Tarjeta de débito'
+                        ref = ''
                     else:
-                        ref = rec2.display_name
+                        ref = ''
 
                     # if rec2.journal_id.type == 'bank':                        
                     # else:
                     #     ref = rec2.display_name
 
-                if rec2.communication:
+                if rec2.communication != '.' and rec2.communication:
                     ref = ref + ' - ' + rec2.communication
 
                 vals = {

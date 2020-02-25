@@ -15,7 +15,7 @@ class BoxSessionJournalLine(models.Model):
         self.currency_id = self.box_session_journal_id.journal_id.currency_id or self.company_id.currency_id
 
     name = fields.Char(string='Motivo', copy=False, readonly=True)
-    ref = fields.Char(string='Reference')
+    ref = fields.Char(string='Descripción')
     
     account_payment_id = fields.Many2one(
         'account.payment', string='Pago asociado',

@@ -2,7 +2,7 @@
 
     <report
         id="action_report_box_session_summary"
-        string="Session Summary"
+        string="Resumen de caja"
         model="box.session"
         report_type="qweb-pdf"
         name="box.report_session_summary"
@@ -100,9 +100,9 @@
                                         <th>Fecha</th>
                                         <th>Descripción</th>
                                         <!-- <th>Reference</th> -->
-                                        <th>Socio</th>
-                                        <th class="text-right">Importe</th>
+                                        <th>Socio</th>                                        
                                         <th>Pago</th>
+                                        <th class="text-right">Importe</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,11 +112,11 @@
                                         <td><span t-field="line.ref"/></td>
                                         <!-- <td><span t-field="line.ref"/></td> -->
                                         <td><span t-field="line.partner_id"/></td>
+                                        <td><span t-field="line.account_payment_id"/></td>
                                         <td class="text-right">
                                             <span t-field="line.amount"
                                                 t-field-options='{"widget": "monetary", "display_currency": "statement.currency_id"}'/>
-                                        </td>
-                                        <td><span t-field="line.account_payment_id"/></td>
+                                        </td>                                        
                                         <!-- <field name="account_payment_id"/> -->
                                     </tr>
                                 </tbody>

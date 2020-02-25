@@ -33,8 +33,8 @@ class BoxSession(models.Model):
         states={'opening_control': [('readonly', False)]},
         default=lambda self: self.env.uid)
 
-    start_at = fields.Datetime(string='Opening Date', readonly=True)
-    stop_at = fields.Datetime(string='Closing Date', readonly=True, copy=False)
+    start_at = fields.Datetime(string='Fecha Apertura', readonly=True)
+    stop_at = fields.Datetime(string='Fecha Cierre', readonly=True, copy=False)
 
     state = fields.Selection(
         POS_SESSION_STATE, string='Status',
@@ -45,11 +45,11 @@ class BoxSession(models.Model):
         'account.journal',
         related='box_id.journal_ids',
         readonly=True,
-        string='Available Payment Methods')
+        string='Métodos de pago disponibles')
 
     _sql_constraints = [('uniq_name', 'unique(name)', "El nombre de esta sesión de caja debe ser único !")]
 
-    box_session_journal_ids = fields.One2many('box.session.journal', 'box_session_id', string='Box Session Journal', readonly=True)
+    box_session_journal_ids = fields.One2many('box.session.journal', 'box_session_id', readonly=True)
     
     # statement_ids = fields.One2many('account.bank.statement', 'pos_session_id', string='Bank Statement', readonly=True)
 
@@ -59,29 +59,29 @@ class BoxSession(models.Model):
 
     cash_register_balance_end_real = fields.Monetary(
         related='cash_register_id.balance_end_real',
-        string="Ending Balance",
-        help="Total of closing cash control lines.",
+        string="Saldo final",
+        help="",
         readonly=True)
     cash_register_balance_start = fields.Monetary(
         related='cash_register_id.balance_start',
-        string="Starting Balance",
-        help="Total of opening cash control lines.",
+        string="Saldo inicial",
+        help="",
         readonly=True)
     cash_register_total_entry_encoding = fields.Monetary(
         related='cash_register_id.total_entry_encoding',
-        string='Total Cash Transaction',
+        string='Total de operaciones en efectivo',
         readonly=True,
-        help="Total of all paid sales orders")
+        help="")
     cash_register_balance_end = fields.Monetary(
         related='cash_register_id.balance_end',
         digits=0,
-        string="Theoretical Closing Balance",
-        help="Sum of opening balance and transactions.",
+        string="Saldo final teórico",
+        help="",
         readonly=True)
     cash_register_difference = fields.Monetary(
         related='cash_register_id.difference',
-        string='Difference',
-        help="Difference between the theoretical closing balance and the real closing balance.",
+        string='Diferencia',
+        help="",
         readonly=True)
 
     currency_id = fields.Many2one('res.currency', compute='_compute_currency', oldname='currency', string="Currency")
@@ -138,10 +138,11 @@ class BoxSession(models.Model):
             # journals.sudo().write({'journal_user': True})
             box_box.sudo().write({'journal_ids': [(6, 0, journals.ids)]})
 
-        box_name = self.env['ir.sequence'].with_context(ctx).next_by_code('box.session')
         # import pdb; pdb.set_trace()
-        if values.get('name'):
-            box_name += ' ' + values['name']
+        box_name = box_box.name + self.env['ir.sequence'].with_context(ctx).next_by_code('box.session')
+        # import pdb; pdb.set_trace()
+        # if values.get('name'):
+        #     box_name += ' ' + values['name']
         
         uid = self.env.user.id
 

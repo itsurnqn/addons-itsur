@@ -23,7 +23,7 @@ class BoxSessionCashIn(models.TransientModel):
         #import pdb;pdb.set_trace()
 
         vals = {
-            'name': self.description, 
+            'ref': self.description, 
             'amount': self.amount, 
             # 'partner_id': self.partner_id.id,
             # 'ref': self.box_session_id.name,
@@ -77,7 +77,7 @@ class BoxSessionCashOut(models.TransientModel):
         #import pdb;pdb.set_trace()
 
         vals = {
-            'name': self.description, 
+            'ref': self.description, 
             'amount': - self.amount, 
             # 'partner_id': self.partner_id.id,
             # 'ref': self.box_session_id.name,
