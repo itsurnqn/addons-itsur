@@ -18,11 +18,11 @@ class AccountPayment(models.Model):
     nro_cupon = fields.Char('Nro Cupon')
     nro_tarjeta = fields.Char('Nro Tarjeta')
     cant_cuotas = fields.Integer('Cuotas')
-    tipo_tarjeta = fields.Many2one('account.payment.tipo.tarjeta',string='Tipo Tarjeta', ondelete='Restrict')
+    tipo_tarjeta_id = fields.Many2one('account.payment.tipo.tarjeta',string='Tipo Tarjeta', ondelete='Restrict')
 
 	# @api.one
-    @api.constrains('nro_cupon','nro_tarjeta','tipo_tarjeta','tipo_tarjeta')
+    @api.constrains('nro_cupon','nro_tarjeta','tipo_tarjeta_id')
     def _check_pago_tarjeta(self):
         if self.is_credit_card:
-            if (not self.nro_cupon) or (not self.nro_tarjeta) or (not self.tipo_tarjeta):
+            if (not self.nro_cupon) or (not self.nro_tarjeta) or (not self.tipo_tarjeta_id):
                 raise ValidationError("Debe ingresar los datos de pago de tarjeta")

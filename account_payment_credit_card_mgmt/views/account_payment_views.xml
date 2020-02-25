@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <field name="journal_id" position="after">
                 <field name="is_credit_card" invisible="1" />
-                <field name="tipo_tarjeta" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+                <field name="tipo_tarjeta_id" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
                 <field name="nro_tarjeta" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
                 <field name="nro_cupon" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
                 <field name="cant_cuotas" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
@@ -46,7 +46,7 @@
                 <field name="display_name"/>
                 <!-- <field name="reference"/> -->
                 <field name="partner_id"/>
-                <field name="tipo_tarjeta" />
+                <field name="tipo_tarjeta_id" />
                 <field name="nro_tarjeta" />
                 <field name="nro_cupon" />
                 <field name="cant_cuotas" />
@@ -69,7 +69,7 @@
             <!-- <search string="Payments"> -->
             <field name="company_id" position="after">
                 <field name="nro_tarjeta" string="Nro Tarjeta"/>
-                <field name="tipo_tarjeta" string="Tipo Tarjeta"/>
+                <field name="tipo_tarjeta_id" string="Tipo Tarjeta"/>
                 <field name="nro_cupon" string="Cupon"/>
             </field>
             <!-- </search> -->
