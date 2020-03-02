@@ -23,11 +23,11 @@
     <xpath expr="//div[hasclass('header')]" position="replace">
         <div class="header">
             <div class="row">
-                <div class="col-xs-3">
+                <div class="col-9">
                     
                 </div>
-                <div class="col-xs-9 text-right" style="margin-top:20px;">
-                
+                <div class="col-3 text-center" style="margin-top:20px;">
+                    <span><strong>DEVOLUCION</strong></span>
                 </div>
             </div>
             <div class="row zero_min_height">
@@ -47,84 +47,119 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="pronto.monthly_report_header">
                         <div class="page">
-                            <br/>
-                            <div class="row">
-                                <div class="col-6">
-                                    <span><strong>Cliente:</strong><span t-field="o.partner_id.name"/></span>
+                            <!-- <div class="row">
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
                                 </div>
-                                <div class="col-6">
-                                    <span><strong>Fecha efectiva:</strong><span t-field="o.date_done" t-options='{"format": "dd/MM/yyyy"}'/></span>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                                <div class="col-1">
+                                    <span><strong>#</strong></span>
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-8 text-right">
+                                    <span t-field="o.date_done" t-options='{"format": "dd"}'/>
+                                </div>                            
+                                <div class="col-1 text-center">
+                                    <span t-field="o.date_done" t-options='{"format": "MM"}'/>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <span t-field="o.date_done" t-options='{"format": "yyyy"}'/>
                                 </div>
                             </div>
                             <br/>
                             <br/>
-                            <div class="row">
-                                <div class="col-4">
-                                    <span><strong>Remito</strong><t t-esc="o.voucher_ids.name" /></span>
-                                </div>
-                                <div class="col-4">
-                                    <span><strong>IVA: </strong><t t-esc="o.partner_id.afip_responsability_type_id.name" /></span>
-                                </div>
-                                <div class="col-4">
-                                    <span><strong>Domicilio: </strong><t t-esc="o.partner_id.street" /> - <t t-esc="o.partner_id.city" /> </span>
-                                </div>
-                            </div>
-                            <br/>
-                            <br/>
-                            <div class="row">
-                                <div class="col-3">
-                                    <span><strong>Telefono</strong><t t-esc="o.partner_id.mobile" /></span>
-                                </div>
-                                <div class="col-3">
-                                    <span><strong>Facturas: </strong><t t-esc="o.invoice_ids.display_name" /></span>
-                                </div>
-                                <div class="col-3">
-                                    <span><strong>Columna 3</strong></span>
-                                </div>
-                                <div class="col-3">
-                                    <span><strong>Columna 4</strong></span>
-                                </div>
-                            </div>
-                            <br/>
-                            <br/>
+                            <br/>                                       
                             <div class="row">
                                 <div class="col-2">
-                                    <span><strong>Columna 1</strong></span>
                                 </div>
-                                <div class="col-8">
-                                    <span><strong>Columna 2</strong></span>
+                                <div class="col-7">
+                                    <!-- cliente -->
+                                    <span><span t-field="o.partner_id.name"/></span>
                                 </div>
-                                <div class="col-2">
-                                    <span><strong>Columna 3</strong></span>
+                                <div class="col-3">
+                                    <!-- IVA -->
+                                    <span><span t-field="o.partner_id.afip_responsability_type_id.name" t-options='{"format": "dd/MM/yyyy"}'/></span>
                                 </div>
                             </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-2">                                    
+                                </div>
+                                <div class="col-7">
+                                    <span><t t-esc="o.partner_id.street" /> - <t t-esc="o.partner_id.city" /></span>
+                                </div>
+                                <div class="col-3">
+                                    <span><t t-esc="o.partner_id.main_id_number" /> </span>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-2">                                    
+                                </div>
+                                <div class="col-7">
+                                    <span><t t-esc="o.partner_id.mobile" /></span>
+                                </div>
+                                <div class="col-3">
+                                    <span><t t-esc="o.invoice_ids.display_name" /></span>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
                         </div>
-                        <br/>
                         <br/>
 
                         <t t-foreach="o.move_ids_without_package" t-as="move">
                             <div class="row">
-                                <div class="col-2">
+                                <div class="col-2 text-right">
                                     <span><t t-esc="move.product_id.default_code" /></span>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-8 text-left">
                                     <span><t t-esc="move.product_id.name" /></span>
                                 </div>
-                                <div class="col-1">
+                                <div class="col-2 text-center">
                                     <span><t t-esc="move.quantity_done" /></span>
                                 </div>
                             </div>
                         </t>
 
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12">
                                 <span><t t-esc="o.company_id.stock_delivery_note" /></span>
                             </div>
-                        </div>
+                        </div> -->
 
                     </t>
                 </t>
             </t>
         </template>
-
 </odoo>
