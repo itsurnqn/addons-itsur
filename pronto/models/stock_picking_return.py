@@ -26,14 +26,19 @@ class ReturnPickingPronto(models.TransientModel):
 
                 order_line = self.env['sale.order.line'].search(['&',('order_id','=',sale_id),('product_id','=',return_line.product_id.id)])
 
-                cant_pedida = order_line.product_uom_qty
-                cant_entregada = order_line.qty_delivered
+                cant_pedida = 0
+                cant_entregada = 0
+                for ol in order_line:
+                    cant_pedida = cant_pedida + ol.product_uom_qty
+                    cant_entregada = cant_entregada + ol.qty_delivered
 
                 cant_pendiente = cant_pedida - cant_entregada
 
                 if return_line.quantity > cant_pendiente:
                     raise UserError(_("Intenta retirar más de lo pedido."))
-
+        
+        # esta heredando desde stock_ux. ahí _create_returns retorna estos
+        # dos valores. por eso se hace así
         new_picking, pick_type_id = super()._create_returns()
 
         return new_picking, pick_type_id

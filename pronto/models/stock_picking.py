@@ -18,3 +18,23 @@ class ProntoStockPicking(models.Model):
             [('report_name', '=', 'pronto.report_picking')],
             limit=1).report_action(self)
         return report
+
+    @api.multi
+    def assign_numbers(self, estimated_number_of_pages, book):
+        result = super(ProntoStockPicking,self).assign_numbers(estimated_number_of_pages, book)
+
+        cantidad_renglones = self.env['stock.book'].browse(self.book_id.id).lines_per_voucher
+
+        vouchers = self.env['stock.picking.voucher'].search([('picking_id','=',self.id)])
+
+        for voucher in vouchers:
+            # movimientos que todavía no tienen remitos asignados
+            move_lines = self.env['stock.move'].search(['&',('picking_id','=',self.id),('picking_voucher_id','=',False)])
+            renglon = 0
+            for move in move_lines:
+                move.write({'picking_voucher_id': voucher.id})
+                renglon = renglon + 1
+                if renglon >= cantidad_renglones:
+                    break
+            
+        return result
