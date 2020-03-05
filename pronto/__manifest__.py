@@ -28,6 +28,11 @@
         'data/sale_tipo_cliente.xml',
         # 'data/product_category.xml',
         
+        # Factura electronica DEMO COMENTAR!!!
+        # 'data/certificate_demo.xml',
+        # 'data/parameter_demo.xml',
+        'data/account_journal_demo.xml',
+
         'security/pronto_security.xml',
         'security/ir.model.access.csv',
         'views/crm_lead_views.xml',
@@ -37,8 +42,10 @@
         'views/purchase_order_views.xml',       
         'views/company.xml',
         'views/res_partner_views.xml',
-        'views/sale_order_views.xml',       
+        'views/sale_order_views.xml',
+        'views/stock_picking_views.xml',               
         # 'data/settings2.xml',  
+
         
     ],
 }

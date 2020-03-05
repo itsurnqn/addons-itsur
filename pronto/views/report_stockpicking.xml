@@ -27,14 +27,30 @@
                     
                 </div>
                 <div class="col-3 text-center" style="margin-top:20px;">
-                    <span><strong>DEVOLUCION</strong></span>
+                    <t t-if="o.picking_type_code =='incoming'">
+                        <span><strong>DEVOLUCION</strong></span>                        
+                    </t>
                 </div>
             </div>
-            <div class="row zero_min_height">
+            <!-- <div class="row zero_min_height">
                 <div class="col-xs-12">
                     <div style="border-bottom: 1px solid black;"/>
                 </div>
-            </div>        
+            </div>         -->
+                            <br/>
+                            <br/>
+                            <br/>                                    
+                            <div class="row">
+                                <div class="col-8 text-right">
+                                    <span t-field="o.date_done" t-options='{"format": "dd"}'/>
+                                </div>                            
+                                <div class="col-1 text-center">
+                                    <span t-field="o.date_done" t-options='{"format": "MM"}'/>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <span t-field="o.date_done" t-options='{"format": "yyyy"}'/>
+                                </div>
+                            </div>
         </div>
     </xpath>
     <xpath expr="//div[hasclass('footer')]" position="replace">
@@ -48,44 +64,6 @@
                     <t t-call="pronto.monthly_report_header">
                         <div class="page">
                             <!-- <div class="row">
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                                <div class="col-1">
-                                    <span><strong>#</strong></span>
-                                </div>
-                            </div> -->
-                            <div class="row">
                                 <div class="col-8 text-right">
                                     <span t-field="o.date_done" t-options='{"format": "dd"}'/>
                                 </div>                            
@@ -95,7 +73,7 @@
                                 <div class="col-3 text-left">
                                     <span t-field="o.date_done" t-options='{"format": "yyyy"}'/>
                                 </div>
-                            </div>
+                            </div> -->
                             <br/>
                             <br/>
                             <br/>                                       
@@ -140,7 +118,7 @@
 
                         <t t-foreach="o.move_ids_without_package" t-as="move">
                             <div class="row">
-                                <div class="col-2 text-right">
+                                <div class="col-2 text-center">
                                     <span><t t-esc="move.product_id.default_code" /></span>
                                 </div>
                                 <div class="col-8 text-left">

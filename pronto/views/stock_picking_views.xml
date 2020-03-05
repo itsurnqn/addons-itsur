@@ -1,0 +1,26 @@
+<odoo>
+
+    <record id="view_picking_withcarrier_out_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.delivery_extension.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock_voucher.view_picking_withcarrier_out_form"/>
+        <field name="arch" type="xml">
+            
+            <field name="book_id" position="attributes">
+                <attribute name="attrs">{'invisible': [False],'readonly': [('voucher_ids','!=',[])]}</attribute>
+            </field>
+
+            <button name="%(stock_voucher.action_stock_print_voucher)d" position="attributes">
+                <!-- <attribute name="attrs">{'invisible': ('state','!=','done')}</attribute> -->
+                <!-- <attribute name="attrs">{'invisible': [True]}</attribute> -->
+                <attribute name="attrs">{'invisible': ['|',('book_id','=',False),'|', ('state','!=','done')]}</attribute>                
+            </button>
+
+            <button name="%(stock_voucher.action_stock_print_voucher)d" position="attributes" class="oe_highlight">
+                <!-- <attribute name="attrs">{'invisible': ('state','!=','done')}</attribute> -->
+                <!-- <attribute name="attrs">{'invisible': [True]}</attribute> -->
+                <attribute name="attrs">{'invisible': ['|',('book_id','!=',False),'|', ('state','!=','done')]}</attribute>                
+            </button>
+        </field>
+    </record>
+</odoo>
