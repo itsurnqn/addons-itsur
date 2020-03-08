@@ -29,7 +29,7 @@ class ProntoStockPicking(models.Model):
 
         for voucher in vouchers:
             # movimientos que todavía no tienen remitos asignados
-            move_lines = self.env['stock.move'].search(['&',('picking_id','=',self.id),('picking_voucher_id','=',False)])
+            move_lines = self.env['stock.move.line'].search(['&',('picking_id','=',self.id),('picking_voucher_id','=',False)])
             renglon = 0
             for move in move_lines:
                 move.write({'picking_voucher_id': voucher.id})

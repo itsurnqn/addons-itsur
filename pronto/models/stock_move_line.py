@@ -5,8 +5,8 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 
-class StockMove(models.Model):
-    _inherit = 'stock.move'
+class StockMoveLine(models.Model):
+    _inherit = 'stock.move.line'
 
     picking_voucher_id = fields.Many2one(
         'stock.picking.voucher',

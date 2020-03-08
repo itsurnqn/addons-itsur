@@ -9,139 +9,110 @@
         name="pronto.report_picking"
     />
 
-        <!-- <template id="report_picking">
-            <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="o">
-                    <t t-call="web.external_layout">
-                        <span><strong>Warehouse Address:</strong></span>
-                    </t>
-                </t>
-            </t>
-        </template> -->
-    
-<template id="monthly_report_header" inherit_id="web.external_layout_standard">
-    <xpath expr="//div[hasclass('header')]" position="replace">
-        <div class="header">
-            <div class="row">
-                <div class="col-9">
-                    
-                </div>
-                <div class="col-3 text-center" style="margin-top:20px;">
-                    <t t-if="o.picking_type_code =='incoming'">
-                        <span><strong>DEVOLUCION</strong></span>                        
-                    </t>
-                </div>
-            </div>
-            <!-- <div class="row zero_min_height">
-                <div class="col-xs-12">
-                    <div style="border-bottom: 1px solid black;"/>
-                </div>
-            </div>         -->
-                            <br/>
-                            <br/>
-                            <br/>                                    
-                            <div class="row">
-                                <div class="col-8 text-right">
-                                    <span t-field="o.date_done" t-options='{"format": "dd"}'/>
-                                </div>                            
-                                <div class="col-1 text-center">
-                                    <span t-field="o.date_done" t-options='{"format": "MM"}'/>
-                                </div>
-                                <div class="col-3 text-left">
-                                    <span t-field="o.date_done" t-options='{"format": "yyyy"}'/>
-                                </div>
+    <template id="report_picking">
+        <t t-foreach="docs" t-as="o">
+            <t t-foreach="o.voucher_ids" t-as="voucher">
+                <t t-call="web.basic_layout">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-9">
+                                
                             </div>
-        </div>
-    </xpath>
-    <xpath expr="//div[hasclass('footer')]" position="replace">
-        <h5>Custom footer</h5>
-    </xpath>
-</template>
-
-        <template id="report_picking">
-            <t t-foreach="docs" t-as="o">
-                <t t-foreach="o.voucher_ids" t-as="voucher">
-                    <t t-call="web.html_container">                
-                        <t t-call="pronto.monthly_report_header">
-                            <div class="page">
-                                <!-- <div class="row">
-                                    <div class="col-8 text-right">
-                                        <span t-field="o.date_done" t-options='{"format": "dd"}'/>
-                                    </div>                            
-                                    <div class="col-1 text-center">
-                                        <span t-field="o.date_done" t-options='{"format": "MM"}'/>
-                                    </div>
-                                    <div class="col-3 text-left">
-                                        <span t-field="o.date_done" t-options='{"format": "yyyy"}'/>
-                                    </div>
-                                </div> -->
-                                <br/>
-                                <br/>
-                                <br/>                                       
-                                <div class="row">
-                                    <div class="col-2">
-                                    </div>
-                                    <div class="col-7">
-                                        <!-- cliente -->
-                                        <span><span t-field="o.partner_id.name"/></span>
-                                    </div>
-                                    <div class="col-3">
-                                        <!-- IVA -->
-                                        <span><span t-field="o.partner_id.afip_responsability_type_id.name" t-options='{"format": "dd/MM/yyyy"}'/></span>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="row">
-                                    <div class="col-2">                                    
-                                    </div>
-                                    <div class="col-7">
-                                        <span><t t-esc="o.partner_id.street" /> - <t t-esc="o.partner_id.city" /></span>
-                                    </div>
-                                    <div class="col-3">
-                                        <span><t t-esc="o.partner_id.main_id_number" /> </span>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="row">
-                                    <div class="col-2">                                    
-                                    </div>
-                                    <div class="col-7">
-                                        <span><t t-esc="o.partner_id.mobile" /></span>
-                                    </div>
-                                    <div class="col-3">
-                                        <span><t t-esc="o.invoice_ids.display_name" /></span>
-                                    </div>
-                                </div>
-                                <br/>
-                                <br/>
-                            </div>
-                            <br/>
-
-                            <t t-foreach="o.move_ids_without_package" t-as="move">
-                                <t t-if="move.picking_voucher_id.id == voucher.id">                                
-                                    <div class="row">
-                                        <div class="col-2 text-center">
-                                            <span><t t-esc="move.product_id.default_code" /></span>
-                                        </div>
-                                        <div class="col-8 text-left">
-                                            <span><t t-esc="move.product_id.name" /></span>
-                                        </div>
-                                        <div class="col-2 text-center">
-                                            <span><t t-esc="move.quantity_done" /></span>
-                                        </div>
-                                    </div>
+                            <div class="col-3 text-center" style="margin-top:20px;">
+                                <t t-if="o.picking_type_code =='incoming'">
+                                    <span><strong>DEVOLUCION</strong></span>                        
                                 </t>
-                            </t>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>                                    
+                        <div class="row">
+                            <div class="col-8 text-right">
+                                <span t-field="o.date_done" t-options='{"format": "dd"}'/>
+                            </div>                            
+                            <div class="col-1 text-center">
+                                <span t-field="o.date_done" t-options='{"format": "MM"}'/>
+                            </div>
+                            <div class="col-3 text-left">
+                                <span t-field="o.date_done" t-options='{"format": "yyyy"}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <br/>
+                        <br/>
+                        <br/>                                       
+                        <div class="row">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-7">
+                                <!-- cliente -->
+                                <span><span t-field="o.partner_id.name"/></span>
+                            </div>
+                            <div class="col-3">
+                                <!-- IVA -->
+                                <span><span t-field="o.partner_id.afip_responsability_type_id.name" t-options='{"format": "dd/MM/yyyy"}'/></span>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-2">                                    
+                            </div>
+                            <div class="col-7">
+                                <span><t t-esc="o.partner_id.street" /> - <t t-esc="o.partner_id.city" /></span>
+                            </div>
+                            <div class="col-3">
+                                <span><t t-esc="o.partner_id.main_id_number" /> </span>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-2">                                    
+                            </div>
+                            <div class="col-7">
+                                <span><t t-esc="o.partner_id.mobile" /></span>
+                            </div>
+                            <div class="col-3">
+                                <span><t t-esc="o.invoice_ids.display_name" /></span>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                    </div>
+                    <br/>
 
-                            <!-- <div class="row">
-                                <div class="col-12">
-                                    <span><t t-esc="o.company_id.stock_delivery_note" /></span>
+                    <t t-foreach="o.move_ids_without_package" t-as="move">                        
+                        <t t-foreach="move.move_line_ids" t-as="line">
+                            <t t-if="line.picking_voucher_id.id == voucher.id">
+                                <div class="row">
+                                    <div class="col-2 text-center">
+                                        <span><t t-esc="move.product_id.default_code" /></span>
+                                    </div>
+                                    <div class="col-8 text-left">
+                                        <t t-if="line.lot_id">
+                                            <span><t t-esc="move.product_id.name + ' - ' + line.lot_id.name" /></span>
+                                        </t>
+                                        <t t-else="">
+                                            <span><t t-esc="move.product_id.name" /></span>
+                                        </t>
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <span><t t-esc="move.quantity_done" /></span>
+                                    </div>
                                 </div>
-                            </div> -->
-
+                            </t>
                         </t>
                     </t>
+
+                    <!-- <div class="row">
+                        <div class="col-12">
+                            <span><t t-esc="o.company_id.stock_delivery_note" /></span>
+                        </div>
+                    </div> -->
+
                 </t>
             </t>
-        </template>
+        </t>
+    </template>
 </odoo>
