@@ -104,6 +104,8 @@
                             </t>
                         </t>
                     </t>
+                    <br/>
+                    <span t-field="voucher.name"/>
 
                     <!-- <div class="row">
                         <div class="col-12">

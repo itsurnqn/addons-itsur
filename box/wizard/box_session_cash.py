@@ -37,7 +37,12 @@ class BoxSessionCashOpen(models.TransientModel):
     _name = 'box.session.cash.open'
     _description = 'Informar saldo inicial'
 
-    amount = fields.Float(string='Amount', digits=0, required=True)
+    def saldo_anterior(self):
+        # import pdb; pdb.set_trace()
+        # saldo final de la sesión anterior
+        return self.env['box.session'].browse(self.env.context['active_id']).box_id.last_closed_session_id.cash_register_balance_end_real
+
+    amount = fields.Float(string='Amount', digits=0, required=True,default=saldo_anterior)
 
     box_session_id = fields.Many2one('box.session',string='Sesión')
 
@@ -54,6 +59,7 @@ class BoxSessionCashOpen(models.TransientModel):
         box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.box_session_id.cash_journal_id.id)]).id
 
         self.env['box.session.journal'].search([('id','=',box_session_journal_id)]).write({'balance_start':self.amount})
+
 
 class BoxSessionCashOut(models.TransientModel):
     _name = 'box.session.cash.out'

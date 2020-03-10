@@ -28,7 +28,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" name="box_cash_in"
                             type="object" icon="fa-level-down"
-                            attrs="{'invisible': [('state', 'not in', ['opened'])]}">
+                            attrs="{'invisible': [('state', 'not in', ['opened','closing_control'])]}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Ingresar</span>
                                 <span class="o_stat_text">Efectivo</span>
@@ -36,7 +36,7 @@
                         </button>                        
                         <button class="oe_stat_button" name="box_cash_out"
                             type="object" icon="fa-level-down"
-                            attrs="{'invisible': [('state', 'not in', ['opened'])]}">
+                            attrs="{'invisible': [('state', 'not in', ['opened','closing_control'])]}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Retirar</span>
                                 <span class="o_stat_text">Efectivo</span>

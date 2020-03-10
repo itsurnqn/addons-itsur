@@ -24,7 +24,7 @@
 
     # always loaded
     'data': [
-        'data/settings.xml',
+        # 'data/settings.xml',
         'security/ir.model.access.csv',
         'wizard/box_session_cash.xml',
         'views/box_box_views.xml',        

@@ -37,7 +37,15 @@ class BoxBox(models.Model):
 
 
     cash_control = fields.Boolean(string='Has Cash Control',default=True,readonly=True)
-    
+
+    sequence_id = fields.Many2one('ir.sequence', string='Secuencia de sesiones',
+        help="Numeración de las sesiones de caja.", copy=False)
+
+    # sequence_id = fields.Many2one('ir.sequence', string='Secuencia de sesiones',
+    #     help="Numeración de las sesiones de caja.", required=True, copy=False)
+
+    last_closed_session_id = fields.Many2one('box.session', string='Ultima sesión cerrada')
+
     @api.depends('session_ids')
     def _compute_current_session_user(self):
         for box_box in self:

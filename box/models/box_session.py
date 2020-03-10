@@ -139,15 +139,20 @@ class BoxSession(models.Model):
             box_box.sudo().write({'journal_ids': [(6, 0, journals.ids)]})
 
         # import pdb; pdb.set_trace()
-        box_name = box_box.name + self.env['ir.sequence'].with_context(ctx).next_by_code('box.session')
+        # box_name = box_box.name + self.env['ir.sequence'].with_context(ctx).next_by_code('box.session')
         # import pdb; pdb.set_trace()
         # if values.get('name'):
         #     box_name += ' ' + values['name']
         
+        # session_name = box_box.name + '/' + str(box_box.sequence_id.number_next_actual)
+        session_name = box_box.name + box_box.sequence_id.next_by_id()
+
+        # import pdb; pdb.set_trace()
+
         uid = self.env.user.id
 
         values.update({
-            'name': box_name,
+            'name': session_name,
             # 'box_session_journal_ids': [(6, 0, statements)],
             'box_id': box_id
         })
@@ -200,16 +205,26 @@ class BoxSession(models.Model):
     @api.multi
     def action_box_session_closing_control(self):
         # self._check_box_session_balance()
+
         for session in self:
+            if session.cash_register_balance_end < 0:
+                raise UserError(_("El saldo final no puede ser negativo."))
             session.write({'state': 'closing_control', 'stop_at': fields.Datetime.now()})
             if not session.box_id.cash_control:
                 session.action_box_session_close()
 
     @api.multi
     def _check_box_session_balance(self):
+        # el saldo final real, debería coincidir con el teórico. y sino que cargue el movimiento de ajuste?
+
         for session in self:
-            if session.cash_register_difference != 0:
-                raise UserError(_("Para poder cerrar la caja la diferencia entre el saldo inicial y el final debe ser cero."))
+            # if session.cash_register_difference != 0:
+            #     raise UserError(_("Para poder cerrar la caja la diferencia entre el saldo inicial y el final debe ser cero."))
+            if session.cash_register_balance_end < 0:
+                raise UserError(_("El saldo final no puede ser negativo."))
+            if session.cash_register_balance_end != session.cash_register_balance_end_real:
+                raise UserError(_("El saldo final teórico debe coincidir con el real. Informe correctamente el saldo real o haga el ajuste correspondiente."))
+
 
     @api.multi
     def action_box_session_validate(self):
@@ -220,6 +235,10 @@ class BoxSession(models.Model):
     def action_box_session_close(self):
         # Close CashBox
         self.write({'state': 'closed'})
+        
+        self.env['box.box'].browse(self.box_id.id).write({'last_closed_session_id': self.id})
+
+        # last_close_session_id
         return {
             'type': 'ir.actions.client',
             'name': 'Menu Caja',
