@@ -20,32 +20,23 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account_payment_group','crm','purchase','sale_crm','sale_order_type','stock','stock_voucher','stock_picking_invoice_link'],
+    'depends': ['base','account_payment_group','crm','purchase','sale_crm','sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux'],
+
 
     # always loaded
-    'data': [
-        # 'data/account_journal.xml',     
-        'data/sale_tipo_cliente.xml',
-        # 'data/product_category.xml',
-        
-        # Factura electronica DEMO COMENTAR!!!
-        # 'data/certificate_demo.xml',
-        # 'data/parameter_demo.xml',
-        'data/account_journal_demo.xml',
-
-        'security/pronto_security.xml',
+    'data': [       
+        # 'security/pronto_security.xml',
         'security/ir.model.access.csv',
+
+        'views/company.xml',                
         'views/crm_lead_views.xml',
-        'views/report_payment_group.xml', 
         # 'views/menuitems.xml',
+        # 'views/purchase_order_views.xml',
+        'views/report_payment_group.xml',
         'views/report_stockpicking.xml',
-        'views/purchase_order_views.xml',       
-        'views/company.xml',
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
-        'views/stock_picking_views.xml',               
-        # 'data/settings2.xml',  
-
-        
+        'views/sale_tipo_cliente_views.xml',
+        'views/stock_picking_views.xml',        
     ],
 }

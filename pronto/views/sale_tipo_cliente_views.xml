@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_tipo_cliente_tree_view" model="ir.ui.view">
+        <field name="name">sale.tipo.cliente.tree</field>
+        <field name="model">sale.tipo.cliente</field>
+        <field name="arch" type="xml">
+		<tree string="Tipo de cliente" >
+			<field name="name" />
+		</tree>
+	    </field>
+	</record>
+
+    <act_window id="action_tipo_cliente"  
+            name="Tipos de cliente"
+            res_model="sale.tipo.cliente" 
+            view_mode="tree,form"
+            target="current"/>
+
+    <menuitem action="action_tipo_cliente" id="menu_tipo_cliente" 
+    parent="sale.menu_sale_config" name="Tipo de cliente" sequence="2" />
+
+ 	<!-- account.account_management_menu  -->
+
+</odoo>
