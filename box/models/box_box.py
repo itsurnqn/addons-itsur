@@ -38,7 +38,7 @@ class BoxBox(models.Model):
 
     cash_control = fields.Boolean(string='Has Cash Control',default=True,readonly=True)
 
-    sequence_id = fields.Many2one('ir.sequence', string='Secuencia de sesiones',
+    sequence_id = fields.Many2one('ir.sequence', string='Secuencia de sesiones', required=True,
         help="Numeración de las sesiones de caja.", copy=False)
 
     # sequence_id = fields.Many2one('ir.sequence', string='Secuencia de sesiones',

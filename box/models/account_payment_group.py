@@ -54,7 +54,7 @@ class AccountPaymentGroup(models.Model):
                         ref = rec2.tax_withholding_id.name + ' - ' + rec2.withholding_number
                     elif 'inbound_credit_card' in inbound_payment_method_codes:
                         # tarjeta crédito
-                        ref = rec2.tipo_tarjeta_id.name + " - " + rec2.nro_cupon
+                        ref = "Lote: " + str(rec2.nro_lote) + " - " + "Cupón: " + rec2.nro_cupon
                     elif 'outbound_debit_card' in inbound_payment_method_codes:
                         # tarjeta débito
                         ref = ''
