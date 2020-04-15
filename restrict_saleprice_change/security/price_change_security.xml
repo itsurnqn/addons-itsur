@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="groups_restrict_price_change" model="res.groups">
-        <field name="name">Manage Sales Price Change</field>
+        <field name="name">Permitir cambiar precio unitario en presupuesto</field>
     </record>
 
 </odoo>

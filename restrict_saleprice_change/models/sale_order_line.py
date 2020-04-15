@@ -27,7 +27,12 @@ class SaleOrderline(models.Model):
                     product_context).get_product_price_rule(
                     self.product_id, self.product_uom_qty or 1.0,
                     self.order_id.partner_id)
-                if (price_unit < price) and rule_id:
+                if (price_unit != price) and rule_id:
                     raise UserError(
-                        _('You don\'t have Access to change the\
-                         Price Less than %s') % price)
+                        _('No posee permiso para cambiar\
+                         el precio unitario'))
+
+                # if (price_unit < price) and rule_id:
+                #     raise UserError(
+                #         _('You don\'t have Access to change the\
+                #          Price Less than %s') % price)
