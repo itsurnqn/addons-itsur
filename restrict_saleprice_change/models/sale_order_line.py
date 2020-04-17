@@ -27,7 +27,8 @@ class SaleOrderline(models.Model):
                     product_context).get_product_price_rule(
                     self.product_id, self.product_uom_qty or 1.0,
                     self.order_id.partner_id)
-                if (price_unit != price) and rule_id:
+                if (abs(price_unit - price) > 0.1) and rule_id:
+                    # import pdb; pdb.set_trace()
                     raise UserError(
                         _('No posee permiso para cambiar\
                          el precio unitario'))
