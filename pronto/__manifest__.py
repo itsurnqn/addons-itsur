@@ -22,12 +22,12 @@
     # any module necessary for this one to work correctly
     'depends': ['base','account_payment_group','crm','purchase','sale_crm','sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux'],
 
-
     # always loaded
     'data': [       
         # 'security/pronto_security.xml',
         'security/ir.model.access.csv',
-
+        'views/account_check_views.xml',
+        # 'views/account_payment_views.xml',
         'views/company.xml',                
         'views/crm_lead_views.xml',
         # 'views/menuitems.xml',
