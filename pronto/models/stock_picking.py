@@ -38,3 +38,10 @@ class ProntoStockPicking(models.Model):
                     break
             
         return result
+
+    @api.multi
+    def clean_voucher_data(self):
+        move_lines = self.env['stock.move.line'].search([('picking_id','=',self.id)])
+        for move in move_lines:
+            move.picking_voucher_id = None
+        result = super(ProntoStockPicking,self).clean_voucher_data()
