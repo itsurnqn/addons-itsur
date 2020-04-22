@@ -9,9 +9,6 @@
             <field name="journal_id" position="after">
                 <field name="box_session_id" invisible="0" />
             </field>
-            <field name="communication" position="attributes">
-                <attribute name="attrs">{'required': True}</attribute>
-            </field>
         </field>
     </record>
 
