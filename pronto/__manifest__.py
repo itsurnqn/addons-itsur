@@ -37,6 +37,7 @@
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
         'views/sale_tipo_cliente_views.xml',
-        'views/stock_picking_views.xml',        
+        'views/stock_picking_views.xml',
+        'views/product_pricelist_item_views.xml',        
     ],
 }
