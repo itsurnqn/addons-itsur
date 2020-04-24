@@ -25,6 +25,9 @@ class ProntoStockPicking(models.Model):
 
         cantidad_renglones = self.env['stock.book'].browse(self.book_id.id).lines_per_voucher
 
+        if (cantidad_renglones == 0):
+            raise UserError("Debe configurar la cantidad de renglones para el talonario.")
+
         vouchers = self.env['stock.picking.voucher'].search([('picking_id','=',self.id)])
 
         for voucher in vouchers:

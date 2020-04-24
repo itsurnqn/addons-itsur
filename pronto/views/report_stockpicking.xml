@@ -97,21 +97,25 @@
                                     </div>
                                     <div class="col-8 text-left">
                                         <t t-if="line.lot_id">
-                                            <span><t t-esc="move.product_id.name + ' - ' + line.lot_id.name" /></span>
+                                            <span><t t-esc="move.product_id.name + ' - Nro. serie: ' + line.lot_id.name" /></span>
                                         </t>
                                         <t t-else="">
                                             <span><t t-esc="move.product_id.name" /></span>
                                         </t>
                                     </div>
                                     <div class="col-2 text-center">
-                                        <span><t t-esc="move.quantity_done" /></span>
+                                        <t t-if="line.lot_id">
+                                            <span><t t-esc="line.qty_done" /></span>
+                                        </t>
+                                        <t t-else="">
+                                            <span><t t-esc="move.quantity_done" /></span>
+                                        </t>                                        
                                     </div>
                                 </div>
                             </t>
                         </t>
                     </t>
                     <br/>
-                    <span t-field="voucher.name"/>
 
                     <!-- <div class="row">
                         <div class="col-12">
@@ -120,7 +124,17 @@
                     </div> -->
 
                 </t>
+
+                <div class="footer o_standard_footer">
+                    <div class="row">
+                        <div class="col-3">
+                            <span t-field="voucher.name"/>
+                        </div>
+                    </div>
+                </div>
+
             </t>
         </t>
+        
     </template>
 </odoo>
