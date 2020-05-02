@@ -8,11 +8,26 @@
         <field name="inherit_id" ref="account_payment_group.view_account_payment_group_form"/>
         <field name="arch" type="xml">
 
-            <!-- agregamos boton de actualizar precios a las lineas -->
             <field name="communication" position="after">
+                <field name="box_id" visible="1"/>
                 <field name="box_session_id"/>
             </field>
 
+			<field name="payment_ids" position="attributes">
+                <attribute name="context">{'default_box_id': box_id, 'default_box_session_id': box_session_id, 'default_payment_group_company_id': company_id, 'default_payment_type': partner_type == 'supplier' and 'outbound' or 'inbound', 'default_payment_date': payment_date, 'default_partner_id': partner_id, 'default_partner_type': partner_type, 'payment_group': True, 'default_amount': payment_difference, 'tree_view_ref': 'account_payment_group.view_account_payment_from_group_tree'}</attribute>
+            </field>
+
+            <field name="notes" position="after">
+                <field name="box_session_journal_line_ids">
+                    <tree string="Renglones de caja">
+                        <field name="id" />
+                        <field name="ref" />
+                        <field name="box_session_name" />
+                        <field name="anulado" />
+                    </tree>
+                </field>
+            </field>
+            
         </field>
     </record>
 
