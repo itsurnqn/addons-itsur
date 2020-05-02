@@ -13,14 +13,20 @@ class AccountPaymentGroup(models.Model):
         return self.env.user.default_box_id.id
 
     box_id = fields.Many2one('box.box', 
-                    string='Caja', 
-                    ondelete='Restrict',
-                    default=_get_default_box_id)
+        string='Caja', 
+        ondelete='Restrict',
+        default=_get_default_box_id,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
 
     box_session_id = fields.Many2one('box.session', 
-                    string='Sesión de caja', 
-                    ondelete='Restrict',
-                    domain="['&',('box_id','=',box_id),('state','=','opened')]")
+        string='Sesión de caja', 
+        ondelete='Restrict',
+        domain="['&',('box_id','=',box_id),('state','=','opened')]",
+        readonly=True,
+        states={'draft': [('readonly', False)]},        
+    )
 
     # para mostrar los renglones de caja asociados en el recibo
     box_session_journal_line_ids = fields.One2many(related='payment_ids.box_session_journal_line_ids', string='Renglones de caja')
