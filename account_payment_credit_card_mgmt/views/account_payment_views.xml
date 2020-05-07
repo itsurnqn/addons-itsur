@@ -82,7 +82,7 @@
         <field name="res_model">account.payment</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="view_pagos_tarjeta_tree" />
-        <field name="domain">[('nro_tarjeta','!=','')]</field>
+        <field name="domain">[('is_credit_card','=','1')]</field>
         <field name="view_mode">tree,form</field>
     </record>
 
