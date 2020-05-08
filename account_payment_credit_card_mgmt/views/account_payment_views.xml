@@ -48,9 +48,10 @@
                 <!-- <field name="reference"/> -->
                 <field name="partner_id"/>
                 <field name="plan_tarjeta_id" />
-                <field name="nro_tarjeta" />
+                <!-- <field name="nro_tarjeta" /> -->
                 <field name="nro_cupon" />
-                <field name="cant_cuotas" />
+                <field name="nro_lote" />
+                <!-- <field name="cant_cuotas" /> -->
                 <field name="journal_id" groups="account.group_account_user"/>
                 <!-- <field name="period_id" invisible="context.get('visible', True)"/> -->
                 <field name="payment_type_copy" invisible="context.get('visible', True)"/>

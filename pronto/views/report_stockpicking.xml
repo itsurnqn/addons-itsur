@@ -13,7 +13,7 @@
         <t t-foreach="docs" t-as="o">
             <t t-foreach="o.voucher_ids" t-as="voucher">
                 <t t-call="web.basic_layout">
-                    <div class="header">
+                    <div class="header" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
                         <div class="row">
                             <div class="col-9">
                                 
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="page">
+                    <div class="page" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
                         <br/>
                         <br/>
                         <br/>                        
@@ -80,7 +80,16 @@
                                 <span><t t-esc="cliente_id.mobile" /></span>
                             </div>
                             <div class="col-3">
-                                <span><t t-esc="o.invoice_ids.display_name" /></span>
+                                <!-- <t t-set="desc" t-value=""/>
+                                <t t-foreach="inv" t-as="o.invoice_ids">
+                                    <t t-set="desc" t-value="inv.display_name"/>
+                                    <span><t t-esc="inv.display_name" /></span>
+                                </t> -->
+                                <t t-if="len(o.invoice_ids) == 1">
+                                    <!-- <span><t t-esc="o.invoice_ids.mapped('display_name')" /></span>                                     -->
+                                    <span><t t-esc="o.invoice_ids.display_name" /></span>
+                                </t>
+
                             </div>
                         </div>
                         <br/>
@@ -91,7 +100,7 @@
                     <t t-foreach="o.move_ids_without_package" t-as="move">                        
                         <t t-foreach="move.move_line_ids" t-as="line">
                             <t t-if="line.picking_voucher_id.id == voucher.id">
-                                <div class="row">
+                                <div class="row" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
                                     <div class="col-2 text-center">
                                         <span><t t-esc="move.product_id.default_code" /></span>
                                     </div>
@@ -125,8 +134,11 @@
 
                 </t>
 
-                <div class="footer o_standard_footer">
+                <div class="footer o_standard_footer" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
                     <div class="row">
+                        <div class="col-9">
+                            
+                        </div>                    
                         <div class="col-3">
                             <span t-field="voucher.name"/>
                         </div>
