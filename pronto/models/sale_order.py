@@ -21,3 +21,14 @@ class SaleOrderLine(models.Model):
         ).write({'invoice_ids': [(4, invoice_id)]})
         return super(SaleOrderLine, self).invoice_line_create_vals(invoice_id,
                                                                    qty)
+
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+
+    @api.multi
+    def _prepare_invoice(self):
+        res = super(SaleOrder, self)._prepare_invoice()
+        # import pdb; pdb.set_trace()
+        if self.env.user.sale_journal_id:
+            res['journal_id'] = self.env.user.sale_journal_id.id
+        return res
