@@ -37,3 +37,6 @@ class BoxSessionJournalLine(models.Model):
     
     company_id = fields.Many2one('res.company', related='box_session_journal_id.journal_id.company_id', string='Company', store=True, readonly=True,
         default=lambda self: self.env['res.company']._company_default_get('account.bank.statement'))
+
+    anulado = fields.Boolean('Anulado',default=False)
+    box_session_name = fields.Char(related="box_session_journal_id.box_session_id.name", string="Sesión de caja")        

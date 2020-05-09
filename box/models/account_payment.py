@@ -8,31 +8,30 @@ from odoo.exceptions import UserError, ValidationError
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
-    box_session_id = fields.Many2one('box.session', string='Sesión de caja', readonly="True", ondelete='Restrict', domain="[('state', '=', 'opened'),('user_id', '=', uid)]")
+    box_id = fields.Many2one('box.box', 
+                    string='Caja', 
+                    ondelete='Restrict')
 
-    box_session_journal_line_id = fields.Many2one('box.session.journal.line')
+    box_session_id = fields.Many2one('box.session', string='Sesión de caja', 
+                    readonly="True", 
+                    ondelete='Restrict')
 
-    @api.multi
-    def get_journals_domain(self):
-        domain = super(AccountPayment, self).get_journals_domain()
-      
-        journal_ids = self.env['box.session'].search([('state','=','opened'),('user_id','=',self.env.user.id)]).journal_ids.mapped('id')
-        
-        domain.append(('id', 'in', tuple(journal_ids)))
+    box_session_journal_line_ids = fields.One2many('box.session.journal.line', 'account_payment_id', string='Renglones de caja')
 
-        # import pdb; pdb.set_trace()
-
-        return domain
+    @api.onchange('box_id','box_session_id')
+    def onchange_box_session_id(self):
+        self.journal_ids = self.box_session_id.journal_ids
 
     @api.multi
     def cancel(self):
         super(AccountPayment,self).cancel()
 
-        # tengo que controlar que la caja este abierta.
-        session_actual = self.env['box.session'].search([('state','=','opened'),('user_id','=',self.env.user.id)])
+        default_box_id = self.env.user.default_box_id
 
-        if not session_actual:
-            raise UserError(_("Debe iniciar una sesión de caja para poder cancelar el recibo."))
+        session_actual = self.env['box.session'].search([('state','=','opened'),('box_id','=',default_box_id.id)])
+
+        if not session_actual:            
+            raise UserError(_("Debe iniciar una sesión de la caja '%s', para poder cancelar el recibo." % default_box_id.name))
         else:
             # si se cancela antes de validar el recibo, puede pasar que no tenga renglon de pago (para recibos y para OP)
             # en este caso self.id = 0. entonces solo debo cancelar la linea de caja en caso que exista el renglón de pago
@@ -47,11 +46,8 @@ class AccountPayment(models.Model):
                 for rec in self:
                     # solo si el renglon está validado se tiene que anular en la caja
                     if (rec.payment_group_id.state == 'posted'):
-
-                        print("Anula en la caja")
-
-                        # renglon de la caja que tengo que anular
-                        renglon_caja = self.env['box.session.journal.line'].browse(rec.box_session_journal_line_id.id)
+                        
+                        renglones = self.env['box.session.journal.line'].search([('account_payment_id','=',rec.id), ('anulado','=',False)])
 
                         # analizar que pasa cuando se está anulando un recibo de un turno anterior ...
                         # me tengo que asegurar que se registre en la sesión actual            
@@ -59,23 +55,34 @@ class AccountPayment(models.Model):
                         # busco la linea (box.session.journal) que corresponde para el diario, dentro de la sesión actual.                         
                         box_session_journal_id = self.env['box.session.journal'].search([('journal_id','=',rec.journal_id.id),('box_session_id.id','=',session_actual.id)])
 
-                        # Cuidado!! que paso si la sesion actual ahora no tiene el medio de pago que estoy anulando? en la sesión original lo tenía pero ahora no.
+                        if not box_session_journal_id:
+                            raise UserError(_("El medio de pago '%s', no está habilitado para la caja actual '%s'." % (rec.journal_id.name,default_box_id.name)))
+                        
+                        # renglones siempre debería tener un solo registro. 
+                        # por las dudas los controlo
+                        if len(renglones) > 1:
+                            raise UserError(_("Error"))
+                        
+                        for renglon_caja in renglones:
+                            if (renglon_caja.ref):
+                                ref = renglon_caja.ref
+                            else:
+                                ref = ''
 
-                        if (renglon_caja.ref):
-                            ref = renglon_caja.ref
-                        else:
-                            ref = ''
+                            vals = {
+                                'name': renglon_caja.display_name, 
+                                'amount': -renglon_caja.amount, 
+                                'partner_id': renglon_caja.partner_id.id,
+                                'ref': ref + ' - Cancelación',
+                                'account_payment_id': renglon_caja.account_payment_id.id,
+                                'box_session_journal_id': box_session_journal_id.id,
+                                'anulado': True
+                            }
 
-                        vals = {
-                            'name': renglon_caja.display_name, 
-                            'amount': -renglon_caja.amount, 
-                            'partner_id': renglon_caja.partner_id.id,
-                            'ref': ref + ' - Cancelación',
-                            'account_payment_id': renglon_caja.account_payment_id.id,
-                            'box_session_journal_id': box_session_journal_id.id
-                        }
+                            self.env['box.session.journal.line'].create(vals)
 
-                        self.env['box.session.journal.line'].create(vals)
+                            renglon_caja.anulado = True
+
                     else:
                         print("No tiene que anular en la caja 1.")
                     

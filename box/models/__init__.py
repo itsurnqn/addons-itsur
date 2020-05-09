@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from . import res_users
 from . import box_box
 from . import box_session
 from . import box_session_journal
