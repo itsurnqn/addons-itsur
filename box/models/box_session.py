@@ -89,6 +89,19 @@ class BoxSession(models.Model):
     company_id = fields.Many2one('res.company', related='cash_journal_id.company_id', string='Company', store=True, readonly=True,
         default=lambda self: self.env['res.company']._company_default_get('account.bank.statement'))
 
+    # by default store = False this means the value of this field
+    # is always computed.
+    # https://stackoverflow.com/questions/48926199/how-to-get-the-current-logged-user-in-xml-odoo-v11
+    usuario_actual_responsable = fields.Boolean('Usuario actual responsable de la sesión?', compute='_get_usuario_actual_responsable')
+
+    @api.depends()
+    def _get_usuario_actual_responsable(self):
+        # import pdb; pdb.set_trace()
+        if self.user_id.id == self.env.user.id:
+            self.usuario_actual_responsable = True
+        else:
+            self.usuario_actual_responsable = False
+
     @api.one
     def _compute_currency(self):
         self.currency_id = self.company_id.currency_id
@@ -191,6 +204,10 @@ class BoxSession(models.Model):
     def action_box_session_open(self):
         # second browse because we need to refetch the data from the DB for cash_register_id
         # we only open sessions that haven't already been opened
+        # import pdb;pdb.set_trace()
+        if self.box_id.current_session_state != 'opening_control':
+            raise UserError(_("Ya existe una sesión iniciada para esta caja"))
+
         for session in self.filtered(lambda session: session.state == 'opening_control'):
             if session.cash_register_balance_start == 0:
                 raise UserError(_("Debe informar el saldo inicial"))

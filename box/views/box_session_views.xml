@@ -4,20 +4,22 @@
         <field name="name">box.session.form.view</field>
         <field name="model">box.session</field>
         <field name="arch" type="xml">
-            <form string="Sesión de caja" create="0">
+            <form string="Sesión de caja" create="false" delete="false" edit="false">
                 <header>
 
                     <button name="action_box_session_open" type="object" string="ABRIR SESIÓN"
-                        attrs="{'invisible' : ['|', ('cash_control', '=', False), ('state', '!=', 'opening_control')]}" class="oe_highlight"/>
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', False), ('state', '!=', 'opening_control')]}" class="oe_highlight"/>
                    
                     <button name="action_box_session_closing_control" type="object" string="FINALIZAR SESIÓN"
-                        attrs="{'invisible' : ['|', ('cash_control', '=', False),('state', '!=', 'opened')]}" 
-                        class="oe_highlight"/>
-                    <button name="action_box_session_closing_control" type="object" string="CONTROL Y CIERRE"
-                        attrs="{'invisible' : ['|', ('cash_control', '=', True),('state', '!=', 'opened')]}"
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', False),('state', '!=', 'opened')]}" 
                         class="oe_highlight"/>
 
-                    <button name="action_box_session_validate" type="object" string="FINALIZAR SESIÓN" states="closing_control"
+                    <button name="action_box_session_closing_control" type="object" string="CONTROL Y CIERRE"
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', True),('state', '!=', 'opened')]}"
+                        class="oe_highlight"/>
+
+                    <button name="action_box_session_validate" type="object" string="FINALIZAR SESIÓN" 
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('state', '!=', 'closing_control')]}"                        
                         class="oe_highlight"/>
                     
                     <field name="state" widget="statusbar" statusbar_visible="opening_control,opened,closing_control,closed" nolabel="1" />
@@ -28,7 +30,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" name="box_cash_in"
                             type="object" icon="fa-level-down"
-                            attrs="{'invisible': [('state', 'not in', ['opened','closing_control'])]}">
+                            attrs="{'invisible': ['|', ('usuario_actual_responsable', '==', False),('state', 'not in', ['opened','closing_control'])]}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Ingresar</span>
                                 <span class="o_stat_text">Efectivo</span>
@@ -36,7 +38,7 @@
                         </button>                        
                         <button class="oe_stat_button" name="box_cash_out"
                             type="object" icon="fa-level-down"
-                            attrs="{'invisible': [('state', 'not in', ['opened','closing_control'])]}">
+                            attrs="{'invisible': ['|', ('usuario_actual_responsable', '==', False),('state', 'not in', ['opened','closing_control'])]}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Retirar</span>
                                 <span class="o_stat_text">Efectivo</span>
@@ -46,7 +48,7 @@
                         <button class="oe_stat_button" name="box_cash_open"
                             type="object" 
                             icon="fa-money"
-                            attrs="{'invisible':['|', ('cash_control', '=', False), ('state', '!=', 'opening_control')]}">
+                            attrs="{'invisible':['|', '|', ('usuario_actual_responsable', '==', False),('cash_control', '=', False), ('state', '!=', 'opening_control')]}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Informar</span>
                                 <span class="o_stat_text">saldo inicial</span>
@@ -56,7 +58,7 @@
                         <button class="oe_stat_button" name="box_cash_close"
                             type="object" 
                             icon="fa-money"
-                            attrs="{'invisible':['|', '|', '|', ('cash_control', '=', False), ('state', '=', 'opening_control'), ('state', '=', 'closed'),('state', '=', 'opened')]}">
+                            attrs="{'invisible':['|', '|', '|', '|', ('usuario_actual_responsable', '==', False),('cash_control', '=', False), ('state', '=', 'opening_control'), ('state', '=', 'closed'),('state', '=', 'opened')]}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_text">Informar</span>
                                 <span class="o_stat_text">saldo final</span>
@@ -72,7 +74,8 @@
                         <field name="cash_control" invisible="1" />
                         <group>
                             <field name="user_id"/>                            
-                            <field name="box_id"/>
+                            <field name="box_id" readonly="1"/>
+                            <field name="usuario_actual_responsable" invisible='1' />
                         </group>
                         <group>
                             <field name="start_at" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
@@ -127,10 +130,46 @@
         </field>
     </record>
 
+    <record id="view_box_session_tree" model="ir.ui.view">
+        <field name="name">box.session.tree.view</field>
+        <field name="model">box.session</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false" edit="false">
+                <!-- <field name="id"/> -->
+                <field name="box_id"/>
+                <field name="start_at"/>
+                <field name="stop_at"/>
+                <field name="user_id"/>
+                <field name="name" string="Descripción"/>
+                <field name="state" string="Estado actual"/>
+                <field name="cash_register_balance_start" string="Saldo inicial"/>
+                <field name="cash_register_balance_end" string="Saldo final teórico"/>
+                <field name="cash_register_balance_end_real" string="Saldo final real"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_box_session_search" model="ir.ui.view">
+        <field name="model">box.session</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="box_id"/>
+                <separator/>
+                <!-- <filter string="Abierta" name="abierta" domain="[('state','=','opened')]"/> -->
+                <filter string="No cerrada" name="no_cerrada" domain="[('state','in',('opened','opening_control','closing_control'))]"/>
+                <filter string="Sesiones iniciadas hoy" name="sesiones_iniciadas_hoy" domain="[('start_at', '>=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Sesiones última semana" name="sesiones_iniciadas_ultima_semana" domain="[('start_at', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="group_caja" string="Por caja" context="{'group_by': 'box_id'}"/>
+            </search>
+        </field>
+    </record>    
+
     <record id="box_session_action" model="ir.actions.act_window">
         <field name="name">Sesiones de caja</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">box.session</field>
+        <field name="context">{'search_default_sesiones_iniciadas_hoy': True}</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="view_id" eval="False"/>
