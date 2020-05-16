@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
-
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError, UserError
 from datetime import datetime
 
 from odoo.osv import expression
@@ -91,15 +90,19 @@ class BoxBox(models.Model):
         access cash control interface if enabled or start a session
         """
         self.ensure_one()
-        if not self.current_session_id:
-            self.current_session_id = self.env['box.session'].create({
-                'user_id': self.env.uid,
-                'box_id': self.id
-            })
-            if self.current_session_id.state == 'opened':
-                return self.open_ui()
+        sesiones_sin_cerrar = self.env['box.session'].search([('box_id','=',self.id),('state','!=','closed')])
+        if len(sesiones_sin_cerrar) > 0:
+            raise UserError(_("Existe una sesion sin cerrar. Refresque la página."))
+        else:
+            if not self.current_session_id:
+                self.current_session_id = self.env['box.session'].create({
+                    'user_id': self.env.uid,
+                    'box_id': self.id
+                })
+                if self.current_session_id.state == 'opened':
+                    return self.open_ui()
+                return self._open_session(self.current_session_id.id)
             return self._open_session(self.current_session_id.id)
-        return self._open_session(self.current_session_id.id)
 
     @api.multi
     def open_existing_session_cb(self):

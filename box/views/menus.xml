@@ -12,13 +12,15 @@
         name="Cajas"
         parent="menu_box_root"
         action="box_action"
-        sequence="100"/>
+        sequence="100"
+        groups="box.group_box_manager"/>
 
     <menuitem id="menu_box_session" 
         name="Sesiones"
         parent="menu_box_root"
         action="box_session_action"
-        sequence="200"/>
+        sequence="200"
+        groups="box.group_box_manager"/>
 
   </data>
 </odoo>

@@ -108,11 +108,11 @@
 
                                         <!-- <button t-if="record.current_session_state.raw_value === 'opened'" class="btn btn-primary" name="open_ui" type="object">Resume</button> -->
 
-                                        <button t-if="record.current_session_state.raw_value === 'opening_control'" class="btn btn-primary" name="open_existing_session_cb" type="object">Abrir Sesión</button>
+                                        <button t-if="record.current_session_state.raw_value === 'opening_control'" class="btn btn-primary" name="open_existing_session_cb" type="object" groups="box.group_box_manager">Abrir Sesión</button>
 
-                                        <button t-if="_.contains(['opened', 'closing_control'], record.current_session_state.raw_value)" class="btn btn-secondary" name="open_existing_session_cb" type="object">Cerrar</button>
+                                        <button t-if="_.contains(['opened', 'closing_control'], record.current_session_state.raw_value)" class="btn btn-secondary" name="open_existing_session_cb" type="object" groups="box.group_box_manager">Cerrar</button>
 
-                                        <button t-if="!record.current_session_id.raw_value &amp;&amp; !record.box_session_username.value" class="btn btn-primary" name="open_session_cb" type="object">Nueva Sesión</button> 
+                                        <button t-if="!record.current_session_id.raw_value &amp;&amp; !record.box_session_username.value" class="btn btn-primary" name="open_session_cb" type="object" groups="box.group_box_manager">Nueva Sesión</button> 
 
                                     </div>
                                     <div class="col-6 o_kanban_primary_right">
