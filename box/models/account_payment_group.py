@@ -69,13 +69,15 @@ class AccountPaymentGroup(models.Model):
 
                     if 'received_third_check' in inbound_payment_method_codes:
                         # cheque de tercero
-                        ref = rec2.check_bank_id.name + ' - ' + rec2.check_payment_date.strftime("%m/%d/%Y")
+                        if rec2.check_bank_id.name and rec2.check_payment_date:
+                            ref = rec2.check_bank_id.name + ' - ' + rec2.check_payment_date.strftime("%m/%d/%Y")
                     elif 'electronic' in inbound_payment_method_codes:
                         # transferencia bancaria
                         ref = 'Transferencia '
                     elif 'withholding' in inbound_payment_method_codes:
                         # retenciones
-                        ref = rec2.tax_withholding_id.name + ' - ' + rec2.withholding_number
+                        if rec2.tax_withholding_id and rec2.withholding_number:
+                            ref = rec2.tax_withholding_id.name + ' - ' + rec2.withholding_number
                     elif 'inbound_credit_card' in inbound_payment_method_codes:
                         # tarjeta crédito
                         ref = "Lote: " + str(rec2.nro_lote) + " - " + "Cupón: " + rec2.nro_cupon
