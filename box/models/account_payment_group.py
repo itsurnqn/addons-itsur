@@ -64,7 +64,8 @@ class AccountPaymentGroup(models.Model):
                         ref = 'pago a proveedor'
                     else:
                         amount = rec2.amount                
-
+                        ref = ''
+                    
                     inbound_payment_method_codes = rec2.journal_id.inbound_payment_method_ids.mapped('code')
 
                     if 'received_third_check' in inbound_payment_method_codes:
@@ -80,7 +81,8 @@ class AccountPaymentGroup(models.Model):
                             ref = rec2.tax_withholding_id.name + ' - ' + rec2.withholding_number
                     elif 'inbound_credit_card' in inbound_payment_method_codes:
                         # tarjeta crédito
-                        ref = "Lote: " + str(rec2.nro_lote) + " - " + "Cupón: " + rec2.nro_cupon
+                        if rec2.nro_lote and rec2.nro_cupon:
+                            ref = "Lote: " + str(rec2.nro_lote) + " - " + "Cupón: " + rec2.nro_cupon
                     elif 'outbound_debit_card' in inbound_payment_method_codes:
                         # tarjeta débito
                         ref = ''
