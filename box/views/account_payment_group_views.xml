@@ -9,8 +9,8 @@
         <field name="arch" type="xml">
 
             <field name="communication" position="after">
-                <field name="box_id" visible="1"/>
-                <field name="box_session_id"/>
+                <field name="box_id" visible="1" options="{'no_create': True, 'no_open': True}"/>
+                <field name="box_session_id" options="{'no_create': True, 'no_open': True}"/>
             </field>
 
 			<field name="payment_ids" position="attributes">
