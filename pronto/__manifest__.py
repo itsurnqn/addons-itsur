@@ -27,7 +27,7 @@
         # 'security/pronto_security.xml',
         'security/ir.model.access.csv',
         'views/account_check_views.xml',
-        # 'views/account_payment_views.xml',
+        'views/account_payment_views.xml',
         # 'views/company.xml',                
         'views/crm_lead_views.xml',
         # 'views/menuitems.xml',
