@@ -40,6 +40,7 @@
         'views/stock_picking_views.xml',
         'views/product_pricelist_item_views.xml',
         'views/product_template_views.xml',
-        'views/res_users_views.xml',     
+        'views/res_users_views.xml',  
+        'views/account_payment_group_views.xml',   
     ],
 }
