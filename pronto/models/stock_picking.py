@@ -48,3 +48,19 @@ class ProntoStockPicking(models.Model):
         for move in move_lines:
             move.picking_voucher_id = None
         result = super(ProntoStockPicking,self).clean_voucher_data()
+
+    @api.multi
+    def button_validate(self):
+        result = super(ProntoStockPicking,self).button_validate()
+        # solo en los movimientos de salida
+        if (self.picking_type_id.code == 'outgoing'):
+            # solo si tienen facturas asociadas.
+            # osea que para tipo de venta 'sin factura' no aplica porque no se le asocia factura al movimiento
+            # tampoco para las transferencia internas porque las operaciones son del tipo 'internal'
+            for inv in self.invoice_ids:
+                if (inv.type == 'out_invoice'):
+                    # solo para las facturas (sin NC)
+                    if (inv.state == 'draft'):
+                        raise UserError("Este movimiento tiene al menos una factura asociada en estado borrador.")
+        
+        return result
