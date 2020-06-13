@@ -24,7 +24,7 @@
 
     # always loaded
     'data': [       
-        # 'security/pronto_security.xml',
+        'security/pronto_security.xml',
         'security/ir.model.access.csv',
         'views/account_check_views.xml',
         # 'views/account_payment_views.xml',
@@ -39,6 +39,7 @@
         'views/sale_tipo_cliente_views.xml',
         'views/stock_picking_views.xml',
         'views/product_pricelist_item_views.xml',
+        'views/product_template_views.xml',
         'views/res_users_views.xml',     
     ],
 }
