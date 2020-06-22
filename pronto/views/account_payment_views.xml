@@ -4,7 +4,7 @@
     <record id="view_account_payment_form" model="ir.ui.view">
         <field name="name">account.payment.form</field>
         <field name="model">account.payment</field>
-        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="inherit_id" ref="account_check.view_account_payment_form_inherited"/>
         <field name="arch" type="xml">
             <field name="check_owner_name" position="after">
                 <field name="no_a_la_orden" invisible="0" />
