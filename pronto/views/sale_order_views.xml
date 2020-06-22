@@ -6,6 +6,9 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_unlock']" position="attributes">
+                <attribute name="groups">pronto.group_unlock_sale_order</attribute>
+            </xpath>
             <xpath expr="//group[@name='technical']" position="attributes">
                 <attribute name="groups">base.group_user</attribute>
             </xpath>
