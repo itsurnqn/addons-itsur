@@ -23,7 +23,8 @@
         <field name="model">account.payment.plan.tarjeta</field>
         <field name="arch" type="xml">
 		<tree string="plan de Tarjeta" >
-			<field name="name" />
+			<field name="name" />     
+            <field name="journal_id" />       
 		</tree>
 	    </field>
 	</record>
