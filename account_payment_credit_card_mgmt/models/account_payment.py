@@ -6,10 +6,11 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
 class AccountPaymentPlanTarjeta(models.Model):
-	_name = 'account.payment.plan.tarjeta'
-	_description = 'Plan de tarjeta de credito'
+    _name = 'account.payment.plan.tarjeta'
+    _description = 'Plan de tarjeta de credito'
 
-	name = fields.Char('Nombre')
+    name = fields.Char('Nombre')    
+    journal_id = fields.Many2one('account.journal',string='Tarjeta',domain="[('is_credit_card','=',True)]")
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
@@ -28,3 +29,9 @@ class AccountPayment(models.Model):
         if self.is_credit_card:
             if (not self.nro_cupon) or (not self.nro_lote) or (not self.plan_tarjeta_id):
                 raise ValidationError("Debe ingresar los datos de pago de tarjeta")
+
+    @api.onchange('journal_id')
+    def _journal_id_onchange(self):
+        res = {}
+        res['domain']={'plan_tarjeta_id':[('journal_id', '=', self.journal_id.id)]}
+        return res
