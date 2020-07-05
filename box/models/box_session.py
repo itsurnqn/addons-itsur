@@ -9,7 +9,7 @@ class BoxSession(models.Model):
     _name = 'box.session'
     _order = 'id desc'
     _description = 'Sesiones de caja'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     
     POS_SESSION_STATE = [
         ('opening_control', 'CONTROL DE APERTURA'),  # method action_box_session_open
