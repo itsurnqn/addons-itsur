@@ -43,5 +43,6 @@
         'views/res_users_views.xml',  
         'views/account_payment_group_views.xml',
         'views/stock_inventory_views.xml',
+        'wizards/update_price_views.xml',        
     ],
 }
