@@ -10,3 +10,5 @@ class Company(models.Model):
     stock_delivery_note = fields.Text(
         string='Nota Remito', 
         help="Texto que se imprime en el remito")
+
+    product_pricelist_cost_id = fields.Many2one('product.pricelist',string="Lista de precio de costo",default=3)    
