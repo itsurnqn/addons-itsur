@@ -20,7 +20,9 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account_payment_group','crm','purchase','sale_crm','sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux'],
+    'depends': ['base','account_payment_group','crm','purchase','sale_crm',
+                'sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux',
+                'sale_stock_info_popup'],
 
     # always loaded
     'data': [       
