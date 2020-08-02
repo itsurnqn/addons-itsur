@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record forcecreate="True" id="contactar_cliente_reserva_stock" model="mail.activity.type">
+            <field name="name">Contactar cliente por reserva de stock</field>
+            <field name="delay_unit">days</field>
+            <field name="delay_from">previous_activity</field>
+            <field name="icon">fa-phone</field>
+            <field name="decoration_type">warning</field>
+        </record>
+
+    </data>
+</odoo>

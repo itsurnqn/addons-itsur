@@ -39,16 +39,29 @@ class SaleOrderLine(models.Model):
     def _onchange_product_id_check_availability_ux(self):        
         if self.product_id.type == 'product':
             precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+            warehouse_id = self.order_id.warehouse_id.id
             product = self.product_id.with_context(
-                warehouse=self.order_id.warehouse_id.id,
+                warehouse=warehouse_id,
                 lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US'
             )
             product_qty = self.product_uom._compute_quantity(self.product_uom_qty, self.product_id.uom_id)
             if float_compare(product.free_qty, product_qty, precision_digits=precision) == -1:
                 is_available = self._check_routing()
                 if not is_available:
-                    message =  _('Pronto: Se intentan vender %s %s de %s pero solo existen %s %s disponibles en el depósito %s.') % \
+                    message =  _('Pronto: Se intentan vender %s %s de\n %s\n pero solo existen %s %s disponibles (A mano - Reservado) en el depósito:\n %s.') % \
                             (self.product_uom_qty, self.product_uom.name, self.product_id.name, product.free_qty, product.uom_id.name,self.order_id.warehouse_id.name)
+
+                    # warehouse_ids = self.env['stock.warehouse'].search([('id','!=',warehouse_id)])
+                    warehouse_ids = self.env['stock.warehouse'].search([])
+
+                    message += ('\n\n Detalle del disponible por Depósito \n')
+
+                    for wh in warehouse_ids:
+                        product = self.product_id.with_context(
+                            warehouse=wh.id,
+                            lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US'
+                        )
+                        message += ('\n %s: %s %s' % (wh.name,product.free_qty,self.product_uom.name))    
 
                     message += ('\n\n El total disponible en todos los depósitos es de %s %s' % (self.free_qty_today,self.product_uom.name))
                     
@@ -71,3 +84,9 @@ class SaleOrder(models.Model):
         if self.env.user.sale_journal_id:
             res['journal_id'] = self.env.user.sale_journal_id.id
         return res
+
+    @api.multi
+    def _action_confirm(self):
+        super(SaleOrder, self)._action_confirm()
+        for picking in self.picking_ids:
+            self.env['procurement.group'].run_smart_scheduler(picking.id)

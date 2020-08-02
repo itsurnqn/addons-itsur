@@ -64,3 +64,25 @@ class ProntoStockPicking(models.Model):
                         raise UserError("Este movimiento tiene al menos una factura asociada en estado borrador.")
         
         return result
+
+    @api.model
+    def _schedule_activity(self):
+
+        model_stock_picking = self.env.ref('stock.model_stock_picking')
+        asignada_a = self.env.user.company_id.usuario_responsable_reserva_stock_id
+        # resumen
+        summary = 'Contactar cliente por reserva de stock' 
+        # tipo de actividad
+        activity_type_id = self.env.ref('pronto.contactar_cliente_reserva_stock')
+
+        vals = {
+            'activity_type_id': activity_type_id.id,
+            'date_deadline': fields.Date.today(),
+            'summary': summary,
+            'user_id': asignada_a.id,
+            'res_id': self.id,
+            'res_model_id': model_stock_picking.id,
+            'res_model':  model_stock_picking.model
+        }
+    
+        return self.env['mail.activity'].create(vals)
