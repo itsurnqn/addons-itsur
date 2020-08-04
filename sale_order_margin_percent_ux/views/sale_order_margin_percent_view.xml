@@ -6,7 +6,8 @@
         <field name='inherit_id' ref='sale_margin.sale_margin_sale_order'/>
         <field name="arch" type="xml">
             <field name="margin" position="after">
-                <field name="percent" widget="progressbar"/>
+                <!-- <field name="percent" widget="progressbar" digits="get_precision('Product Price')"/> -->
+                <field name="percent"/>
             </field>
         </field>
     </record>

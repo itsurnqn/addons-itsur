@@ -7,7 +7,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     percent = fields.Float(
-        string='Percent',
+        string='Porcentaje',
         compute='_compute_percent',
         digits=(16, 2),
         )

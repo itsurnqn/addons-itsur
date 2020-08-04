@@ -90,3 +90,14 @@ class SaleOrder(models.Model):
         super(SaleOrder, self)._action_confirm()
         for picking in self.picking_ids:
             self.env['procurement.group'].run_smart_scheduler(picking.id)
+
+    @api.multi
+    def write(self, values):
+        if self.user_has_groups('pronto.group_commitment_date_required'):
+            if 'state' in values:
+                if values['state'] == 'sale':
+                    if not self.commitment_date:
+                        raise UserError(
+                                'Debe informar la fecha de compromiso'
+                                )
+        return super(SaleOrder, self).write(values)

@@ -3,6 +3,7 @@
 # directory
 ##############################################################################
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 class ProductPricelistItem(models.Model):
     _inherit = 'product.pricelist.item'
@@ -25,4 +26,5 @@ class ProductPricelistItem(models.Model):
             else:
                 descripcion = "elemento"
 
-            self.env.user.notify_danger(message="Este %s ya tiene precio asignado en esta lista " % descripcion)        
+            raise ValidationError("Este {} ya tiene precio asignado en esta lista ".format(descripcion))
+            # self.env.user.notify_danger(message="Este %s ya tiene precio asignado en esta lista " % descripcion)        
