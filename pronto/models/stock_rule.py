@@ -22,7 +22,7 @@ class ProcurementGroup(models.Model):
         dias_reservar = int(self.env['ir.config_parameter'].search([('key','=','pronto.dias_reservar')]).value)
 
         if picking_id:            
-            archivo_log = '/opt/odoo/run_smart_scheduler__log-OE-{}.txt'.format(picking_id)
+            # archivo_log = '/opt/odoo/run_smart_scheduler__log-OE-{}.txt'.format(picking_id)
 
             picking_ids = list()
             picking_ids.append(self.env['stock.picking'].browse(picking_id))
@@ -33,10 +33,9 @@ class ProcurementGroup(models.Model):
                                 ('state','in',['confirmed','assigned']),
                                 ('picking_type_code','=','outgoing'),
                                 ('scheduled_date','<=',fields.Date.context_today(self) + timedelta(days=dias_registrar_actividad))])
-
-        log = open(archivo_log,'w')
-        log.write('{} \n'.format(fields.Datetime.now()))
-        log.close()
+            log = open(archivo_log,'w')
+            log.write('{} \n'.format(fields.Datetime.now()))
+            log.close()
 
         model_stock_picking = self.env.ref('stock.model_stock_picking')
         activity_type_id = self.env.ref('pronto.contactar_cliente_reserva_stock')
@@ -81,7 +80,9 @@ class ProcurementGroup(models.Model):
             else:
                 line = linea1 + ' - Proximo a reserva automatica'
 
-            self.escribir_log(archivo_log, line)
+            # para que no logee los pedidos
+            if not picking_id:
+                self.escribir_log(archivo_log, line)
 
         return
 
