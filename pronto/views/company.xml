@@ -5,7 +5,9 @@
     <field name="inherit_id" ref="base.view_company_form"/>
     <field name="arch" type="xml">
       <xpath expr="//field[@name='currency_id']" position="after">
-        <field name="stock_delivery_note"/>
+        <!-- <field name="stock_delivery_note"/> -->
+        <field name="product_pricelist_cost_id"/>
+        <field name="usuario_responsable_reserva_stock_id"/>
       </xpath>
     </field>
   </record>

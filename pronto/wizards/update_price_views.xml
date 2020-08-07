@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="actualizacion_precios" model="ir.ui.view">
+        <field name="name">Actualización de precios</field>
+        <field name="model">product.pricelist.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group><field name="excel_file_for_import" /></group>
+                </group>
+                <footer>
+                    <button type="object" name="do_update"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <act_window id="action_update_price_wizard"
+            name="Asistente actualización de precios"
+            src_model="product.pricelist"
+            res_model="product.pricelist.wizard"
+            view_mode="form"
+            target="new"
+            multi="False"
+    />
+
+</odoo>

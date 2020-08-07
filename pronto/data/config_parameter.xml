@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="dias_registrar_actividad"
+                model="ir.config_parameter" forcecreate="True">
+            <field name="key">pronto.dias_registrar_actividad</field>
+            <field name="value">12</field>
+        </record>
+        
+        <record id="dias_reservar"
+                model="ir.config_parameter" forcecreate="True">
+            <field name="key">pronto.dias_reservar</field>
+            <field name="value">10</field>
+        </record>
+    </data>
+</odoo>
