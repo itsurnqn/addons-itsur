@@ -40,7 +40,7 @@ class ProcurementGroup(models.Model):
         model_stock_picking = self.env.ref('stock.model_stock_picking')
         activity_type_id = self.env.ref('pronto.contactar_cliente_reserva_stock')
         for picking in picking_ids:
-            linea1 = 'picking: {} - Cliente: {}'.format(picking.id,picking.partner_id.name.encode('utf-8'))
+            linea1 = 'picking: {} - Cliente: {}'.format(picking.id,picking.partner_id.id)
 
             delta = picking.scheduled_date.date() - fields.Date.context_today(self)
 
