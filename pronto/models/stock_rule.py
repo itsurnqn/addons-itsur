@@ -5,6 +5,9 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 from datetime import timedelta
+import os
+import glob
+import datetime
 
 class ProcurementGroup(models.Model):
     _inherit = 'procurement.group'
@@ -20,6 +23,12 @@ class ProcurementGroup(models.Model):
 
         dias_registrar_actividad = int(self.env['ir.config_parameter'].search([('key','=','pronto.dias_registrar_actividad')]).value)
         dias_reservar = int(self.env['ir.config_parameter'].search([('key','=','pronto.dias_reservar')]).value)
+        log_path = '/opt/odoo/logs/smart_scheduler/'
+
+        if not os.path.exists(log_path):
+            os.mkdir(log_path)
+        
+        self.limpiar_log(log_path,14)
 
         if picking_id:            
             # archivo_log = '/opt/odoo/run_smart_scheduler__log-OE-{}.txt'.format(picking_id)
@@ -27,7 +36,7 @@ class ProcurementGroup(models.Model):
             picking_ids = list()
             picking_ids.append(self.env['stock.picking'].browse(picking_id))
         else:
-            archivo_log = '/opt/odoo/run_smart_scheduler__log-{}.txt'.format(fields.Date.context_today(self))
+            archivo_log = log_path + 'run_smart_scheduler__log-{}.txt'.format(fields.Date.context_today(self))
             # ATENCION: puede estar 'assigned' y que todavía le falte una parte para reservar
             picking_ids = self.env['stock.picking'].search([
                                 ('state','in',['confirmed','assigned']),
@@ -90,4 +99,12 @@ class ProcurementGroup(models.Model):
     def escribir_log(self,archivo_log,line):
         with open(archivo_log, 'a') as the_file:
             the_file.write(line + '\n')
-    
+
+    @api.model
+    def limpiar_log(self,log_path,mantener_dias):
+        today = datetime.datetime.today()
+        for i in glob.glob(log_path + '*'):
+            t = os.stat(i)[8]
+            filetime = datetime.datetime.fromtimestamp(t) - today
+            if filetime.days <= -mantener_dias:                
+                os.remove(i)
