@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_sale_order_agent_wizard_form" model="ir.ui.view">
+        <field name="name">Sale Order Agent Wizard</field>
+        <field name="model">sale.order.agent.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Global Agent">
+                <!-- <field name="type"/> -->
+                <group>
+                    <field name="agent"/>
+                </group>
+                <footer>
+                    <button name="confirm" string="Confirm" type="object" class="oe_highlight"/>
+                    or
+                    <button string="_Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_agent_wizard_form" model="ir.actions.act_window">
+        <field name="name">Sale Agent Wizard</field>
+        <field name="res_model">sale.order.agent.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
