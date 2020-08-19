@@ -11,7 +11,8 @@ class AccountPaymentPlanTarjeta(models.Model):
 
     name = fields.Char('Nombre')    
     journal_id = fields.Many2one('account.journal',string='Tarjeta',domain="[('is_credit_card','=',True)]")
-
+    active = fields.Boolean(default=True)
+    
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
