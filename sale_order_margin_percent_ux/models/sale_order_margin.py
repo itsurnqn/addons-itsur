@@ -17,7 +17,7 @@ class SaleOrder(models.Model):
         for order in self:
             purchase_price_total = 0
             for line in order.order_line:
-                purchase_price_total += line.purchase_price
+                purchase_price_total += line.purchase_price * line.product_uom_qty
             if order.margin and purchase_price_total:
                 # caso Pronto
                 order.percent = (order.margin / purchase_price_total) * 100
