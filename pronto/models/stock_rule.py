@@ -21,8 +21,8 @@ class ProcurementGroup(models.Model):
     @api.model
     def run_smart_scheduler(self, picking_id = 0):
 
-        dias_registrar_actividad = int(self.env['ir.config_parameter'].search([('key','=','pronto.dias_registrar_actividad')]).value)
-        dias_reservar = int(self.env['ir.config_parameter'].search([('key','=','pronto.dias_reservar')]).value)
+        dias_registrar_actividad = int(self.env['ir.config_parameter'].sudo().search([('key','=','pronto.dias_registrar_actividad')]).value)
+        dias_reservar = int(self.env['ir.config_parameter'].sudo().search([('key','=','pronto.dias_reservar')]).value)
         log_path = '/opt/odoo/logs/smart_scheduler/'
 
         if not os.path.exists(log_path):
