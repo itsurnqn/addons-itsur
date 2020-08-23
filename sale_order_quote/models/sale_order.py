@@ -14,32 +14,33 @@ class SaleOrder(models.Model):
     def write(self, values):     
         super(SaleOrder,self).write(values)
         
-        delta = self.validity_date - fields.Date.context_today(self)
+        if self.state in ('draft','sent'):
+            delta = self.validity_date - fields.Date.context_today(self)
 
-        self.env['sale.order.quote.log'].search([('log_type','=','validez')]).unlink()
-        if delta.days < 0:
-            self.registrar_log("Fecha de validez vencida: {}".format(self.validity_date),'validez')
-            
-        lista_precio = self.pricelist_id
+            self.env['sale.order.quote.log'].search([('log_type','=','validez')]).unlink()
+            if delta.days < 0:
+                self.registrar_log("Fecha de validez vencida: {}".format(self.validity_date),'validez')
+                
+            lista_precio = self.pricelist_id
 
-        cantidad = 1        
-        for line in self.order_line:
-            product = line.product_id
-            precio_unitario = round(line.price_unit,2)
-            precio_unitario_actual = round(lista_precio.get_product_price(product.product_variant_id,cantidad,self.env.user.partner_id),2)
+            cantidad = 1        
+            for line in self.order_line.filtered(lambda x: not x.display_type):
+                product = line.product_id
+                precio_unitario = round(line.price_unit,2)
+                precio_unitario_actual = round(lista_precio.get_product_price(product.product_variant_id,cantidad,self.env.user.partner_id),2)
 
-            log_anterior = self.env['sale.order.quote.log'].search(
-                [('product_id','=',product.id),
-                ('log_type','=','precio')])
-            
-            if log_anterior:
-                log_anterior.unlink()
+                log_anterior = self.env['sale.order.quote.log'].search(
+                    [('product_id','=',product.id),
+                    ('log_type','=','precio')])
+                
+                if log_anterior:
+                    log_anterior.unlink()
 
-            if precio_unitario != precio_unitario_actual:                
-                self.registrar_log(
-                    "Precio anterior: {} - Precio nuevo: {}".format(
-                        precio_unitario,
-                        precio_unitario_actual),'precio', product)
+                if precio_unitario != precio_unitario_actual:                
+                    self.registrar_log(
+                        "Precio anterior: {} - Precio nuevo: {}".format(
+                            precio_unitario,
+                            precio_unitario_actual),'precio', product)
 
         return 
 
