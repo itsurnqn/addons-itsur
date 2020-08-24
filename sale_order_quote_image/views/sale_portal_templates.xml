@@ -9,7 +9,7 @@
         <xpath expr="//table[@id='sales_order_table']/tbody/t[2]/tr/t[1]/td[1]" position="before">
             <t t-if="sale_order.print_image">
                 <td id="image">                
-                    <img t-attf-src="data:image/*;base64,{{line.product_id.image}}" style="width:95%;height:10%"/>                
+                    <span t-field="line.image_small" t-options="{'widget': 'image'}" class="media-object" />
                 </td>
             </t>
         </xpath>
