@@ -59,13 +59,15 @@ class AccountPaymentGroup(models.Model):
                     
                     box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',rec2.journal_id.id)])
 
-                    if self.partner_type == 'supplier':
-                        amount = - rec2.amount
-                        ref = 'pago a proveedor'
+                    ref = ''
+                    if rec2.payment_type_copy == 'inbound':
+                        amount = rec2.amount
                     else:
-                        amount = rec2.amount                
-                        ref = ''
-                    
+                        # self.payment_type_copy == outbound
+                        amount = - rec2.amount
+                        if self.partner_type == 'supplier':
+                            ref = 'pago a proveedor'
+
                     inbound_payment_method_codes = rec2.journal_id.inbound_payment_method_ids.mapped('code')
 
                     if 'received_third_check' in inbound_payment_method_codes:

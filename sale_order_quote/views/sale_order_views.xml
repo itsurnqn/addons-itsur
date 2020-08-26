@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <page name="other_information" position="after">
+                <page name="quote_logs"
+                      string="Novedades presupuesto">
+                    <field name="sale_order_quote_log_ids">
+                        <tree string="Logs del presupuesto" create="false" delete="false" edit="false">
+                            <field name="fecha_hora" />                            
+                            <field name="product_id" />
+                            <field name="log_type" />
+                            <field name="description" />
+                        </tree>
+                    </field>
+                </page>    
+            </page>
+        </field>
+    </record>
+
+</odoo>

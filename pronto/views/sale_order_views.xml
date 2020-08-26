@@ -17,5 +17,16 @@
             </field>
         </field>
     </record>
-    
+
+    <record id="view_sales_order_filter" model="ir.ui.view">
+        <field name="name">sale.order.filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="opportunity_id" />
+            </field>
+        </field>
+    </record>
+
 </odoo>
