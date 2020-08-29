@@ -1,7 +1,7 @@
 # Copyright 2020 ITSur - Juan Pablo Garza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
-    "name": "",
+    "name": "sale_order_quote_image",
     "version": "12.0.1.0.0",
     "author": "ITSur",
     "website": "",
