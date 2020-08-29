@@ -25,22 +25,23 @@ class SaleOrder(models.Model):
 
             cantidad = 1        
             for line in self.order_line.filtered(lambda x: not x.display_type):
-                product = line.product_id
-                precio_unitario = round(line.price_unit,2)
-                precio_unitario_actual = round(lista_precio.get_product_price(product.product_variant_id,cantidad,self.env.user.partner_id),2)
+                if line.product_id.registrar_novedad_presupuesto:
+                    product = line.product_id
+                    precio_unitario = round(line.price_unit,2)
+                    precio_unitario_actual = round(lista_precio.get_product_price(product.product_variant_id,cantidad,self.env.user.partner_id),2)
 
-                log_anterior = self.env['sale.order.quote.log'].search(
-                    [('product_id','=',product.id),
-                    ('log_type','=','precio')])
-                
-                if log_anterior:
-                    log_anterior.unlink()
+                    log_anterior = self.env['sale.order.quote.log'].search(
+                        [('product_id','=',product.id),
+                        ('log_type','=','precio')])
+                    
+                    if log_anterior:
+                        log_anterior.unlink()
 
-                if precio_unitario != precio_unitario_actual:                
-                    self.registrar_log(
-                        "Precio anterior: {} - Precio nuevo: {}".format(
-                            precio_unitario,
-                            precio_unitario_actual),'precio', product)
+                    if precio_unitario != precio_unitario_actual:                
+                        self.registrar_log(
+                            "Precio anterior: {} - Precio nuevo: {}".format(
+                                precio_unitario,
+                                precio_unitario_actual),'precio', product)
 
         return 
 
