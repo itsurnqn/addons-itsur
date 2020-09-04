@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_delivery_carrier_form_with_provider_qx" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.provider.qx</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='destination']" position='before'>
+                <page string="QX - Tarifas" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}">
+                    <group name="general qx">
+                        <field name="price_rule_ids" nolabel="1">
+                            <tree string="">
+                                <field name="name"/>
+                                <field name="delivery_type" invisible="1"/>
+                                <field name="zona_qx_id" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page string="QX - Zonas" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}">
+                    <group name="general">
+                        <h1>zonas</h1>
+                    </group>
+                </page>                
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_delivery_price_rule_form_qx" model="ir.ui.view">
+        <field name="name">delivery.price.rule.form.qx</field>
+        <field name="model">delivery.price.rule</field>
+        <field name="inherit_id" ref="delivery.view_delivery_price_rule_form"/>
+        <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="delivery_type" invisible="1"/>
+                    <field name="zona_qx_id" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}"/>
+                    <!-- <field name="zona_qx_id"/> -->
+                </field>
+        </field>
+    </record>
+
+</odoo>
