@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="invoice_supplier_form_inherit" model="ir.ui.view">
+        <field name="name">account.invoice.supplier.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="attributes">
+                <attribute name="context">{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1, 'default_occasional_vendor': 1, 'default_is_company': True, 'show_vat': True,'form_view_ref':'purchase_occasional_vendor.res_partner_proveedor_habitual_form_view'}</attribute>
+            </field>
+<!-- context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1, 'default_is_company': True, 'show_vat': True}" -->
+            <!-- <xpath expr="//page[@name='agent_information']" position="attributes">
+                <attribute name="groups">sales_team.group_sale_manager,sales_team.group_sale_salesman</attribute>
+            </xpath> -->
+        </field>
+    </record>
+
+</odoo>

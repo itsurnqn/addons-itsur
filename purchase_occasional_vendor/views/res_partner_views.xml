@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_partner_proveedor_habitual_form_view" model="ir.ui.view">
+        <field name="name">Proveedor habitual</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Proveedor habitual">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="afip_responsability_type_id" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="main_id_category_id"/>
+                        <field name="main_id_number"/>
+                        <field name="supplier" invisible="1" />
+                        <field name="occasional_vendor" invisible="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_partner_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='sales_purchases']//field[@name='supplier']" position="after">
+                <field name="occasional_vendor" readonly="1" />
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
