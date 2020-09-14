@@ -20,7 +20,6 @@
         # 'security/ir.model.access.csv',
         'views/delivery_qx_view.xml',
         'views/res_city_views.xml',
-        'views/templates.xml',
         'security/ir.model.access.csv',
         'data/zona_qx_data.xml',
     ],

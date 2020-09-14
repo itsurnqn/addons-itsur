@@ -18,9 +18,11 @@
                         </field>
                     </group>
                 </page>
-                <page string="QX - Zonas" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}">
+                <page string="QX - Otros datos" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}">
                     <group name="general">
-                        <h1>zonas</h1>
+                        <field name="porcentaje_seguro" />
+                        <field name="costo_minimo_seguro" />
+                        <field name="costo_embalaje_picking" />
                     </group>
                 </page>                
             </xpath>
@@ -33,9 +35,9 @@
         <field name="inherit_id" ref="delivery.view_delivery_price_rule_form"/>
         <field name="arch" type="xml">
                 <field name="name" position="before">
-                    <field name="delivery_type" invisible="1"/>
-                    <field name="zona_qx_id" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}"/>
-                    <!-- <field name="zona_qx_id"/> -->
+                    <!-- <field name="delivery_type" invisible="1"/>
+                    <field name="zona_qx_id" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}"/> -->
+                    <field name="zona_qx_id"/>
                 </field>
         </field>
     </record>

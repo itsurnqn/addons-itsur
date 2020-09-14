@@ -11,11 +11,26 @@ class DeliveryCarrier(models.Model):
     _inherit = 'delivery.carrier'
 
     delivery_type = fields.Selection(selection_add=[('qx', "QX")])
+    costo_minimo_seguro = fields.Float(string='Costo mínimo seguro')
+    porcentaje_seguro = fields.Float(string='Porcentaje seguro',default=0,digits=(16, 2),help="Se aplica sobre el total del pedido sin IVA")
+    costo_embalaje_picking = fields.Float(string='Costo embalaje/picking',default=0)
 
     def qx_rate_shipment(self, order):
             
         try:
             price_unit = self._get_price_available(order)
+
+            # agregar seguro
+            valor_declarado = order.amount_untaxed
+            costo_seguro = 0
+            if valor_declarado * self.porcentaje_seguro/100 > self.costo_minimo_seguro:
+                costo_seguro = valor_declarado * self.porcentaje_seguro/100
+            else:
+                costo_seguro = self.costo_minimo_seguro
+            
+            # print(price_unit, costo_seguro)
+            price_unit = price_unit + costo_seguro + self.costo_embalaje_picking
+
         except UserError as e:
             return {'success': False,
                     'price': 0.0,
@@ -49,7 +64,7 @@ class DeliveryCarrier(models.Model):
 
         zona_qx_id = order.partner_shipping_id.zip_id.zona_qx_id
         # import pdb; pdb.set_trace()
-        print(total, weight, volume, quantity, zona_qx_id)
+        # print(total, weight, volume, quantity, zona_qx_id)
         return self._get_price_from_picking(total, weight, volume, quantity, zona_qx_id)
 
     def _get_price_from_picking(self, total, weight, volume, quantity, zona_qx_id):
