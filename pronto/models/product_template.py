@@ -26,3 +26,17 @@ class ProductTemplate(models.Model):
             # self.env['product.pricelist'].browse(pricelist_id).get_product_price(self.product_variant_id,cantidad,partner)
             product_price = pricelist.get_product_price(rec.product_variant_id,cantidad,self.env.user.partner_id)
             rec.standard_price = pricelist.currency_id._convert(product_price,res_currency,res_company,datetime.today())
+
+    @api.model
+    def create(self,values):
+        if self.pack_ok and self.type !='service':
+            raise UserError("El Tipo de producto de los pack´s debe ser 'Servicio' ")
+        return super(ProductTemplate,self).create(values)
+
+    @api.multi
+    def write(self, values):
+        super(ProductTemplate,self).write(values)        
+        if 'type' in values or 'pack_ok' in values:
+            if self.pack_ok and self.type !='service':
+                raise UserError("El Tipo de producto de los pack´s debe ser 'Servicio'")
+        return

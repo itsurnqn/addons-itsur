@@ -36,20 +36,52 @@ class SaleOrderLine(models.Model):
         self._onchange_product_id_check_availability_ux()
 
     @api.onchange('product_uom_qty', 'product_uom', 'route_id')
-    def _onchange_product_id_check_availability_ux(self):        
-        if self.product_id.type == 'product':
-            precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-            warehouse_id = self.order_id.warehouse_id.id
+    def _onchange_product_id_check_availability_ux(self):
+
+        precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+        warehouse_id = self.route_id.rule_ids.picking_type_id.warehouse_id
+        if not warehouse_id:
+            warehouse_id = self.order_id.warehouse_id
+
+        if self.product_id.type == 'service' and self.product_id.pack_ok:
+            # es un pack. tengo que controlar stock de cada uno de los componentes
+            for line in self.product_id.pack_line_ids:
+                product_id = line.product_id
+                product = product_id.with_context(
+                    warehouse=warehouse_id.id,
+                    lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US'
+                )
+                product_qty = self.product_uom._compute_quantity(self.product_uom_qty * line.quantity, self.product_id.uom_id)
+                if float_compare(product.free_qty, product_qty, precision_digits=precision) == -1:
+                    is_available = self._check_routing()
+                    if not is_available:
+                        message = 'No existe suficiente stock disponible del producto: \n{} \n\npara completar {} {} del pack: \n{} \n\nen el depósito: \n{}'.format(
+                            product_id.name,
+                            self.product_uom_qty,
+                            self.product_uom.name,
+                            self.product_id.name,
+                            warehouse_id.name
+                        )
+                        
+                        warning_mess = {
+                            'title': _('No hay suficiente stock!'),
+                            'message' : message
+                        }
+                        return {'warning': warning_mess}
+                
+        elif self.product_id.type == 'product':            
+
             product = self.product_id.with_context(
-                warehouse=warehouse_id,
+                warehouse=warehouse_id.id,
                 lang=self.order_id.partner_id.lang or self.env.user.lang or 'en_US'
             )
             product_qty = self.product_uom._compute_quantity(self.product_uom_qty, self.product_id.uom_id)
+            # import pdb; pdb.set_trace()
             if float_compare(product.free_qty, product_qty, precision_digits=precision) == -1:
                 is_available = self._check_routing()
                 if not is_available:
                     message =  _('Pronto: Se intentan vender %s %s de\n %s\n pero solo existen %s %s disponibles (A mano - Reservado) en el depósito:\n %s.') % \
-                            (self.product_uom_qty, self.product_uom.name, self.product_id.name, product.free_qty, product.uom_id.name,self.order_id.warehouse_id.name)
+                            (self.product_uom_qty, self.product_uom.name, self.product_id.name, product.free_qty, product.uom_id.name,warehouse_id.name)
 
                     # warehouse_ids = self.env['stock.warehouse'].search([('id','!=',warehouse_id)])
                     warehouse_ids = self.env['stock.warehouse'].search([])
@@ -101,3 +133,32 @@ class SaleOrder(models.Model):
                                 'Debe informar la fecha de compromiso'
                                 )
         return super(SaleOrder, self).write(values)
+
+    @api.multi
+    def update_prices(self):
+        # for compatibility with product_pack module
+        self.ensure_one()
+        pack_installed = 'pack_parent_line_id' in self.order_line._fields
+        for line in self.order_line.with_context(
+                update_prices=True, pricelist=self.pricelist_id.id).filtered(lambda l: l.product_id.lst_price):
+            # ponemos descuento en cero por las dudas en dos casos:
+            # 1) si estamos cambiando de lista que discrimina descuento
+            #  a lista que los incluye
+            # 2) o estamos actualizando precios
+            # (no sabemos de que lista venimos) a una lista que no discrimina
+            #  descuentos y existen listas que discriminan los
+            if hasattr(self, '_origin') and self._origin.pricelist_id.\
+                discount_policy == 'with_discount' and self.\
+                pricelist_id.discount_policy != 'with_discount' or self.\
+                    pricelist_id.discount_policy == 'with_discount'\
+                    and self.env['product.pricelist'].search(
+                        [('discount_policy', '!=', 'with_discount')], limit=1):
+                line.discount = False
+            # if pack_installed:
+            #     if line.pack_parent_line_id:
+            #         continue
+            #     elif line.pack_child_line_ids:
+            #         line.expand_pack_line()
+            line.product_uom_change()
+            line._onchange_discount()
+        return True
