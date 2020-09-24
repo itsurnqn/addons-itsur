@@ -2,7 +2,7 @@
 # Copyright 2017 Jacques-Etienne Baudoux <je@bcim.be>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools import float_compare
 
@@ -108,6 +108,11 @@ class SaleOrderLine(models.Model):
         
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+
+    def _get_default_carrier(self):
+        return self.env.ref('delivery.free_delivery_carrier')
+
+    carrier_id = fields.Many2one(default=_get_default_carrier)
 
     @api.multi
     def _prepare_invoice(self):
