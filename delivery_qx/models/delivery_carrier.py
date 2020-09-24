@@ -20,8 +20,17 @@ class DeliveryCarrier(models.Model):
         try:
             price_unit = self._get_price_available(order)
 
+            # import pdb; pdb.set_trace()
+
             # agregar seguro
             valor_declarado = order.amount_untaxed
+            
+            # .1 si el presu esta en dolares, tengo que pasar
+            # valor_declarado a pesos
+            if order.currency_id != order.company_id.currency_id:
+                valor_declarado = order.currency_id._convert(
+                            valor_declarado, order.company_id.currency_id, order.company_id, order.date_order or fields.Date.today())                
+
             costo_seguro = 0
             if valor_declarado * self.porcentaje_seguro/100 > self.costo_minimo_seguro:
                 costo_seguro = valor_declarado * self.porcentaje_seguro/100
@@ -31,6 +40,11 @@ class DeliveryCarrier(models.Model):
             # print(price_unit, costo_seguro)
             price_unit = price_unit + costo_seguro + self.costo_embalaje_picking
 
+            # .2 si el presu esta en dolares, tengo que pasar price_unit a dolares
+            if order.currency_id != order.company_id.currency_id:
+                price_unit = order.company_id.currency_id._convert(
+                            price_unit, order.currency_id, order.company_id, order.date_order or fields.Date.today())
+                            
         except UserError as e:
             return {'success': False,
                     'price': 0.0,
@@ -59,9 +73,11 @@ class DeliveryCarrier(models.Model):
             quantity += qty
         total = (order.amount_total or 0.0) - total_delivery
 
-        total = order.currency_id._convert(
-            total, order.company_id.currency_id, order.company_id, order.date_order or fields.Date.today())
+        # total = order.currency_id._convert(
+        #     total, order.company_id.currency_id, order.company_id, order.date_order or fields.Date.today())
 
+        # import pdb; pdb.set_trace()
+        
         zona_qx_id = order.partner_shipping_id.zip_id.zona_qx_id
         # import pdb; pdb.set_trace()
         # print(total, weight, volume, quantity, zona_qx_id)
