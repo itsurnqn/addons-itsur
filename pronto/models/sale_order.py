@@ -117,6 +117,12 @@ class SaleOrder(models.Model):
     weight = fields.Float(compute='_compute_weight', string='Peso total', readonly=True, store=True)
     weight_uom_name = fields.Char(string='Unidad de peso', compute='_compute_weight_uom_name')
 
+    @api.depends('partner_shipping_id')
+    def _compute_available_carrier(self):
+        res = super(SaleOrder,self)._compute_available_carrier()
+        self.carrier_id = self.env.ref('delivery.free_delivery_carrier')
+        return res
+
     @api.depends('order_line.product_uom_qty')
     def _compute_weight(self):
         for order in self:

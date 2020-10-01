@@ -49,5 +49,6 @@
         'data/product_stock_data.xml',
         'data/config_parameter.xml',
         'views/sale_portal_templates.xml',
+        'views/stock_location_views.xml',
     ],
 }
