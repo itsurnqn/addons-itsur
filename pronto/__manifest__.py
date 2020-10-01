@@ -50,5 +50,6 @@
         'data/config_parameter.xml',
         'views/sale_portal_templates.xml',
         'views/stock_location_views.xml',
+        'views/report_stockpicking_operations.xml',        
     ],
 }

@@ -43,4 +43,17 @@
         </field>
     </record>
 
+    <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+    	
+            <field name="partner_id" position="replace">
+                <field name="partner_id" widget="res_partner_many2one" context="{'show_address': 1}" options="{&quot;always_reload&quot;: True}" />
+            </field>
+
+        </field>
+    </record>
+
 </odoo>

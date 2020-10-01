@@ -1,0 +1,16 @@
+<odoo>
+        <template id="report_picking_pronto" inherit_id="stock.report_picking">
+            <xpath expr="//th[@name='td_sched_date_h']" position="after">
+                <th t-if="o.picking_type_id.code == 'outgoing' and o.number_of_packages"><strong>Nro. paquetes</strong></th>
+                <th t-if="o.picking_type_id.code == 'outgoing' and o.valor_declarado"><strong>Valor declarado</strong></th>                
+            </xpath>
+            <xpath expr="//td[@name='td_sched_date']" position="after">
+                <td t-if="o.picking_type_id.code == 'outgoing' and o.number_of_packages">
+                    <span t-field="o.number_of_packages"/>
+                </td>            
+                <td t-if="o.picking_type_id.code == 'outgoing' and o.valor_declarado">
+                    <span t-field="o.valor_declarado"/>
+                </td>               
+            </xpath>
+        </template>
+</odoo>
