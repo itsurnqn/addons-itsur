@@ -20,3 +20,4 @@ from . import product_pricelist_item
 from . import stock_rule
 from . import product_product
 from . import stock_location
+from . import stock_inventory_line

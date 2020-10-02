@@ -10,6 +10,13 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     @api.model
+    def _get_default_uom_id(self):
+        return 0
+
+    uom_id = fields.Many2one(default=_get_default_uom_id)
+    uom_po_id = fields.Many2one(default=_get_default_uom_id)
+
+    @api.model
     def _actualizar_costo(self):
 
         pricelist = self.env.user.company_id.product_pricelist_cost_id
