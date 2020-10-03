@@ -22,7 +22,7 @@
     # any module necessary for this one to work correctly
     'depends': ['base','account_payment_group','crm','purchase','sale_crm',
                 'sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux',
-                'sale_stock_info_popup','sale_ux','product_pack'],
+                'sale_stock_info_popup','sale_ux','product_pack','delivery'],
 
     # always loaded
     'data': [       
@@ -47,6 +47,9 @@
         'views/stock_inventory_views.xml',
         'wizards/update_price_views.xml',
         'data/product_stock_data.xml',
-        'data/config_parameter.xml',        
+        'data/config_parameter.xml',
+        'views/sale_portal_templates.xml',
+        'views/stock_location_views.xml',
+        'views/report_stockpicking_operations.xml',        
     ],
 }

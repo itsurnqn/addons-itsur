@@ -15,6 +15,13 @@
             <field name="opportunity_id" position="attributes">
                 <attribute name="groups">base.group_user</attribute>
             </field>
+            <field name="commitment_date" position="after">
+                <label for="weight" string="Peso total"/>
+                <div>
+                    <field name="weight" class="oe_inline"/>
+                    <field name="weight_uom_name" nolabel="1" class="oe_inline" style="margin-left:5px"/>
+                </div>
+            </field>
         </field>
     </record>
 

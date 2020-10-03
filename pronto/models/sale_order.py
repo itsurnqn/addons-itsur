@@ -2,7 +2,7 @@
 # Copyright 2017 Jacques-Etienne Baudoux <je@bcim.be>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools import float_compare
 
@@ -108,6 +108,38 @@ class SaleOrderLine(models.Model):
         
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+
+    def _get_default_carrier(self):
+        return self.env.ref('delivery.free_delivery_carrier')
+
+    carrier_id = fields.Many2one(default=_get_default_carrier)
+
+    weight = fields.Float(compute='_compute_weight', string='Peso total', readonly=True, store=True)
+    weight_uom_name = fields.Char(string='Unidad de peso', compute='_compute_weight_uom_name')
+
+    @api.depends('partner_shipping_id')
+    def _compute_available_carrier(self):
+        res = super(SaleOrder,self)._compute_available_carrier()
+        self.carrier_id = self.env.ref('delivery.free_delivery_carrier')
+        return res
+
+    @api.depends('order_line.product_uom_qty')
+    def _compute_weight(self):
+        for order in self:
+            weight = qty = 0.0
+            # filtro los que no son productos (secciones / notas)
+            for line in order.order_line.filtered(lambda x: not x.display_type):
+                qty = line.product_uom._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
+                weight += (line.product_id.weight or 0.0) * qty
+            order.update({
+                'weight': weight,
+            })
+
+    # @api.depends()
+    def _compute_weight_uom_name(self):
+        weight_uom_id = self.env['product.template']._get_weight_uom_id_from_ir_config_parameter()
+        for order in self:
+            order.weight_uom_name = weight_uom_id.name
 
     @api.multi
     def _prepare_invoice(self):
