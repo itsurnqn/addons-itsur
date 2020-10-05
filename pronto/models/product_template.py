@@ -31,8 +31,9 @@ class ProductTemplate(models.Model):
         for rec in productos:
             cantidad = 1
             # self.env['product.pricelist'].browse(pricelist_id).get_product_price(self.product_variant_id,cantidad,partner)
-            product_price = pricelist.get_product_price(rec.product_variant_id,cantidad,self.env.user.partner_id)
-            rec.standard_price = pricelist.currency_id._convert(product_price,res_currency,res_company,datetime.today())
+            if rec.product_variant_id:
+                product_price = pricelist.get_product_price(rec.product_variant_id,cantidad,self.env.user.partner_id)
+                rec.standard_price = pricelist.currency_id._convert(product_price,res_currency,res_company,datetime.today())
 
     @api.model
     def create(self,values):
