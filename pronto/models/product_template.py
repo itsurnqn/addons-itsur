@@ -37,7 +37,9 @@ class ProductTemplate(models.Model):
 
     @api.model
     def create(self,values):
-        if self.pack_ok and self.type !='service':
+        # import pdb; pdb.set_trace()
+        # if 'type' in values or 'pack_ok' in values:
+        if values['pack_ok'] and values['type'] !='service':
             raise UserError("El Tipo de producto de los pack´s debe ser 'Servicio' ")
         return super(ProductTemplate,self).create(values)
 
