@@ -11,7 +11,7 @@ class ProntoStockPicking(models.Model):
     _inherit = 'stock.picking'
 
     valor_declarado = fields.Monetary(string="Valor declarado", compute="_compute_valor_declarado")
-    currency_id = fields.Many2one("res.currency", compute="_compute_valor_declarado", string="Currency", readonly=True, required=True)
+    currency_id = fields.Many2one("res.currency", compute="_compute_valor_declarado", string="Currency", readonly=True)
 
     def _compute_valor_declarado(self):
         if self.sale_id:
