@@ -14,12 +14,13 @@ class ProntoStockPicking(models.Model):
     currency_id = fields.Many2one("res.currency", compute="_compute_valor_declarado", string="Currency", readonly=True)
 
     def _compute_valor_declarado(self):
-        if self.sale_id:
-            self.valor_declarado = self.sale_id.amount_untaxed
-            self.currency_id = self.sale_id.currency_id
-        else:
-            self.currency_id = self.env.user.company_id.currency_id
-    
+        for rec in self:
+            if rec.sale_id:
+                rec.valor_declarado = rec.sale_id.amount_untaxed
+                rec.currency_id = rec.sale_id.currency_id
+            else:
+                rec.currency_id = self.env.user.company_id.currency_id
+
     @api.multi
     def do_print_voucher(self):
         # import pdb; pdb.set_trace()
