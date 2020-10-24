@@ -40,6 +40,15 @@ class AccountPaymentGroup(models.Model):
     @api.multi
     def post(self):
         super(AccountPaymentGroup, self).post()
+
+        # import pdb; pdb.set_trace()
+        create_from_website = self._context.get('create_from_website', False)
+        # self.payment_ids[0]._context.get('create_from_website', False)
+
+        if create_from_website:
+            # por ahora, que no registre en la caja cuando viene del ecommerce
+            return
+            
         for rec in self:
             
             # verificar que la sesión de caja esté abierta.
