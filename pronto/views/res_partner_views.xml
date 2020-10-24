@@ -28,6 +28,19 @@
         </field>
     </record>
 
+    <record id="view_partner_form_zip_inherit" model="ir.ui.view">
+        <field name="name">res.partner.zip_id.2</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base_location.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <field name="zip_id" position="attributes">
+                <attribute name="attrs">{'required': [('customer','=',True)]}</attribute>
+            </field>
+
+        </field>
+    </record>
+
     <record id="view_partner_form_inherit" model="ir.ui.view">
         <field name="name">res.partner.form</field>
         <field name="model">res.partner</field>
@@ -36,6 +49,27 @@
 
             <field name="category_id" position="after">
                 <field name="tipo_cliente_id" attrs="{'required': [('customer','=',True)]}"/>
+            </field>
+
+            <field name="email" position="attributes">
+                <attribute name="attrs">{'required': True}</attribute>
+            </field>
+
+            <field name="mobile" position="attributes">
+                <attribute name="attrs">{'required': True}</attribute>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_partner_tree_inherit" model="ir.ui.view">
+        <field name="name">res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="phone" position="after">
+                <field name="mobile" />
             </field>
 
         </field>
@@ -50,6 +84,10 @@
                 <attribute name="groups">sales_team.group_sale_manager,sales_team.group_sale_salesman</attribute>
             </xpath>
         </field>
+    </record>
+
+    <record id="base.action_partner_form" model="ir.actions.act_window">
+        <field name="context">{"search_default_customer":1,"default_sale_type":4,"default_property_payment_term_id":1}</field>
     </record>
 
 </odoo>
