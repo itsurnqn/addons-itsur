@@ -141,7 +141,15 @@ class SaleOrderLine(models.Model):
 
         # return res
         return {}
-        
+
+    # el update_price de adhoc (sale_ux) dispara este método
+    # y llamando a product_id_change_margin se recalcula y convierte la moneda del costo
+    @api.onchange('product_uom', 'product_uom_qty')
+    def product_uom_change(self):
+        res = super(SaleOrderLine, self).product_uom_change()
+        self.product_id_change_margin()
+        return res
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
