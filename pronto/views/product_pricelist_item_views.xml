@@ -9,6 +9,14 @@
             <field name="applied_on" position="before">
                 <field name="write_date" string="Ultima modificación"/>
             </field>
+
+            <field name="fixed_price" position="replace">
+                <!-- original -->
+                <!-- <field name="fixed_price" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
+                <!-- le saco el widget -->
+                <field name="fixed_price" nolabel="1" />
+            </field>
+
         </field>
     </record>
 
