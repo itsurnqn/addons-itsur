@@ -26,6 +26,7 @@
 
     # always loaded
     'data': [       
+        'views/sale_views.xml',
         'security/pronto_security.xml',
         'security/ir.model.access.csv',
         'views/account_check_views.xml',

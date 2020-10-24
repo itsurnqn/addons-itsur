@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_report_view_dashboard" model="ir.ui.view">
+        <field name="name">sale.report.view.dashboard</field>
+        <field name="model">sale.report</field>
+        <field name="mode">primary</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <dashboard>
+                <view type="graph" ref="sale.view_order_product_graph"/>
+                <group>
+                    <group>
+                        <!-- <aggregate name="price_subtotal_confirmed_orders" string="Total Sales" field="price_total" help="Total, Tax Included" widget="monetary"/>
+                        <aggregate name="price_subtotal_all_orders" string="Untaxed Total" field="price_subtotal" widget="monetary"/>
+                        <aggregate name="order_id_confirmed_orders" field="order_id" string="Orders"/>
+                        <formula name="total" string="Average Order" value="record.price_subtotal_confirmed_orders / record.order_id_confirmed_orders" widget="monetary"/>
+                        <aggregate name="days_to_confirm" string="Days to Confirm" field="days_to_confirm" group_operator="avg"
+                    value_label="day(s)"/> -->
+                        <!-- <formula name="Porcentaje" string="Porcentaje" value="((record.precio_total_pesos / record.costo_total_pesos) - 1) * 100"/> -->
+                        <aggregate name="agg_precio_total_pesos" field="precio_total_pesos" string="Precio total en pesos"/>
+                        <aggregate name="agg_costo_total_pesos" field="costo_total_pesos" string="Costo total en pesos"/>
+                        <formula name="Porcentaje" string="Porcentaje" value="(record.agg_precio_total_pesos / record.agg_costo_total_pesos - 1) * 100"/>
+                        <aggregate name="customers" string="# Customers" field="partner_id"/>
+                        <aggregate name="lines" string="# Lines" field="nbr"/>
+                    </group>
+                    <group col="1">
+                        <widget name="pie_chart" title="Sales Teams" attrs="{'groupby': 'team_id'}"/>
+                    </group>
+                </group>
+                <view type="pivot" ref="sale_enterprise.sale_report_view_pivot"/>
+            </dashboard>
+        </field>
+    </record>
+
+    <record id="view_order_product_form" model="ir.ui.view">
+        <!-- <field name="name">Planes de tarjetas</field> -->
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <!-- <div class="oe_button_box" name="active_button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div> -->
+                    <group>
+                        <field name="order_id" readonly="1"/>
+                        <field name="name"/>
+                        <field name="product_id"/>
+                        <field name="costo_total_pesos"/>                
+                        <field name="precio_total_pesos"/>
+                        <field name="porcentaje"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_order_product_tree" model="ir.ui.view">
+        <!-- <field name="name">box.session.tree.view</field> -->
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false" edit="false">
+                <!-- <field name="id"/> -->
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="costo_total_pesos"/>                
+                <field name="precio_total_pesos"/>
+                <field name="porcentaje"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_order_product_search" model="ir.ui.view">
+        <field name="name">sale.report.search</field>
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <search string="Sales Analysis">
+                <field name="date"/>
+                <filter string="Date" name="year" invisible="1" date="date" default_period="this_year"/>
+                <filter name="Quotations" string="Quotations" domain="[('state','=', 'draft')]"/>
+                <filter name="Sales" string="Sales Orders" domain="[('state','not in',('draft', 'cancel', 'sent'))]"/>
+                <!-- <separator/>
+                <filter name="Display Type" string="Excluir secciones" domain="[('display_type','=',False)]"/> -->
+                <separator/>
+                <field name="user_id"/>
+                <field name="team_id"/>
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <field name="partner_id"/>
+                <field name="country_id"/>
+                <group expand="0" string="Extended Filters">
+                    <field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </group>
+                <group expand="1" string="Group By">
+                    <filter string="Salesperson" name="User" context="{'group_by':'user_id'}"/>
+                    <filter string="Sales Team" name="sales_channel" context="{'group_by':'team_id'}"/>
+                    <filter string="Customer" name="Customer" context="{'group_by':'partner_id'}"/>
+                    <filter string="Customer Country" name="country_id" context="{'group_by':'country_id'}"/>
+                    <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                    <filter string="Product Category" name="Category" context="{'group_by':'categ_id'}"/>
+                    <filter name="status" string="Status" context="{'group_by':'state'}"/>
+                    <filter string="Company" name="company" groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
+                    <separator/>
+                    <filter string="Order Date" name="date" context="{'group_by':'date'}"/>
+                    <filter string="Confirmation Date" name="confirm_month" context="{'group_by':'confirmation_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>    
+
+    <record id="action_order_report_all" model="ir.actions.act_window">
+        <field name="name">Sales Analysis</field>
+        <field name="res_model">sale.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">dashboard,tree,form,graph,pivot</field>
+        <field name="view_id"></field>  <!-- force empty -->
+        <field name="search_view_id" ref="pronto.view_order_product_search"/>
+        <field name="context">{'search_default_Sales':1, 'group_by_no_leaf':1,'group_by':[]}</field>
+        <field name="help">This report performs analysis on your quotations and sales orders. Analysis check your sales revenues and sort it by different group criteria (salesman, partner, product, etc.) Use this report to perform analysis on sales not having invoiced yet. If you want to analyse your turnover, you should use the Invoice Analysis report in the Accounting application.</field>
+    </record>
+
+    <menuitem id="menu_report_product_all_PRONTO"
+        name="Ventas PRONTO"
+        action="pronto.action_order_report_all"
+        parent="sale.menu_sale_report"
+        sequence="1"/>
+
+</odoo>

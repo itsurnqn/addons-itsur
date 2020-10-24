@@ -9,6 +9,42 @@ from odoo.tools import float_compare
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
+    costo_total_pesos = fields.Float(string = 'Costo total pesos', compute='_computed_costo_total_pesos', readonly=True, store=True)
+    precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=True, store=True)
+
+    # @api.depends('product_id', 'product_uom_qty','purchase_price')
+    def _computed_costo_total_pesos(self):
+        # import pdb; pdb.set_trace()
+
+        for rec in self:        
+            if rec.display_type:
+                # es una sección
+                continue
+
+            costo_total_pesos = rec.product_uom_qty * rec.purchase_price
+            if rec.order_id.pricelist_id.currency_id != rec.env.user.company_id.currency_id:
+                rec.costo_total_pesos = costo_total_pesos * rec.order_id.cotizacion
+            else:
+                rec.costo_total_pesos = costo_total_pesos
+
+    # @api.depends('product_id', 'product_uom_qty','purchase_price')
+    def _computed_precio_total_pesos(self):
+        #  import pdb; pdb.set_trace()
+        
+        for rec in self:
+            if rec.display_type:
+                # es una sección
+                continue
+
+            precio_total_pesos = rec.price_subtotal
+            # precio_total_pesos = rec.product_uom_qty * rec.price_unit
+            if rec.order_id.pricelist_id.currency_id != rec.env.user.company_id.currency_id:
+                rec.precio_total_pesos = precio_total_pesos * rec.order_id.cotizacion
+            else:
+                rec.precio_total_pesos = precio_total_pesos
+    
+        # import pdb; pdb.set_trace()
+
     @api.multi
     def invoice_line_create_vals(self, invoice_id, qty):
         self.mapped(
@@ -117,6 +153,8 @@ class SaleOrder(models.Model):
     weight = fields.Float(compute='_compute_weight', string='Peso total', readonly=True, store=True)
     weight_uom_name = fields.Char(string='Unidad de peso', compute='_compute_weight_uom_name')
 
+    cotizacion = fields.Float(string='Cotización',help='Cotización de la moneda del pedido respecto a la moneda de la companía.')
+
     @api.depends('partner_shipping_id')
     def _compute_available_carrier(self):
         res = super(SaleOrder,self)._compute_available_carrier()
@@ -193,4 +231,17 @@ class SaleOrder(models.Model):
             #         line.expand_pack_line()
             line.product_uom_change()
             line._onchange_discount()
+        
+        self._obtener_cotizacion()
+
         return True
+
+    @api.multi
+    def _obtener_cotizacion(self):
+        if self.pricelist_id:
+            # moneda_origen = self.pricelist_id.currency_id
+            moneda_origen = self.env.ref('base.USD')
+            moneda_destino = self.env.user.company_id.currency_id
+            compania = self.env.user.company_id
+
+            self.cotizacion = moneda_origen._convert(1,moneda_destino,compania, self.date_order)
