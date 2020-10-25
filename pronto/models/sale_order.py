@@ -12,7 +12,7 @@ class SaleOrderLine(models.Model):
     costo_total_pesos = fields.Float(string = 'Costo total pesos', compute='_computed_costo_total_pesos', readonly=True, store=True)
     precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=True, store=True)
 
-    # @api.depends('product_id', 'product_uom_qty','purchase_price')
+    @api.depends('product_id', 'product_uom_qty','purchase_price')
     def _computed_costo_total_pesos(self):
         # import pdb; pdb.set_trace()
 
@@ -27,7 +27,7 @@ class SaleOrderLine(models.Model):
             else:
                 rec.costo_total_pesos = costo_total_pesos
 
-    # @api.depends('product_id', 'product_uom_qty','purchase_price')
+    @api.depends('product_id', 'product_uom_qty','purchase_price')
     def _computed_precio_total_pesos(self):
         #  import pdb; pdb.set_trace()
         
