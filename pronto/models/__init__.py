@@ -21,3 +21,5 @@ from . import stock_rule
 from . import product_product
 from . import stock_location
 from . import stock_inventory_line
+from . import product_pricelist
+from . import sale_report

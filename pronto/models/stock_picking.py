@@ -97,3 +97,21 @@ class ProntoStockPicking(models.Model):
         }
     
         return self.env['mail.activity'].create(vals)
+
+    @api.multi
+    def send_to_shipper(self):
+        self.ensure_one()
+        if self.carrier_id.id == 1:
+            # retiro en pronto
+            return
+        else:
+            return super(ProntoStockPicking,self).send_to_shipper()
+
+    @api.multi
+    def _add_delivery_cost_to_so(self):
+        self.ensure_one()
+        if self.carrier_id.id == 1:
+            # retiro en pronto
+            return
+        else:
+            return super(ProntoStockPicking,self)._add_delivery_cost_to_so()
