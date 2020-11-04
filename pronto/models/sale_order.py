@@ -205,7 +205,7 @@ class SaleOrder(models.Model):
     def write(self, values):
         if self.user_has_groups('pronto.group_commitment_date_required'):
             if 'state' in values:
-                if values['state'] == 'sale':
+                if self.state != 'done' and values['state'] == 'sale':
                     if not self.commitment_date:
                         raise UserError(
                                 'Debe informar la fecha de compromiso'
