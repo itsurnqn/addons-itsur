@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="mail_activity_view_form_board_inherit" model="ir.ui.view">
+        <field name="name">mail.activity.boards.view.form</field>
+        <field name="model">mail.activity</field>
+        <field name="inherit_id" ref="mail_activity_board.mail_activity_view_form_board"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <!-- así no funciona -->
+                <!-- <attribute name="attrs">{'delete': True}</attribute> -->
+                <attribute name="edit">1</attribute>
+                <attribute name="delete">1</attribute>
+            </xpath>
+            <field name="activity_type_id" position="after" >
+                <field name="state"/>
+                <field name="date_done"/>
+            </field>
+            <field name="user_id" position="after">
+                <field name="res_url" widget="url" text="Documento relacionado" invisible="context.get('default_res_id', False)"/>
+                <field name="force_next" invisible="1"/>
+            </field>
+            <xpath expr="//form/sheet/group[3]" position="after">
+                    <footer>
+                        <!-- <button string="PLANIFICACION" name="action_close_dialog" type="object" class="btn-primary"/> -->
+                        <button attrs="{'invisible': [('force_next', '=', True)]}" string="MARCAR COMO HECHO" name="action_done" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}"/>
+                        <button attrs="{'invisible': [('force_next', '=', True)]}" string="HECHO &amp; PREPARE EL PROXIMO" name="action_done_schedule_next" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}"/>
+                        <button attrs="{'invisible': [('force_next', '=', False)]}" string="HECHO &amp; PREPARE EL PROXIMO" name="action_done_schedule_next" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}"/>
+                        <!-- <button string="DESCARTAR" class="btn-secondary" special="cancel"/> -->
+                    </footer>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
