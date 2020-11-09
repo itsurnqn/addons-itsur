@@ -45,8 +45,8 @@
         <field name="inherit_id" ref="sale.sale_order_line_view_form_readonly"/>
         <field name="arch" type="xml">
             <field name="price_total" position="after">
-                <field name="costo_total_pesos" readonly="1"/>
-                <field name="precio_total_pesos" readonly="1"/>
+                <field name="costo_total_pesos" />
+                <field name="precio_total_pesos" />
             </field>
         </field>
     </record>

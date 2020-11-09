@@ -26,6 +26,7 @@
 
     # always loaded
     'data': [       
+        'report/sale_report_pronto.xml',        
         'views/sale_views.xml',
         'security/pronto_security.xml',
         'security/ir.model.access.csv',
