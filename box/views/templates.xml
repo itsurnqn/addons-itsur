@@ -50,7 +50,13 @@
                                         <strong>Saldo inicial</strong>
                                     </th>
                                     <th class="text-right">
-                                        <strong>Total de transacciones</strong>
+                                        <strong>Ingresos</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Egresos</strong>
+                                    </th>                                                                        
+                                    <th class="text-right">
+                                        <strong>Total de transac.</strong>
                                     </th>
                                     <th class="text-right">
                                         <strong>Saldo final</strong>
@@ -71,6 +77,14 @@
                                         <span t-field="statement.balance_start"
                                             t-field-options='{"widget": "monetary", "display_currency": "statement.currency_id"}'/>
                                     </td>
+                                    <td class="text-right">
+                                        <span t-field="statement.total_entry_encoding_in"
+                                            t-field-options='{"widget": "monetary", "display_currency": "statement.currency_id"}'/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="statement.total_entry_encoding_out"
+                                            t-field-options='{"widget": "monetary", "display_currency": "statement.currency_id"}'/>
+                                    </td>                                                                        
                                     <td class="text-right">
                                         <span t-field="statement.total_entry_encoding"
                                             t-field-options='{"widget": "monetary", "display_currency": "statement.currency_id"}'/>
