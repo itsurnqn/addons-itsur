@@ -25,6 +25,7 @@
                         <field name="product_id"/>
                         <field name="costo_total_pesos"/>                
                         <field name="precio_total_pesos"/>
+                        <field name="discount"/>
                         <field name="porcentaje"/>
                     </group>
                 </sheet>
@@ -44,7 +45,8 @@
                 <field name="product_id"/>
                 <field name="costo_total_pesos"/>                
                 <field name="precio_total_pesos"/>
-                <field name="porcentaje" avg="% Promedio"/>
+                <field name="discount" avg="Descuento Promedio"/>
+                <field name="porcentaje" avg="Porcentaje Promedio"/>
             </tree>
         </field>
     </record>

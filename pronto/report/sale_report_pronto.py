@@ -47,7 +47,7 @@ class SaleReportPronto(models.Model):
     # weight = fields.Float('Gross Weight', readonly=True)
     # volume = fields.Float('Volume', readonly=True)
 
-    # discount = fields.Float('Discount %', readonly=True)
+    discount = fields.Float('% Descuento', readonly=True)
     # discount_amount = fields.Float('Discount Amount', readonly=True)
 
     order_id = fields.Many2one('sale.order', '# Pedido', readonly=True)
