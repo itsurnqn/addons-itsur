@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_product_simple_form" model="ir.ui.view">
+        <!-- <field name="name">Planes de tarjetas</field> -->
+        <field name="model">sale.report.pronto</field>
+        <field name="arch" type="xml">
+            <form edit="true">
+                <header>
+                </header>
+                <sheet>
+                    <!-- <div class="oe_button_box" name="active_button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div> -->
+                    <group>
+                        <field name="order_id" readonly="1"/>
+                        <field name="line_id" />
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="confirmation_date"/>
+                        <field name="product_id"/>
+                        <field name="costo_total_pesos"/>                
+                        <field name="precio_total_pesos"/>
+                        <field name="discount"/>
+                        <field name="porcentaje"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_order_product_simple_tree" model="ir.ui.view">
+        <!-- <field name="name">box.session.tree.view</field> -->
+        <field name="model">sale.report</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false" edit="false">
+                <!-- <field name="id"/> -->
+                <field name="name"/>                
+                <field name="date"/>                
+                <field name="confirmation_date"/>
+                <field name="product_id"/>
+                <field name="costo_total_pesos"/>                
+                <field name="precio_total_pesos"/>
+                <field name="discount" avg="Descuento Promedio"/>
+                <field name="porcentaje" avg="Porcentaje Promedio"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_order_product_simple_search" model="ir.ui.view">
+        <field name="name">sale.report.pronto.search</field>
+        <field name="model">sale.report.pronto</field>
+        <field name="arch" type="xml">
+            <search string="Sales Analysis">
+                <field name="date"/>
+                <filter string="Date" name="year" invisible="0" date="date" default_period="this_year"/>
+                <filter name="Quotations" string="Presupuestos" domain="[('state','=', 'draft')]"/>
+                <filter name="Sales" string="Pedidos de venta" domain="[('state','not in',('draft', 'cancel', 'sent'))]"/>
+                <!-- <separator/>
+                <filter name="Display Type" string="Excluir secciones" domain="[('display_type','=',False)]"/> -->
+                <separator/>
+                <!-- <field name="user_id"/>
+                <field name="team_id"/> -->
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <!-- <field name="partner_id"/>
+                <field name="country_id"/> -->
+                <group expand="0" string="Extended Filters">
+                    <field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]"/>
+                    <!-- <field name="company_id" groups="base.group_multi_company"/> -->
+                </group>
+                <group expand="1" string="Group By">
+                    <filter string="Categoría" name="Category" context="{'group_by':'categ_id'}"/>
+                    <separator/>
+                    <filter string="Fecha de presupuesto" name="date" context="{'group_by':'date'}"/>
+                    <filter string="Fecha de confirmación" name="confirm_month" context="{'group_by':'confirmation_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>    
+
+    <record id="view_order_product_graph" model="ir.ui.view">
+         <field name="name">sale.report.pronto.graph</field>
+         <field name="model">sale.report.pronto</field>
+         <field name="arch" type="xml">
+             <graph string="Sales Analysis" type="bar">
+                 <field name="confirmation_date" type="row" interval="day"/>
+                 <field name="porcentaje" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="action_order_report_all_simple" model="ir.actions.act_window">
+        <field name="name">Análisis de ventas</field>
+        <field name="res_model">sale.report.pronto</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,graph,form</field>
+        <field name="view_id" ref="view_order_product_simple_tree" />
+        <field name="search_view_id" ref="view_order_product_simple_search"/>
+        <field name="context">{'search_default_confirm_month': 1,'search_default_Sales': 1}</field>
+    </record>
+
+    <!-- <record id="action_view_pagos_tarjeta" model="ir.actions.act_window">
+        <field name="name">Pagos con Tarjeta</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_pagos_tarjeta_tree" />
+        <field name="domain">[('is_credit_card','=','1')]</field>
+        <field name="view_mode">tree,form</field>
+    </record> -->
+
+    <menuitem id="menu_report_product_all_PRONTO_simple"
+        name="Ventas PRONTO simple"
+        action="pronto.action_order_report_all_simple"
+        parent="sale.menu_sale_report"
+        sequence="1"/>
+
+</odoo>

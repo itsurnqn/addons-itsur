@@ -23,7 +23,7 @@ class ProductTemplate(models.Model):
     # default_code = fields.Char(required=True)
     
     @api.model
-    def _actualizar_costo(self):
+    def _actualizar_costo(self, product_tmpl_id = 0):
 
         pricelist = self.env.user.company_id.product_pricelist_cost_id
 
@@ -32,7 +32,11 @@ class ProductTemplate(models.Model):
         fecha = datetime.today()
         monto = 1
 
-        productos = self.env['product.template'].with_context(active_test=False).search([])
+        if product_tmpl_id:
+            productos = self.env['product.template'].browse(product_tmpl_id)
+        else:
+            productos = self.env['product.template'].with_context(active_test=False).search([])
+        
         # productos = self.env['product.template'].browse(1865)
         for rec in productos:
             cantidad = 1

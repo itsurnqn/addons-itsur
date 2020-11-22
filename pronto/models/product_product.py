@@ -18,10 +18,10 @@ class ProductProduct(models.Model):
             ])
             domain_move_in_loc = expression.AND([
                 [("location_dest_id", "not in", excluded_location_ids)],
-                domain_quant_loc,
+                domain_move_in_loc,
             ])
             domain_move_out_loc = expression.AND([
                 [("location_id", "not in", excluded_location_ids)],
-                domain_quant_loc,
+                domain_move_out_loc,
             ])
         return domain_quant_loc, domain_move_in_loc, domain_move_out_loc

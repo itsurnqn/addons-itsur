@@ -16,6 +16,8 @@ class BoxSessionJournal(models.Model):
         self.total_entry_encoding = sum([line.amount for line in self.line_ids])
         self.balance_end = self.balance_start + self.total_entry_encoding
         self.difference = self.balance_end_real - self.balance_end
+        self.total_entry_encoding_in = sum([line.amount for line in self.line_ids.filtered(lambda x: x.amount > 0)])
+        self.total_entry_encoding_out = sum([line.amount for line in self.line_ids.filtered(lambda x: x.amount < 0)])
 
     @api.model
     def _default_opening_balance(self):
@@ -59,3 +61,6 @@ class BoxSessionJournal(models.Model):
         default=lambda self: self.env['res.company']._company_default_get('account.bank.statement'))
 
     date = fields.Date(required=True, index=True, copy=False, default=fields.Date.context_today, string="Fecha")
+
+    total_entry_encoding_in = fields.Monetary('Ingresos', compute='_end_balance', store=True)
+    total_entry_encoding_out = fields.Monetary('Egresos', compute='_end_balance', store=True)

@@ -25,7 +25,9 @@
                 'sale_stock_info_popup','sale_ux','product_pack','delivery'],
 
     # always loaded
-    'data': [       
+    'data': [
+        'views/mail_activity_view.xml',               
+        'report/sale_report_pronto.xml',        
         'views/sale_views.xml',
         'security/pronto_security.xml',
         'security/ir.model.access.csv',

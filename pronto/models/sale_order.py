@@ -9,8 +9,8 @@ from odoo.tools import float_compare
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    costo_total_pesos = fields.Float(string = 'Costo total pesos', compute='_computed_costo_total_pesos', readonly=True, store=True)
-    precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=True, store=True)
+    costo_total_pesos = fields.Float(string = 'Costo total pesos', compute='_computed_costo_total_pesos', readonly=False, store=True)
+    precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=False, store=True)
 
     @api.depends('product_id', 'product_uom_qty','purchase_price')
     def _computed_costo_total_pesos(self):
@@ -205,7 +205,7 @@ class SaleOrder(models.Model):
     def write(self, values):
         if self.user_has_groups('pronto.group_commitment_date_required'):
             if 'state' in values:
-                if values['state'] == 'sale':
+                if self.state != 'done' and values['state'] == 'sale':
                     if not self.commitment_date:
                         raise UserError(
                                 'Debe informar la fecha de compromiso'
