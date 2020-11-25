@@ -40,3 +40,5 @@ class BoxSessionJournalLine(models.Model):
 
     anulado = fields.Boolean('Anulado',default=False)
     box_session_name = fields.Char(related="box_session_journal_id.box_session_id.name", string="Sesión de caja")        
+
+    expense_id = fields.Many2one('hr.expense', string='Gasto')

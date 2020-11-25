@@ -24,6 +24,9 @@
 
     # always loaded
     'data': [
+        'views/hr_expense_sheet_views.xml',
+        'views/hr_expense_views.xml',
+        'wizard/box_session_expense.xml',        
         'security/box_security.xml',
         'security/ir.model.access.csv',
         'wizard/box_session_cash.xml',

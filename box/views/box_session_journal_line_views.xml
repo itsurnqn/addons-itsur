@@ -20,6 +20,7 @@
                         <field name="name"/>
                         <field name="partner_id"/>
                         <field name="amount"/>
+                        <field name="expense_id"/>
                     </group>
                 </group>
             </sheet>

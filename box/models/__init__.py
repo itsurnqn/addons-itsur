@@ -6,3 +6,5 @@ from . import box_session_journal
 from . import box_session_journal_line
 from . import account_payment_group
 from . import account_payment
+from . import hr_expense
+from . import hr_expense_sheet
