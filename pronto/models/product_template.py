@@ -130,4 +130,12 @@ class ProductTemplate(models.Model):
                                                     detalle_mensaje
                                             ))
 
+        if 'standard_price' in values:
+            bom_line_ids = self.env['mrp.bom.line'].search([('product_id','=',self.product_variant_id.id)])
+            if bom_line_ids:
+                for line in bom_line_ids:
+                    # import pdb; pdb.set_trace()
+                    # recalculo el costo del producto fabricado
+                    line.bom_id.product_tmpl_id.action_bom_cost()
+
         return
