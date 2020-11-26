@@ -18,6 +18,8 @@ class ProductTemplate(models.Model):
 
     categ_id = fields.Many2one(default=0)
 
+    show_components_to_customer = fields.Boolean("Mostrar componentes al cliente", default=True)
+
     # si lo hago así, lo hace a nivel de db y todos los productos ya cargados deben tener informado el código
     # mejor por xml o en el write/create
     # default_code = fields.Char(required=True)
