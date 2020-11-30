@@ -21,6 +21,9 @@ class BoxSessionCashExpense(models.TransientModel):
         return defaults
 
     def do_cash_out(self):
+        
+        if self.unit_amount == 0:
+            raise UserError(_('El importe no puede ser cero.'))
 
         vals0 = {
             'name': self.name,
