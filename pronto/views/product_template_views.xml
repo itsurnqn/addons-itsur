@@ -50,6 +50,9 @@
                 <!-- le saco el widget -->                
                 <field name="fixed_price" string="Price" required="1" />
             </xpath>
+            <page name="inventory" position="attributes">
+                <attribute name="groups">stock.group_stock_user,product.group_stock_packaging,pronto.group_compras_crear_modificar_productos</attribute>
+            </page>
         </field>
     </record>
 

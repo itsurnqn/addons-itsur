@@ -31,4 +31,9 @@
         <field name="category_id" ref="base.module_category_sales_management"/>
     </record>
 
+    <record id="group_compras_crear_modificar_productos" model="res.groups">
+        <field name="name">Compras - Crear/Modificar producto</field>
+        <field name="category_id" ref="base.module_category_purchase_management"/>
+    </record>
+
 </odoo>
