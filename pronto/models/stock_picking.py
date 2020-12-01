@@ -95,8 +95,8 @@ class ProntoStockPicking(models.Model):
             'res_model_id': model_stock_picking.id,
             'res_model':  model_stock_picking.model
         }
-    
-        return self.env['mail.activity'].create(vals)
+        # mail_activity_quick_update=True para que no le muestre un aviso al usuario. t-70
+        return self.env['mail.activity'].with_context(mail_activity_quick_update=True).create(vals)
 
     @api.multi
     def send_to_shipper(self):
