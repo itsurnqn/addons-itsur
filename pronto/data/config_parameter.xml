@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+        <!-- estos parámetros los puede personalizar el usuario -->
+        
         <record id="dias_registrar_actividad"
                 model="ir.config_parameter" forcecreate="True">
             <field name="key">pronto.dias_registrar_actividad</field>
@@ -11,6 +13,12 @@
                 model="ir.config_parameter" forcecreate="True">
             <field name="key">pronto.dias_reservar</field>
             <field name="value">10</field>
+        </record>
+
+        <record id="tasa_actualizacion_costo"
+                model="ir.config_parameter" forcecreate="True">
+            <field name="key">pronto.tasa_actualizacion_costo</field>
+            <field name="value">1</field>
         </record>
     </data>
 </odoo>

@@ -5,6 +5,8 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError,ValidationError
 from datetime import datetime
+import logging
+_logger = logging.getLogger(__name__)
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -28,25 +30,51 @@ class ProductTemplate(models.Model):
     def _actualizar_costo(self, product_tmpl_id = 0):
 
         pricelist = self.env.user.company_id.product_pricelist_cost_id
-
-        res_currency = self.env['res.currency'].browse(19)
         res_company = self.env.user.company_id
-        fecha = datetime.today()
-        monto = 1
+        res_currency = self.env.user.company_id.currency_id
+        cantidad = 1
 
         if product_tmpl_id:
-            productos = self.env['product.template'].browse(product_tmpl_id)
-        else:
-            productos = self.env['product.template'].with_context(active_test=False).search([])
-        
-        # productos = self.env['product.template'].browse(1865)
-        for rec in productos:
-            cantidad = 1
-            # self.env['product.pricelist'].browse(pricelist_id).get_product_price(self.product_variant_id,cantidad,partner)
-            rec = rec.with_context(controlar_requeridos = False)
-            if rec.product_variant_id:
-                product_price = pricelist.get_product_price(rec.product_variant_id,cantidad,self.env.user.partner_id)
-                rec.standard_price = pricelist.currency_id._convert(product_price,res_currency,res_company,datetime.today())
+            # SOLO por cambio en el precio en la lista de costo (no por cambio en la cotización de dolar)
+            producto = self.env['product.template'].with_context(controlar_requeridos = False,actualizar_costo_producto_fabricado = True).browse(product_tmpl_id)
+            # SOLO si no es fabricado (el costo del fabricado se calcula a partir del costo de los componentes)
+            if not producto.bom_ids:
+                product_price = pricelist.get_product_price(producto.product_variant_id,cantidad,self.env.user.partner_id)
+                producto.standard_price = pricelist.currency_id._convert(product_price,res_currency,res_company,datetime.today())
+        else:            
+            param = self.env['ir.config_parameter'].sudo()
+            tasa_actualizacion_costo = float(param.get_param('pronto.tasa_actualizacion_costo'))
+            tasa_actual = res_currency.rate
+            # HACER SOLO si cambia la cotización
+            if tasa_actualizacion_costo != tasa_actual:
+                _logger.info("Iniciando la actualizacion de costos.")
+                param.set_param('pronto.tasa_actualizacion_costo',str(tasa_actual))
+                # Nota: primero tengo que actualizar materias primas y después productos fabricados (se calculan a partir de los primeros)
+                # materias primas
+                materias_primas = self.env['product.template'].with_context(active_test=False).search([('bom_ids', '=', False)])
+                # productos fabricados
+                productos_fabricados = self.env['product.template'].with_context(active_test=False).search([('bom_ids', '!=', False)])
+
+                # productos = self.env['product.template'].with_context(active_test=False).search([])
+                for rec in materias_primas:
+
+                    # with_context: que no controle campos requeridos
+                    # with_context: al actualizar costo de materia prima, que no dispare la actualización de los que se fabrican con esa materia prima
+                    # (los actualizo por separado para que no se duplique el histórico)
+                    rec = rec.with_context(controlar_requeridos = False,actualizar_costo_producto_fabricado = False)
+
+                    if rec.product_variant_id:
+                        
+                        
+                        # monto = 1
+                        
+                        product_price = pricelist.get_product_price(rec.product_variant_id,cantidad,self.env.user.partner_id)
+                        rec.standard_price = pricelist.currency_id._convert(product_price,res_currency,res_company,datetime.today())
+
+                if productos_fabricados:
+                    productos_fabricados.action_bom_cost()
+
+                _logger.info("Se actualizo el costo de %d productos.", len(materias_primas) + len(productos_fabricados))
 
     @api.model
     def create(self,values):
@@ -132,11 +160,14 @@ class ProductTemplate(models.Model):
                                                     detalle_mensaje
                                             ))
 
-        if 'standard_price' in values:
+        actualizar_costo_producto_fabricado = self.env.context.get('actualizar_costo_producto_fabricado', True)
+        # standard_price solo se actualiza desde el backend (por código: al cambiar el precio en la lista de costo o por tarea programada)
+        # actualizar_costo_producto_fabricado = False, para que no se actualice desde la tarea programada.
+        if 'standard_price' in values and actualizar_costo_producto_fabricado:
             bom_line_ids = self.env['mrp.bom.line'].search([('product_id','=',self.product_variant_id.id)])
+            # es materia prima de un producto fabricado?
             if bom_line_ids:
                 for line in bom_line_ids:
-                    # import pdb; pdb.set_trace()
                     # recalculo el costo del producto fabricado
                     line.bom_id.product_tmpl_id.action_bom_cost()
 
