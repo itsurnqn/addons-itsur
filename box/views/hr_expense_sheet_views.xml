@@ -12,7 +12,7 @@
                 <!-- attrs="{'invisible': [('parent_id','=', False)]}" -->
             </field>
             <xpath expr="//field[@name='bank_journal_id']" position="attributes">
-                <attribute name="required">1</attribute>
+                <attribute name="attrs">{'invisible': [('payment_mode', '!=', 'company_account')], 'required': [('payment_mode','=','company_account')]}</attribute>
             </xpath>
         </field>
     </record>
