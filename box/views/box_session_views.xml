@@ -45,6 +45,15 @@
                             </div>
                         </button>
 
+                        <button class="oe_stat_button" name="box_cash_expense"
+                            type="object" icon="fa-level-down"
+                            attrs="{'invisible': ['|', ('usuario_actual_responsable', '==', False),('state', 'not in', ['opened','closing_control'])]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Gasto</span>
+                                <span class="o_stat_text">en efectivo</span>
+                            </div>
+                        </button>
+
                         <button class="oe_stat_button" name="box_cash_open"
                             type="object" 
                             icon="fa-money"

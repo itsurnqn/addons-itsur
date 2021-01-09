@@ -48,7 +48,13 @@ class AccountPaymentGroup(models.Model):
         if create_from_website:
             # por ahora, que no registre en la caja cuando viene del ecommerce
             return
-            
+
+        create_from_expense = self._context.get('create_from_expense', False)
+
+        if create_from_expense:
+            # ya fue registrado en la caja
+            return
+
         for rec in self:
             
             # verificar que la sesión de caja esté abierta.

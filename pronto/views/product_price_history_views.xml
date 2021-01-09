@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_product_price_history_tree" model="ir.ui.view">
+        <field name="name">product.price.history.tree</field>
+        <field name="model">product.price.history</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false" edit="false">
+                <field name="display_name"/>
+                <field name="product_id"/>
+                <field name="cost"/>
+                <field name="datetime"/>            
+                <field name="create_date"/>
+                <field name="write_date"/>                
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_product_price_history_search" model="ir.ui.view">
+        <field name="name">product.price.history.search</field>
+        <field name="model">product.price.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_product_price_history" model="ir.actions.act_window">
+        <field name="name">Histórico de costo de productos</field>
+        <field name="res_model">product.price.history</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_product_price_history_tree" />
+        <field name="search_view_id" ref="view_product_price_history_search"/>
+    </record>
+
+    <menuitem id="product_menu_catalog_price_history"
+        name="Histórico de costo de productos"
+        action="pronto.action_product_price_history"
+        parent="sale.product_menu_catalog"
+        sequence="10"/>
+
+</odoo>

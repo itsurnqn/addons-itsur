@@ -50,6 +50,9 @@
                 <!-- le saco el widget -->                
                 <field name="fixed_price" string="Price" required="1" />
             </xpath>
+            <page name="inventory" position="attributes">
+                <attribute name="groups">stock.group_stock_user,product.group_stock_packaging,pronto.group_compras_crear_modificar_productos</attribute>
+            </page>
         </field>
     </record>
 
@@ -83,4 +86,17 @@
     <record id="purchase.product_normal_action_puchased" model="ir.actions.act_window">
         <field name="context">{"search_default_filter_to_purchase":1, "purchase_product_template": 1, 'default_type': 'product'}</field>
     </record>
+
+    <record id="product_pack_product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.pack.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product_pack.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="pack_component_price" position="after">
+                    <field name="show_components_to_customer"
+                            attrs="{'invisible':['|',('pack_component_price', '!=', 'totalized'),('pack_type', '!=', 'detailed')]}"/>
+            </field>    
+        </field>
+    </record>
+
 </odoo>

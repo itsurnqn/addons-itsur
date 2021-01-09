@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_expense_sheet_form_inherit" model="ir.ui.view">
+        <field name="name">hr.expense.sheet.form</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="after">
+                <!-- <field name="box_id" readonly="1" /> -->
+                <field name="journal_id" readonly="1" />
+                <!-- attrs="{'invisible': [('parent_id','=', False)]}" -->
+            </field>
+            <xpath expr="//field[@name='bank_journal_id']" position="attributes">
+                <attribute name="attrs">{'invisible': [('payment_mode', '!=', 'company_account')], 'required': [('payment_mode','=','company_account')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_expense.action_hr_expense_sheet_my_all" model="ir.actions.act_window">
+        <field name="context">{'search_default_my_reports': 1,'default_bank_journal_id':0}</field>
+    </record>
+
+</odoo>

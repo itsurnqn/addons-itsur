@@ -299,3 +299,12 @@ class BoxSession(models.Model):
             'res_model': 'box.session.cash.close',
             'target': 'new'  
         }
+
+    def box_cash_expense(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Gastos',
+            'view_mode': 'form',
+            'res_model': 'box.session.cash.expense',
+            'target': 'new'  
+        }
