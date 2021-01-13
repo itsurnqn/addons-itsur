@@ -26,6 +26,7 @@
 
     # always loaded
     'data': [
+        'views/product_pricelist_item_history_views.xml',
         'views/project_task_views.xml',
         'views/product_price_history_views.xml',
         'views/mail_activity_view.xml',               

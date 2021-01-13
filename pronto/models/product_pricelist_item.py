@@ -37,7 +37,8 @@ class ProductPricelistItem(models.Model):
         res = super(ProductPricelistItem,self).write(values)
         if self.pricelist_id == self.env.user.company_id.product_pricelist_cost_id and self.product_tmpl_id:
             self.product_tmpl_id._actualizar_costo(self.product_tmpl_id.id)
-
+            if 'fixed_price' in values:
+                self.set_fixed_price(self.id,self.product_tmpl_id.id,self.fixed_price)
         return res
        
     @api.model
@@ -45,5 +46,14 @@ class ProductPricelistItem(models.Model):
         res = super(ProductPricelistItem,self).create(values)
         if res.pricelist_id == self.env.user.company_id.product_pricelist_cost_id and res.product_tmpl_id:
             res.product_tmpl_id._actualizar_costo(res.product_tmpl_id.id)            
-
-        return res    
+            self.set_fixed_price(res.id,res.product_tmpl_id.id,res.fixed_price)
+        return res
+    
+    @api.multi
+    def set_fixed_price(self,item_id,product_tmpl_id,fixed_price):
+        item_history = self.env["product.pricelist.item.history"]
+        item_history.create({
+            'product_tmpl_id': product_tmpl_id,
+            'fixed_price': fixed_price,
+            'pricelist_item_id': item_id
+        })
