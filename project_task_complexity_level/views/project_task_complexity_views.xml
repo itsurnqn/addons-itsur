@@ -1,0 +1,78 @@
+<odoo>
+
+    <!-- Sequences-->
+    <record id="project_task_complexity_seq" model="ir.sequence">
+        <field name="name">Project task complexity Sequence</field>
+        <field name="code">project.task.complexity.level</field>
+        <field name="prefix">0</field>
+        <field name="padding">1</field>
+    </record>
+
+    <!-- List View-->
+    <record id="project_task_complexity_view_list" model="ir.ui.view">
+        <field name="name">Lista de complejidad de tareas</field>
+        <field name="model">project.task.complexity.level</field>
+        <field name="arch" type="xml">
+            <tree default_order='sequence'>
+                <field name="sequence"
+                       widget="handle"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="project_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="project_task_complexity_view_form" model="ir.ui.view">
+        <field name="name">Formulario de complejidad de tareas</field>
+        <field name="model">project.task.complexity.level</field>
+        <field name="arch" type="xml">
+            <form string="Complexity Form">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Name" />
+                        <h1><field name="name" /></h1>
+                    </div>
+                    <group>
+                        <field name="description"/>
+                        <field name="project_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="project_task_complexity_view_search" model="ir.ui.view">
+        <field name="name">Búsqueda de complejidad de tareas</field>
+        <field name="model">project.task.complexity.level</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="project_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Project"
+                            name="group_by_project"
+                            context="{'group_by':'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record id="project_task_complexity_action" model="ir.actions.act_window">
+        <field name="name">Complejidad de tareas</field>
+        <field name="res_model">project.task.complexity.level</field>
+        <field name="context">{'group_by': 'project_id'}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem
+        name="Complejidad de tareas"
+        id="project_task_complexity_configuration_menu"
+        parent="project.menu_project_config"
+        sequence="19"
+        action="project_task_complexity_action"/>
+</odoo>
