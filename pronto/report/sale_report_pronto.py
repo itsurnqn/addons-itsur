@@ -32,7 +32,7 @@ class SaleReportPronto(models.Model):
     product_tmpl_id = fields.Many2one('product.template', 'Plantilla de producto', readonly=True)
     categ_id = fields.Many2one('product.category', 'Categoría', readonly=True)
     # nbr = fields.Integer('# of Lines', readonly=True)
-    # pricelist_id = fields.Many2one('product.pricelist', 'Pricelist', readonly=True)
+    pricelist_id = fields.Many2one('product.pricelist', 'Tarifa', readonly=True)
     # analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True)
     # team_id = fields.Many2one('crm.team', 'Sales Team', readonly=True, oldname='section_id')
     # country_id = fields.Many2one('res.country', 'Customer Country', readonly=True)
@@ -56,6 +56,8 @@ class SaleReportPronto(models.Model):
     costo_total_pesos = fields.Float('Costo total en pesos', readonly=True)
     precio_total_pesos = fields.Float('Precio total en pesos', readonly=True)
     porcentaje = fields.Float('Porcentaje', readonly=True, group_operator='avg')
+    cotizacion = fields.Float('Cotización USD', readonly=True, group_operator='avg')
+    precio_total_usd = fields.Float('Precio total en USD', readonly=True)
 
     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
         with_ = ("WITH %s" % with_clause) if with_clause else ""
@@ -83,7 +85,9 @@ class SaleReportPronto(models.Model):
             l.id as line_id,
             l.costo_total_pesos as costo_total_pesos, 
             l.precio_total_pesos as precio_total_pesos, 
-            CASE WHEN l.costo_total_pesos > 0 and l.precio_total_pesos > 0 THEN  (l.precio_total_pesos / l.costo_total_pesos - 1) * 100 ELSE 0 END as porcentaje
+            CASE WHEN l.costo_total_pesos > 0 and l.precio_total_pesos > 0 THEN  (l.precio_total_pesos / l.costo_total_pesos - 1) * 100 ELSE 0 END as porcentaje,
+            s.cotizacion as cotizacion,
+            l.precio_total_pesos / nullif(s.cotizacion,0) as precio_total_usd
         """
 
         for field in fields.values():
