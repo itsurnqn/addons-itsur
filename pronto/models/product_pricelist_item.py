@@ -6,7 +6,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 class ProductPricelistItem(models.Model):
-    _inherit = 'product.pricelist.item'
+    _name = 'product.pricelist.item'
+    _inherit = ['product.pricelist.item', 'mail.thread', 'mail.activity.mixin']
 
     @api.constrains('product_tmpl_id','pricelist_id','categ_id')
     def _verificar_duplicados(self):
