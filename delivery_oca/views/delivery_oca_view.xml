@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_delivery_carrier_form_with_provider_oca" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.provider.oca</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery_qx.view_delivery_carrier_form_with_provider_qx"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='zona_qx_id']" position='before'>
+                <field name="zona_oca_id" attrs="{'column_invisible': [('parent.delivery_type', '!=', 'oca')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_delivery_price_rule_form_oca" model="ir.ui.view">
+        <field name="name">delivery.price.rule.form.oca</field>
+        <field name="model">delivery.price.rule</field>
+        <field name="inherit_id" ref="delivery.view_delivery_price_rule_form"/>
+        <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="zona_oca_id" attrs="{'invisible': [('delivery_type', '!=', 'oca')]}" />
+                </field>
+        </field>
+    </record>
+
+</odoo>
