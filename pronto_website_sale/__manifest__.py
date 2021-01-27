@@ -17,6 +17,7 @@
     "depends": [
         'website_sale',
         'l10n_ar_partner',
+        'website_sale_stock',
     ],
     
     "data": [
