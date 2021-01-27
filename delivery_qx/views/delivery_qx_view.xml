@@ -21,6 +21,7 @@
 
             <field name="price_rule_ids" position="inside">
                 <tree>
+                    <field name="sequence" widget="handle"/>
                     <field name="name"/>
                     <field name="zona_qx_id" attrs="{'column_invisible': [('parent.delivery_type', '!=', 'qx')]}" />
                 </tree>
