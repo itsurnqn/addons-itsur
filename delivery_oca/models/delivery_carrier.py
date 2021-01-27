@@ -29,13 +29,13 @@ class DeliveryCarrier(models.Model):
                             valor_declarado, order.company_id.currency_id, order.company_id, order.date_order or fields.Date.today())                
 
             costo_seguro = 0
-            # if valor_declarado * self.porcentaje_seguro/100 > self.costo_minimo_seguro:
-            #     costo_seguro = valor_declarado * self.porcentaje_seguro/100
-            # else:
-            #     costo_seguro = self.costo_minimo_seguro
+            if valor_declarado * self.porcentaje_seguro/100 > self.costo_minimo_seguro:
+                costo_seguro = valor_declarado * self.porcentaje_seguro/100
+            else:
+                costo_seguro = self.costo_minimo_seguro
             
             # print(price_unit, costo_seguro)
-            # price_unit = price_unit + costo_seguro + self.costo_embalaje_picking
+            price_unit = price_unit + costo_seguro + self.costo_embalaje_picking
 
             # .2 si el presu esta en dolares, tengo que pasar price_unit a dolares
             if order.currency_id != order.company_id.currency_id:
