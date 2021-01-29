@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record model="ir.ui.view" id="project_task_code_form_view">
+        <field name="name">project.task.code.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="referente_id" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_task_tree2_inherit">
+        <field name="name">project.task.tree</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="referente_id" />
+            </field>
+        </field>
+    </record>
+
     <record id="project_task_search" model="ir.ui.view">
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_search_form"/>
@@ -7,7 +30,11 @@
             <field name="name" position="after">
                 <field name="description" string="Descripción"/>
                 <field name="milestone_id" string="Hito"/>
+                <field name="referente_id" />
             </field>
+            <group expand="0">
+                <filter string="Referente" name="referente_id" context="{'group_by':'referente_id'}"/>
+            </group>
         </field>
     </record>
 </odoo>
