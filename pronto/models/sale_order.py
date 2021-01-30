@@ -154,6 +154,46 @@ class SaleOrderLine(models.Model):
                 self.price_unit = 0
         return res
 
+    @api.multi
+    def button_cancel_remaining(self):
+        if self.pack_child_line_ids:
+            # es un pack
+            if self.product_id.pack_type == 'detailed':
+                if self.product_id.pack_component_price in ['detailed','totalized']:
+
+                    self.with_context(bypass_protecion=True).product_uom_qty = 0
+
+                    for rec in self.pack_child_line_ids:
+                        if rec.qty_delivered != 0:
+                            raise UserError(_(
+                                "La cancelación de lo pendiente en packs "
+                                "SOLO puede ser invocada cuando no se entregó ningún componente del PACK."))
+                        rec.with_context(
+                            bypass_protecion=True).product_uom_qty = 0
+                        to_cancel_moves = rec.move_ids.filtered(
+                            lambda x: x.state not in ['done', 'cancel'])
+                        to_cancel_moves._cancel_quantity()
+
+                    self.order_id.message_post(
+                        body=_(
+                            'Llamada a cancelar pendientes para la línea "%s" (id %s)') % (
+                                self.name, self.id))
+
+                else:
+                    raise UserError(_(
+                        "La cancelación de lo pendiente "
+                        "no puede ser invocada para este tipo de pack."))
+            elif self.product_id.pack_type == 'non_detailed':
+                raise UserError(_(
+                    "La cancelación de lo pendiente "
+                    "no puede ser invocada para este tipo de pack."))
+        elif self.pack_parent_line_id:
+                raise UserError(_(
+                    "La cancelación de lo pendiente "
+                    "no puede ser invocada producto componente de un pack."))
+        else:
+            return super(SaleOrderLine, self).button_cancel_remaining()
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
