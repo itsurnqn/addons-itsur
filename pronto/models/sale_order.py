@@ -148,6 +148,10 @@ class SaleOrderLine(models.Model):
     def product_uom_change(self):
         res = super(SaleOrderLine, self).product_uom_change()
         self.product_id_change_margin()
+        # si es un componente de un pack de tipo DT, que lo ponga en 0.
+        if self.pack_parent_line_id:
+            if self.pack_parent_line_id.product_id.pack_component_price == 'totalized':
+                self.price_unit = 0
         return res
 
 class SaleOrder(models.Model):
