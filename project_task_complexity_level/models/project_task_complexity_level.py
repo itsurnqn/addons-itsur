@@ -11,12 +11,13 @@ class ProjectTaskComplexityLevel(models.Model):
     # _order = 'sequence asc'
     _order = 'project_id,sequence'
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True,
+                        string="Nombre")
 
-    description = fields.Html()
+    description = fields.Html(string='Descripción')
 
     project_id = fields.Many2one('project.project',
-                                 string="Project",
+                                 string="Projecto",
                                  index=True)
     
     sequence = fields.Integer()

@@ -10,13 +10,6 @@
                        domain="[('project_id', '=', project_id)]"
                        option="{'no_create_edit': False}"
                        context="{'default_project_id': project_id}"/>
-
-                <!-- <field name="milestone_id"
-                       domain="[('project_id', '=', project_id)]"
-                       option="{'no_create_edit': True}"
-                       attrs="{'invisible':[('use_milestones','=', False)]}"
-                       context="{'default_project_id': project_id}"/> -->
-
             </field>
         </field>
     </record>
@@ -26,10 +19,10 @@
         <field name="inherit_id" ref="project.view_task_search_form"/>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="complexity_level_id" string="Project Task Complexity Level"/>
+                <field name="complexity_level_id"/>
             </field>
             <group expand="0">
-                <filter string="Project Task Complexity Level" name="complexity_level_id" help="Project Task Complexity Level" context="{'group_by':'complexity_level_id'}"/>
+                <filter name="complexity_level_id" string="Nivel de complejidad" context="{'group_by':'complexity_level_id'}"/>
             </group>
         </field>
     </record>
