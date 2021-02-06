@@ -22,6 +22,10 @@ class SaleOrder(models.Model):
             self.sale_order_quote_log_ids.filtered(lambda x: x.log_type == 'validez').unlink()
             if delta.days < 0:
                 self.registrar_log("Fecha de validez vencida: {}".format(self.validity_date),'validez')
+            
+            self.sale_order_quote_log_ids.filtered(lambda x: x.log_type == 'tipo_venta').unlink()
+            if self.type_id != self.partner_id.sale_type:
+                self.registrar_log("Tipo de venta no coincide con ficha cliente: {}".format(self.partner_id.sale_type.name),'tipo_venta')
 
             for line in self.order_line.filtered(lambda x: not x.display_type):
                 if line.product_id.registrar_novedad_presupuesto:
@@ -130,5 +134,6 @@ class SaleOrderQuoteLog(models.Model):
                             [('validez','Fecha Validez'),
                             ('precio','Precio'),
                             ('descuento_componente_pack','Descuento en componente de pack'),
+                            ('tipo_venta','Tipo venta no coincide'),
                             ('otro','Otro')
                             ],'Tipo')

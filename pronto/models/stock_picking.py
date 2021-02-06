@@ -77,19 +77,15 @@ class ProntoStockPicking(models.Model):
         return result
 
     @api.model
-    def _schedule_activity(self):
+    def _schedule_activity(self,activity_type_id):
 
         model_stock_picking = self.env.ref('stock.model_stock_picking')
         asignada_a = self.env.user.company_id.usuario_responsable_reserva_stock_id
-        # resumen
-        summary = 'Contactar cliente por reserva de stock' 
-        # tipo de actividad
-        activity_type_id = self.env.ref('pronto.contactar_cliente_reserva_stock')
 
         vals = {
             'activity_type_id': activity_type_id.id,
             'date_deadline': fields.Date.today(),
-            'summary': summary,
+            'summary': activity_type_id.summary,
             'user_id': asignada_a.id,
             'res_id': self.id,
             'res_model_id': model_stock_picking.id,

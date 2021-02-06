@@ -10,5 +10,35 @@
             <field name="decoration_type">warning</field>
         </record>
 
+        <record forcecreate="True" id="reconfirmar_retiro" model="mail.activity.type">
+            <field name="name">Reconfirmar retiro</field>
+            <field name="delay_unit">days</field>
+            <field name="delay_from">previous_activity</field>
+            <field name="icon">fa-phone</field>
+            <field name="decoration_type">warning</field>
+            <field name="summary">Reconfirmar retiro</field>
+        </record>
+
     </data>
+
+    <!--   Edit Data Record [contactar_cliente_reserva_stock]   -->
+    <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module', '=', 'pronto'), ('name', '=', 'contactar_cliente_reserva_stock')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+
+    <record forcecreate="True" id="pronto.contactar_cliente_reserva_stock" model="mail.activity.type">
+        <field name="summary">Contactar cliente por reserva de stock</field>
+    </record>
+
+    <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module', '=', 'pronto'), ('name', '=', 'contactar_cliente_reserva_stock')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+
 </odoo>

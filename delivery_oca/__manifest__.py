@@ -1,7 +1,7 @@
 # Copyright 2020 ITSur - Juan Pablo Garza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
-    "name": "pronto_website_sale",
+    "name": "delivery_oca",
     "version": "12.0.1.0.0",
     "author": "ITSur",
     "website": "",
@@ -14,15 +14,14 @@
     "license": "AGPL-3",
     "development_status": "Production/Stable",
     "maintainers": ["juanpgarza"],
-    "depends": [
-        'website_sale',
-        'l10n_ar_partner',
-        'website_sale_stock',
-    ],
+    "depends": ['delivery','delivery_qx','base_location'],
     
     "data": [
         # 'security/ir.model.access.csv',
-        'views/templates.xml',
+        'views/delivery_oca_view.xml',
+        'views/res_city_views.xml',
+        'security/ir.model.access.csv',
+        'data/zona_oca_data.xml',
     ],
     'installable': True,
 }

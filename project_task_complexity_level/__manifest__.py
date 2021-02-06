@@ -1,7 +1,7 @@
 # Copyright 2020 ITSur - Juan Pablo Garza
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
-    "name": "pronto_website_sale",
+    "name": "Level of complexity of project tasks",
     "version": "12.0.1.0.0",
     "author": "ITSur",
     "website": "",
@@ -14,15 +14,13 @@
     "license": "AGPL-3",
     "development_status": "Production/Stable",
     "maintainers": ["juanpgarza"],
-    "depends": [
-        'website_sale',
-        'l10n_ar_partner',
-        'website_sale_stock',
+    'depends': [
+        'project'
     ],
-    
     "data": [
-        # 'security/ir.model.access.csv',
-        'views/templates.xml',
+        'security/ir.model.access.csv',
+        'views/project_task_views.xml',
+        'views/project_task_complexity_views.xml',        
     ],
     'installable': True,
 }

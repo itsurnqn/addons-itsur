@@ -17,6 +17,13 @@
                 <field name="fixed_price" nolabel="1" />
             </field>
 
+            <xpath expr="//form/group[3]" position="after">
+            	<div class="oe_chatter">
+            		<field name="message_follower_ids" widget="mail_followers"/>
+            		<field name="activity_ids" widget="mail_activity"/>
+            		<field name="message_ids" widget="mail_thread"/>
+            	</div>
+            </xpath>
         </field>
     </record>
 

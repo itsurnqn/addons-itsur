@@ -6,25 +6,35 @@
         <field name="model">delivery.carrier</field>
         <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//notebook/page[1]" position="attributes" >
+                <attribute name="attrs">{'invisible': 0}</attribute>
+                <!-- <attribute name="invisible">0</attribute> esto NO ANDA!! -->
+            </xpath>
+
+            <xpath expr="//group[@name='general']" position="attributes" >
+                <attribute name="attrs">{'invisible':[('delivery_type', '=', 'fixed')]}</attribute>
+            </xpath>
+
+            <field name="price_rule_ids" position="attributes">
+                <attribute name="context">{'default_delivery_type': delivery_type}</attribute>
+            </field>
+
+            <field name="price_rule_ids" position="inside">
+                <tree>
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="zona_qx_id" attrs="{'column_invisible': [('parent.delivery_type', '!=', 'qx')]}" />
+                </tree>
+            </field>
+
             <xpath expr="//page[@name='destination']" position='before'>
-                <page string="QX - Tarifas" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}">
-                    <group name="general qx">
-                        <field name="price_rule_ids" nolabel="1">
-                            <tree string="">
-                                <field name="name"/>
-                                <field name="delivery_type" invisible="1"/>
-                                <field name="zona_qx_id" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
-                <page string="QX - Otros datos" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}">
+                <page string="Otros datos" attrs="{'invisible': [('delivery_type', 'in', ['fixed', 'base_on_rule'])]}">
                     <group name="general">
                         <field name="porcentaje_seguro" />
                         <field name="costo_minimo_seguro" />
                         <field name="costo_embalaje_picking" />
                     </group>
-                </page>                
+                </page>  
             </xpath>
         </field>
     </record>
@@ -35,9 +45,9 @@
         <field name="inherit_id" ref="delivery.view_delivery_price_rule_form"/>
         <field name="arch" type="xml">
                 <field name="name" position="before">
-                    <!-- <field name="delivery_type" invisible="1"/>
-                    <field name="zona_qx_id" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}"/> -->
-                    <field name="zona_qx_id"/>
+                    <field name="delivery_type" invisible="0"/>
+                    <field name="zona_qx_id" attrs="{'invisible': [('delivery_type', '!=', 'qx')]}"/>
+                    <!-- <field name="zona_qx_id"/> -->
                 </field>
         </field>
     </record>

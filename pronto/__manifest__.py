@@ -22,10 +22,12 @@
     # any module necessary for this one to work correctly
     'depends': ['base','account_payment_group','crm','purchase','sale_crm',
                 'sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux',
-                'sale_stock_info_popup','sale_ux','product_pack','delivery'],
+                'sale_stock_info_popup','sale_ux','product_pack','delivery','sale_stock_ux'],
 
     # always loaded
     'data': [
+        'views/product_pricelist_item_history_views.xml',
+        'views/project_task_views.xml',
         'views/product_price_history_views.xml',
         'views/mail_activity_view.xml',               
         'report/sale_report_pronto.xml',        

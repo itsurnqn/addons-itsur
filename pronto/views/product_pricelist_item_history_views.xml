@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_product_pricelist_history_tree" model="ir.ui.view">
+        <field name="name">product.pricelist.item.history.tree</field>
+        <field name="model">product.pricelist.item.history</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="true" edit="false">
+                <field name="pricelist_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="fixed_price"/>                
+                <field name="create_uid" string="Modificado por"/>
+                <field name="create_date" string="Modificado el"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_product_pricelist_history_search" model="ir.ui.view">
+        <field name="name">product.pricelist.item.history.search</field>
+        <field name="model">product.pricelist.item.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_tmpl_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_product_pricelist_history" model="ir.actions.act_window">
+        <field name="name">Histórico de tarifa de costo</field>
+        <field name="res_model">product.pricelist.item.history</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_product_pricelist_history_tree" />
+        <field name="search_view_id" ref="view_product_pricelist_history_search"/>
+    </record>
+
+    <menuitem id="product_menu_catalog_pricelist_history"
+        name="Histórico de tarifa de costo"
+        action="pronto.action_product_pricelist_history"
+        parent="sale.product_menu_catalog"
+        sequence="10"/>
+
+</odoo>

@@ -14,3 +14,5 @@ class Company(models.Model):
     product_pricelist_cost_id = fields.Many2one('product.pricelist',string="Lista de precio de costo",default=3)
 
     usuario_responsable_reserva_stock_id = fields.Many2one('res.users',string="Resp. reservas de stock")
+
+    usuario_responsable_actualizacion_costo_id = fields.Many2one('res.users',string="Resp. actualización de tarifa de costo")

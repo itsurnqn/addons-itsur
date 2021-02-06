@@ -12,5 +12,9 @@
             <attribute name="t-if">not line.display_type and (line.pack_parent_line_id.product_id.show_components_to_customer or line.pack_parent_line_id.product_id.pack_component_price != 'totalized')</attribute>
         </xpath>
 
+        <xpath expr="//table[@id='sales_order_table']/thead/tr/th[6]/span[2]" position="replace">
+            <span groups="account.group_show_line_subtotals_tax_included">Precio Total con IVA</span>
+        </xpath>
+
     </template>
 </odoo>

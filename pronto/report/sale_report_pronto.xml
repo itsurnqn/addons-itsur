@@ -22,11 +22,14 @@
                         <field name="name"/>
                         <field name="date"/>
                         <field name="confirmation_date"/>
+                        <field name="pricelist_id"/>
                         <field name="product_id"/>
                         <field name="costo_total_pesos"/>                
                         <field name="precio_total_pesos"/>
                         <field name="discount"/>
                         <field name="porcentaje"/>
+                        <field name="cotizacion"/>
+                        <field name="precio_total_usd"/>                        
                     </group>
                 </sheet>
             </form>
@@ -35,18 +38,21 @@
 
     <record id="view_order_product_simple_tree" model="ir.ui.view">
         <!-- <field name="name">box.session.tree.view</field> -->
-        <field name="model">sale.report</field>
+        <field name="model">sale.report.pronto</field>
         <field name="arch" type="xml">
             <tree create="false" delete="false" edit="false">
                 <!-- <field name="id"/> -->
                 <field name="name"/>                
                 <field name="date"/>                
                 <field name="confirmation_date"/>
+                <field name="pricelist_id"/>
                 <field name="product_id"/>
                 <field name="costo_total_pesos"/>                
                 <field name="precio_total_pesos"/>
                 <field name="discount" avg="Descuento Promedio"/>
                 <field name="porcentaje" avg="Porcentaje Promedio"/>
+                <field name="cotizacion" avg="Cotización Promedio"/>
+                <field name="precio_total_usd"/>
             </tree>
         </field>
     </record>
@@ -57,24 +63,22 @@
         <field name="arch" type="xml">
             <search string="Sales Analysis">
                 <field name="date"/>
+                <field name="product_id"/>
+                <field name="pricelist_id"/>
+                <!-- <field name="categ_id"/> -->
                 <filter string="Date" name="year" invisible="0" date="date" default_period="this_year"/>
                 <filter name="Quotations" string="Presupuestos" domain="[('state','=', 'draft')]"/>
                 <filter name="Sales" string="Pedidos de venta" domain="[('state','not in',('draft', 'cancel', 'sent'))]"/>
                 <!-- <separator/>
                 <filter name="Display Type" string="Excluir secciones" domain="[('display_type','=',False)]"/> -->
                 <separator/>
-                <!-- <field name="user_id"/>
-                <field name="team_id"/> -->
-                <field name="product_id"/>
-                <field name="categ_id"/>
-                <!-- <field name="partner_id"/>
-                <field name="country_id"/> -->
                 <group expand="0" string="Extended Filters">
                     <field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]"/>
                     <!-- <field name="company_id" groups="base.group_multi_company"/> -->
                 </group>
                 <group expand="1" string="Group By">
                     <filter string="Categoría" name="Category" context="{'group_by':'categ_id'}"/>
+                    <filter string="Tarifa" name="pricelist_id" context="{'group_by':'pricelist_id'}"/>
                     <separator/>
                     <filter string="Fecha de presupuesto" name="date" context="{'group_by':'date'}"/>
                     <filter string="Fecha de confirmación" name="confirm_month" context="{'group_by':'confirmation_date:month'}"/>

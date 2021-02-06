@@ -20,5 +20,11 @@
             <field name="key">pronto.tasa_actualizacion_costo</field>
             <field name="value">1</field>
         </record>
+
+        <record id="dias_costo_sin_actualizar"
+                model="ir.config_parameter" forcecreate="True">
+            <field name="key">pronto.dias_costo_sin_actualizar</field>
+            <field name="value">10</field>
+        </record>
     </data>
 </odoo>
