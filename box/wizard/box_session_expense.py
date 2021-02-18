@@ -13,6 +13,7 @@ class BoxSessionCashExpense(models.TransientModel):
     product_id = fields.Many2one('product.product', string='Producto/Servicio', required=True, domain=[('can_be_expensed', '=', True)])
 
     adjunto = fields.Binary("Comprobante")
+    file_name = fields.Char("File Name")
 
     @api.model
     def default_get(self, field_names):
@@ -40,7 +41,7 @@ class BoxSessionCashExpense(models.TransientModel):
 
         # Adjunto
         if self.adjunto:
-            nombre_adjunto = "Comprobante"
+            nombre_adjunto = self.file_name
             IrAttachment = self.env['ir.attachment']
             data_attach = {
                 'name': nombre_adjunto,
@@ -52,6 +53,17 @@ class BoxSessionCashExpense(models.TransientModel):
                 'res_id': expense_id.id,
             }
             new_attachment = IrAttachment.create(data_attach)
+
+            data_attach2 = {
+                'name': nombre_adjunto,
+                'datas': self.adjunto,
+                'type': 'binary',
+                'datas_fname': nombre_adjunto,
+                'description': nombre_adjunto,
+                'res_model': "box.session",
+                'res_id': self.box_session_id.id,
+            }
+            new_attachment2 = IrAttachment.create(data_attach2)
 
         box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.box_session_id.cash_journal_id.id)])
         #import pdb;pdb.set_trace()
