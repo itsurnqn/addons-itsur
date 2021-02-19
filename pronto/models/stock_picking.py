@@ -82,7 +82,10 @@ class ProntoStockPicking(models.Model):
     def _schedule_activity(self,activity_type_id):
 
         model_stock_picking = self.env.ref('stock.model_stock_picking')
-        asignada_a = self.env.user.company_id.usuario_responsable_reserva_stock_id
+        if self.location_id.usuario_responsable_reserva_stock_id:
+            asignada_a = self.location_id.usuario_responsable_reserva_stock_id 
+        else:
+            asignada_a = self.env.user.company_id.usuario_responsable_reserva_stock_id
 
         vals = {
             'activity_type_id': activity_type_id.id,
