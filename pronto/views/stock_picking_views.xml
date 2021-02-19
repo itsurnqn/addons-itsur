@@ -53,6 +53,10 @@
                 <field name="partner_id" widget="res_partner_many2one" context="{'show_address': 1}" options="{&quot;always_reload&quot;: True}" />
             </field>
 
+            <field name="picking_type_id" position="after">
+                <field name="sale_order_type_id"/>
+            </field>
+            
         </field>
     </record>
 

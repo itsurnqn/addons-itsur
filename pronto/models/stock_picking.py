@@ -13,6 +13,7 @@ class ProntoStockPicking(models.Model):
     valor_declarado = fields.Monetary(string="Valor declarado", compute="_compute_valor_declarado")
     currency_id = fields.Many2one("res.currency", compute="_compute_valor_declarado", string="Currency", readonly=True)
     reason_id = fields.Many2one(comodel_name="stock.return.picking.reason", string= 'Motivo de devolución')
+    sale_order_type_id = fields.Many2one(related="sale_id.type_id", string= 'Tipo de venta')
 
     def _compute_valor_declarado(self):
         for rec in self:
