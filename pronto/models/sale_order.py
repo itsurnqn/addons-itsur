@@ -207,6 +207,11 @@ class SaleOrder(models.Model):
 
     cotizacion = fields.Float(string='Cotización',help='Cotización de la moneda del pedido respecto a la moneda de la companía.')
 
+    debt_balance = fields.Monetary(
+        related='partner_id.debt_balance',
+        string = 'Saldo'
+    )
+
     @api.depends('partner_shipping_id')
     def _compute_available_carrier(self):
         res = super(SaleOrder,self)._compute_available_carrier()
