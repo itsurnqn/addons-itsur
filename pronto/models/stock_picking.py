@@ -112,3 +112,14 @@ class ProntoStockPicking(models.Model):
             return
         else:
             return super(ProntoStockPicking,self)._add_delivery_cost_to_so()
+
+    def action_picking_move_tree(self):
+        res = super(ProntoStockPicking,self).action_picking_move_tree()
+        nuevo = dict(res['context']).copy()
+        nuevo.update({'search_default_by_product':1})
+        res['context'] = nuevo
+        
+        # así no funciona
+        # res.update({'search_default_by_product':1})
+
+        return res
