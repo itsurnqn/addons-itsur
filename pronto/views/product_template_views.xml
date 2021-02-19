@@ -55,6 +55,7 @@
             </page>
             <xpath expr="//tree/field[@name='pricelist_id']" position="attributes">
                 <attribute name="domain">[("id", "=", 2)]</attribute>
+                <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
             </xpath>
         </field>
     </record>
