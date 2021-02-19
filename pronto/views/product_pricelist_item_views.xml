@@ -6,8 +6,11 @@
         <field name="model">product.pricelist.item</field>
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
         <field name="arch" type="xml">
-            <field name="applied_on" position="before">
-                <field name="write_date" string="Ultima modificación"/>
+            <field name="date_end" position="after">
+                <separator string="Actualización"/>
+                <field name="fecha_ultima_modificacion_precio" readonly="True" force_save="True"/>
+	            <field name="fecha_ultimo_control"/>
+                <field name="usuario_ultimo_control" readonly="True" force_save="True"/> 
             </field>
 
             <field name="fixed_price" position="replace">
@@ -33,7 +36,9 @@
         <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/>
         <field name="arch" type="xml">
             <field name="price" position="after">
-                <field name="write_date" string="Ultima modificación"/>
+                <field name="fecha_ultima_modificacion_precio"/>
+	            <field name="fecha_ultimo_control"/>
+                <field name="usuario_ultimo_control"/>                 
             </field>
         </field>
     </record>
