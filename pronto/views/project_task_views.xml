@@ -17,8 +17,13 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_tree2"/>
         <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="id" />
+            </field>
             <field name="user_id" position="after">
                 <field name="referente_id" />
+                <field name="complexity_level_id" />
+                <field name="milestone_id" />
             </field>
         </field>
     </record>
