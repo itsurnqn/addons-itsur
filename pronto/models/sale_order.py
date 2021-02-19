@@ -249,6 +249,9 @@ class SaleOrder(models.Model):
         super(SaleOrder, self)._action_confirm()
         for picking in self.picking_ids:
             self.env['procurement.group'].run_smart_scheduler(picking.id)
+        # import pdb; pdb.set_trace()
+        for line in self.order_line.filtered(lambda x: x.product_id.type == 'service' and x.product_id.entregar_al_confirmar_prespuesto):
+            line.qty_delivered = line.product_uom_qty
 
     @api.multi
     def write(self, values):
