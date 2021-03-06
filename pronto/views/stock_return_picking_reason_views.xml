@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_return_picking_reason_tree_view" model="ir.ui.view">
+        <field name="name">stock.return.picking.reason.tree</field>
+        <field name="model">stock.return.picking.reason</field>
+        <field name="arch" type="xml">
+		<tree string="Motivos devolución" >
+			<field name="name" />
+		</tree>
+	    </field>
+	</record>
+
+    <act_window id="action_stock_return_picking_reason"  
+            name="Motivos devolución"
+            res_model="stock.return.picking.reason" 
+            view_mode="tree,form"
+            target="current"/>
+
+    <menuitem action="action_stock_return_picking_reason" id="menu_stock_return_picking_reason" 
+    parent="stock.menu_stock_config_settings" name="Motivos devolución" sequence="2" />
+
+ 	<!-- account.account_management_menu  -->
+
+</odoo>

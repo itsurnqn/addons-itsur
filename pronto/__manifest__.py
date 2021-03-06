@@ -22,10 +22,12 @@
     # any module necessary for this one to work correctly
     'depends': ['base','account_payment_group','crm','purchase','sale_crm',
                 'sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux',
-                'sale_stock_info_popup','sale_ux','product_pack','delivery','sale_stock_ux'],
+                'sale_stock_info_popup','sale_ux','product_pack','delivery','sale_stock_ux','stock_ux'],
 
     # always loaded
     'data': [
+        'views/stock_return_picking_reason_views.xml',
+        'wizards/stock_return_picking_views.xml',
         'views/product_pricelist_item_history_views.xml',
         'views/project_task_views.xml',
         'views/product_price_history_views.xml',

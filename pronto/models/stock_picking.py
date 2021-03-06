@@ -12,6 +12,8 @@ class ProntoStockPicking(models.Model):
 
     valor_declarado = fields.Monetary(string="Valor declarado", compute="_compute_valor_declarado")
     currency_id = fields.Many2one("res.currency", compute="_compute_valor_declarado", string="Currency", readonly=True)
+    reason_id = fields.Many2one(comodel_name="stock.return.picking.reason", string= 'Motivo de devolución')
+    sale_order_type_id = fields.Many2one(related="sale_id.type_id", string= 'Tipo de venta')
 
     def _compute_valor_declarado(self):
         for rec in self:
@@ -80,7 +82,10 @@ class ProntoStockPicking(models.Model):
     def _schedule_activity(self,activity_type_id):
 
         model_stock_picking = self.env.ref('stock.model_stock_picking')
-        asignada_a = self.env.user.company_id.usuario_responsable_reserva_stock_id
+        if self.location_id.usuario_responsable_reserva_stock_id:
+            asignada_a = self.location_id.usuario_responsable_reserva_stock_id 
+        else:
+            asignada_a = self.env.user.company_id.usuario_responsable_reserva_stock_id
 
         vals = {
             'activity_type_id': activity_type_id.id,
@@ -111,3 +116,14 @@ class ProntoStockPicking(models.Model):
             return
         else:
             return super(ProntoStockPicking,self)._add_delivery_cost_to_so()
+
+    def action_picking_move_tree(self):
+        res = super(ProntoStockPicking,self).action_picking_move_tree()
+        nuevo = dict(res['context']).copy()
+        nuevo.update({'search_default_by_product':1})
+        res['context'] = nuevo
+        
+        # así no funciona
+        # res.update({'search_default_by_product':1})
+
+        return res

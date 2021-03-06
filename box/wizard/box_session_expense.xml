@@ -14,7 +14,8 @@
                         <!-- <field name="unit_amount" /> -->
                         <field name="unit_amount" required="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         <field name="product_id" />
-                        <field name="adjunto" />                        
+                        <field name="adjunto" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
                     </group>
                 </group>
                 <footer>

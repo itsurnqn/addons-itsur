@@ -75,6 +75,19 @@
         </field>
     </record>
 
+    <record id="view_res_partner_filter_inherit" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="property_product_pricelist"/>
+            </field>
+            <group expand="0">
+                <filter name="property_product_pricelist" context="{'group_by':'property_product_pricelist'}"/>
+            </group>
+        </field>
+    </record>
+
     <record id="view_partner_form_agent_inherit" model="ir.ui.view">
         <field name="name">res.partner.form.agent</field>
         <field name="model">res.partner</field>

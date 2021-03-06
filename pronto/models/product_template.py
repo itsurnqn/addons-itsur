@@ -26,6 +26,13 @@ class ProductTemplate(models.Model):
     # mejor por xml o en el write/create
     # default_code = fields.Char(required=True)
     
+    entregar_al_confirmar_prespuesto = fields.Boolean(string="Entregar al confirmar el pedido",
+                    default=True, 
+                    help="Si está tildado, el servicio se pone como entregado al confirmar el presupuesto")
+
+    dias_costo_sin_actualizar = fields.Integer(string="Días costo sin actualizar",
+                                help= "Días tomados en cuenta hasta mostrar una actividad porque el costo no fue actualizado o no se realizó una verificación manual")
+
     @api.model
     def _actualizar_costo(self, product_tmpl_id = 0):
 

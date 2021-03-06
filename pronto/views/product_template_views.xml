@@ -44,6 +44,12 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
+
+            <field name="categ_id" position="after">
+                <field name="entregar_al_confirmar_prespuesto" attrs="{'invisible': [('type', '!=', 'service')]}"/>
+                <field name="dias_costo_sin_actualizar"/>
+            </field>
+
             <xpath expr="//tree/field[@name='fixed_price']" position="replace">
                 <!-- original -->
                 <!-- <field name="fixed_price" string="Price" required="1" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
@@ -55,6 +61,7 @@
             </page>
             <xpath expr="//tree/field[@name='pricelist_id']" position="attributes">
                 <attribute name="domain">[("id", "=", 2)]</attribute>
+                <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
             </xpath>
         </field>
     </record>

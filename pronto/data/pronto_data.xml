@@ -16,5 +16,14 @@
             <field name="summary">Actualizar tarifa costo</field>
         </record>
 
+        <record forcecreate="True" id="confirmar_fecha_recepcion" model="mail.activity.type">
+            <field name="name">Confirmar fecha recepción</field>
+            <field name="delay_unit">days</field>
+            <field name="delay_from">previous_activity</field>
+            <field name="icon">fa-phone</field>
+            <field name="decoration_type">warning</field>
+            <field name="summary">Confirmar fecha recepción</field>
+        </record>
+
     </data>
 </odoo>

@@ -53,6 +53,21 @@
                 <field name="partner_id" widget="res_partner_many2one" context="{'show_address': 1}" options="{&quot;always_reload&quot;: True}" />
             </field>
 
+            <field name="picking_type_id" position="after">
+                <field name="sale_order_type_id"/>
+            </field>
+
+            <field name="invoice_ids" position="attributes">
+                <attribute name="widget">one2many_list</attribute>
+            </field>
+
+            <field name="invoice_ids" position="inside">
+                <tree create="false" edit="false" delete="false">
+                    <field name="display_name" string="Factura"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+                        
         </field>
     </record>
 
