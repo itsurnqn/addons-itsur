@@ -64,8 +64,9 @@ class PurchaseOrder(models.Model):
         purchase_order = self.env["purchase.order"].search([('state','=','purchase')])
 
         # cant. de días antes de la fecha prevista para registrar la actividad
-        dias_registrar_actividad = 1
+        dias_registrar_actividad = 2
         activity_type_id = self.env.ref('pronto.confirmar_fecha_recepcion')
+        model_stock_picking = self.env.ref('purchase.model_purchase_order')
 
         for po in purchase_order:
             for pol in po.order_line:
@@ -73,24 +74,27 @@ class PurchaseOrder(models.Model):
                 if pol.product_qty != pol.qty_received:
                     # delta = picking.scheduled_date.date() - fields.Date.context_today(self)
                     delta = pol.date_planned.date() - fields.Date.context_today(self)
-                    if delta.days == dias_registrar_actividad:
-                        self._schedule_activity(activity_type_id, pol.order_id)
-        
-    @api.model
-    def _schedule_activity(self,activity_type_id,res_id):
+                    if delta.days == dias_registrar_actividad or delta.days <= 0:
 
-        model_stock_picking = self.env.ref('purchase.model_purchase_order')
-        
-        asignada_a = self.env.user.company_id.usuario_responsable_reserva_stock_id
-
-        vals = {
-            'activity_type_id': activity_type_id.id,
-            'date_deadline': fields.Date.today(),
-            'summary': activity_type_id.summary,
-            'user_id': asignada_a.id,
-            'res_id': res_id,
-            'res_model_id': model_stock_picking.id,
-            'res_model':  model_stock_picking.model
-        }
-        # mail_activity_quick_update=True para que no le muestre un aviso al usuario. t-70
-        return self.env['mail.activity'].with_context(mail_activity_quick_update=True).create(vals)
+                        summary = activity_type_id.summary + ' - ' + str(pol.product_id.default_code)
+                        res_id = pol.order_id.id
+                        
+                        # verficar si tiene actividad de ese tipo
+                        activity = self.env['mail.activity'].search([('res_model_id','=',model_stock_picking.id),
+                        ('activity_type_id','=',activity_type_id.id),
+                        ('res_id','=',res_id),
+                        ('summary','=',summary),])
+                        
+                        if not activity:
+                            # self._schedule_activity(activity_type_id, pol.order_id, pol.product_id)
+                            vals = {
+                                'activity_type_id': activity_type_id.id,
+                                'date_deadline': fields.Date.today(),
+                                'summary': summary,
+                                'user_id': 8, # marcos
+                                'res_id': res_id,
+                                'res_model_id': model_stock_picking.id,
+                                'res_model':  model_stock_picking.model
+                            }
+                            # mail_activity_quick_update=True para que no le muestre un aviso al usuario. t-70
+                            self.env['mail.activity'].with_context(mail_activity_quick_update=True).create(vals)
