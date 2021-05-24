@@ -11,7 +11,6 @@ from . import res_partner
 from . import sale_order
 from . import company
 from . import stock_picking
-from . import stock_move_line
 from . import stock_picking_return
 from . import res_users
 from . import stock_inventory
@@ -27,3 +26,4 @@ from . import mail_activity
 from . import product_pricelist_item_history
 from . import project_task
 from . import stock_return_picking_reason
+from . import stock_move
