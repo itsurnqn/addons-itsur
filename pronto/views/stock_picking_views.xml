@@ -22,14 +22,14 @@
                 <attribute name="attrs">{'invisible': ['|',('book_id','!=',False),'|', ('state','!=','done')]}</attribute>                
             </button>
 
-            <field name="declared_value" position="attributes">
+            <!-- <field name="declared_value" position="attributes">
                 <attribute name="attrs">{'invisible': [True]}</attribute>
-            </field>
+            </field> -->
 
         </field>
     </record>
 
-    <record id="view_picking_withcarrier_out_form_inherit" model="ir.ui.view">
+    <!-- <record id="view_picking_withcarrier_out_form_inherit" model="ir.ui.view">
         <field name="name">delivery.stock.picking_withcarrier.form.view</field>
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
@@ -41,7 +41,7 @@
             </field>
 
         </field>
-    </record>
+    </record> -->
 
     <record id="view_picking_form_inherit" model="ir.ui.view">
         <field name="name">stock.picking.form</field>

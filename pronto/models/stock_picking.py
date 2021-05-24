@@ -10,18 +10,18 @@ import odoo.addons.decimal_precision as dp
 class ProntoStockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    valor_declarado = fields.Monetary(string="Valor declarado", compute="_compute_valor_declarado")
-    currency_id = fields.Many2one("res.currency", compute="_compute_valor_declarado", string="Currency", readonly=True)
+    # valor_declarado = fields.Monetary(string="Valor declarado", compute="_compute_valor_declarado")
+    # currency_id = fields.Many2one("res.currency", compute="_compute_valor_declarado", string="Currency", readonly=True)
     reason_id = fields.Many2one(comodel_name="stock.return.picking.reason", string= 'Motivo de devolución')
     sale_order_type_id = fields.Many2one(related="sale_id.type_id", string= 'Tipo de venta')
 
-    def _compute_valor_declarado(self):
-        for rec in self:
-            if rec.sale_id:
-                rec.valor_declarado = rec.sale_id.amount_untaxed
-                rec.currency_id = rec.sale_id.currency_id
-            else:
-                rec.currency_id = self.env.user.company_id.currency_id
+    # def _compute_valor_declarado(self):
+    #     for rec in self:
+    #         if rec.sale_id:
+    #             rec.valor_declarado = rec.sale_id.amount_untaxed
+    #             rec.currency_id = rec.sale_id.currency_id
+    #         else:
+    #             rec.currency_id = self.env.user.company_id.currency_id
 
     @api.multi
     def do_print_voucher(self):
