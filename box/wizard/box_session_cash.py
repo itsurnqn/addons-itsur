@@ -9,7 +9,9 @@ class BoxSessionCashIn(models.TransientModel):
 
     box_session_id = fields.Many2one('box.session',string='Sesión')
 
-    description = fields.Char(string='Motivo')
+    description = fields.Char(string='Descripción')
+
+    reason_id = fields.Many2one(comodel_name="box.session.cash.reason", string= 'Motivo de movimiento', domain=[('in_reason','=',True)])
 
     @api.model
     def default_get(self, field_names):
@@ -28,7 +30,8 @@ class BoxSessionCashIn(models.TransientModel):
             # 'partner_id': self.partner_id.id,
             # 'ref': self.box_session_id.name,
             # 'account_payment_id': rec2.id,
-            'box_session_journal_id': box_session_journal_id.id
+            'box_session_journal_id': box_session_journal_id.id,
+            'reason_id': self.reason_id.id,            
         }
 
         self.env['box.session.journal.line'].create(vals)        
@@ -69,7 +72,9 @@ class BoxSessionCashOut(models.TransientModel):
 
     box_session_id = fields.Many2one('box.session',string='Sesión')
 
-    description = fields.Char(string='Motivo')
+    description = fields.Char(string='Descripción')
+
+    reason_id = fields.Many2one(comodel_name="box.session.cash.reason", string= 'Motivo de movimiento', domain=[('out_reason','=',True)])
 
     @api.model
     def default_get(self, field_names):
@@ -88,7 +93,8 @@ class BoxSessionCashOut(models.TransientModel):
             # 'partner_id': self.partner_id.id,
             # 'ref': self.box_session_id.name,
             # 'account_payment_id': rec2.id,
-            'box_session_journal_id': box_session_journal_id.id
+            'box_session_journal_id': box_session_journal_id.id,
+            'reason_id': self.reason_id.id,
         }
 
         self.env['box.session.journal.line'].create(vals)

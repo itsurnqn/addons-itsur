@@ -26,6 +26,7 @@
                                 <field name="partner_id"/>
                                 <field name="account_payment_id"/>
                                 <field name="amount"/>
+                                <field name="sale_type"/>
                             </tree>
                         </field>
                     </page>

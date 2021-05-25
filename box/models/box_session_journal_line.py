@@ -42,3 +42,20 @@ class BoxSessionJournalLine(models.Model):
     box_session_name = fields.Char(related="box_session_journal_id.box_session_id.name", string="Sesión de caja")        
 
     expense_id = fields.Many2one('hr.expense', string='Gasto')
+
+    sale_type = fields.Char(compute='_compute_sale_type', string='Tipo de venta')
+    
+    box_id = fields.Many2one(related="box_session_journal_id.box_session_id.box_id", string="Caja", store=True)
+    box_session_id = fields.Many2one(related="box_session_journal_id.box_session_id", string="Sesión", store=True)
+
+    journal_id = fields.Many2one(related="box_session_journal_id.journal_id", string="Diario", store=True)
+
+    reason_id = fields.Many2one(comodel_name="box.session.cash.reason", string= 'Motivo de movimiento')
+
+    @api.depends('account_payment_id')
+    def _compute_sale_type(self):
+        for rec in self:
+            if rec.account_payment_id and rec.account_payment_id.payment_group_id.matched_move_line_ids:
+                rec.sale_type = rec.account_payment_id.payment_group_id.matched_move_line_ids[0].invoice_id.sale_type_id.name
+            else:
+                rec.sale_type = ''

@@ -8,3 +8,4 @@ from . import account_payment_group
 from . import account_payment
 from . import hr_expense
 from . import hr_expense_sheet
+from . import box_session_cash_reason
