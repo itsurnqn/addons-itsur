@@ -117,7 +117,7 @@
                             </div>
                         </t>
 
-                        <!-- <t t-foreach="move.move_line_ids" t-as="line">
+                        <t t-foreach="move.move_line_ids" t-as="line">
                             <t t-if="line.picking_voucher_id.id == voucher.id">
                                 <div class="row" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
                                     <div class="col-2 text-center">
@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                             </t>
-                        </t> -->
+                        </t>
                     </t>
                     <br/>
 
