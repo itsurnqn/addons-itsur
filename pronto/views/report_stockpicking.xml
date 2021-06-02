@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col-8 text-left">
                                     <t t-if="move.move_line_ids[0].lot_id">
-                                        <span><t t-esc="move.product_id.name + ' - Nro. de series: ' + str([x.name for x in move.move_line_ids.mapped('lot_id')])" /></span>
+                                        <span><t t-esc="move.product_id.name + ' - Nro. de series: ' + '; '.join([x.name for x in move.move_line_ids.mapped('lot_id')]) " /></span>
                                     </t>
                                     <t t-else="">
                                         <span><t t-esc="move.product_id.name" /></span>
