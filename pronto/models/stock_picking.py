@@ -45,9 +45,9 @@ class ProntoStockPicking(models.Model):
 
         for voucher in vouchers:
             # movimientos que todavía no tienen remitos asignados
-            move_lines = self.env['stock.move.line'].search(['&',('picking_id','=',self.id),('picking_voucher_id','=',False)])
+            moves = self.env['stock.move'].search(['&',('picking_id','=',self.id),('picking_voucher_id','=',False)])
             renglon = 0
-            for move in move_lines:
+            for move in moves:
                 move.write({'picking_voucher_id': voucher.id})
                 renglon = renglon + 1
                 if renglon >= cantidad_renglones:
@@ -57,8 +57,8 @@ class ProntoStockPicking(models.Model):
 
     @api.multi
     def clean_voucher_data(self):
-        move_lines = self.env['stock.move.line'].search([('picking_id','=',self.id)])
-        for move in move_lines:
+        moves = self.env['stock.move'].search([('picking_id','=',self.id)])
+        for move in moves:
             move.picking_voucher_id = None
         result = super(ProntoStockPicking,self).clean_voucher_data()
 

@@ -22,10 +22,12 @@
     # any module necessary for this one to work correctly
     'depends': ['base','account_payment_group','crm','purchase','sale_crm',
                 'sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux',
-                'sale_stock_info_popup','sale_ux','product_pack','delivery','sale_stock_ux','stock_ux'],
+                'sale_stock_info_popup','sale_ux','product_pack','delivery','sale_stock_ux','stock_ux','account_financial_risk','product'],
 
     # always loaded
     'data': [
+        'security/pronto_security.xml',
+        'wizards/partner_risk_exceeded_view.xml',        
         'views/stock_return_picking_reason_views.xml',
         'wizards/stock_return_picking_views.xml',
         'views/product_pricelist_item_history_views.xml',
@@ -33,8 +35,7 @@
         'views/product_price_history_views.xml',
         'views/mail_activity_view.xml',               
         'report/sale_report_pronto.xml',        
-        'views/sale_views.xml',
-        'security/pronto_security.xml',
+        'views/sale_views.xml',        
         'security/ir.model.access.csv',
         'views/account_check_views.xml',
         'views/account_payment_views.xml',

@@ -17,6 +17,7 @@
             </xpath>
             <field name="opportunity_id" position="attributes">
                 <attribute name="groups">base.group_user</attribute>
+                <attribute name="context">{'default_type': 'opportunity'}</attribute>
             </field>
             <field name="commitment_date" position="after">
                 <label for="weight" string="Peso total"/>

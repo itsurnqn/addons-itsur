@@ -117,6 +117,7 @@
                                         <th>Socio</th>                                        
                                         <th>Pago</th>
                                         <th class="text-right">Importe</th>
+                                        <th>Tipo de venta</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,7 +131,8 @@
                                         <td class="text-right">
                                             <span t-field="line.amount"
                                                 t-field-options='{"widget": "monetary", "display_currency": "statement.currency_id"}'/>
-                                        </td>                                        
+                                        </td>
+                                        <td><span t-field="line.sale_type"/></td>                                        
                                         <!-- <field name="account_payment_id"/> -->
                                     </tr>
                                 </tbody>

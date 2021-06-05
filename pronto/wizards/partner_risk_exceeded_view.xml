@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Copyright 2016-2018 Tecnativa - Carlos Dauden
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="partner_risk_exceeded_wizard_inherit" model="ir.ui.view">
+        <field name="name">Partner risk exceeded</field>
+        <field name="model">partner.risk.exceeded.wiz</field>
+        <field name="inherit_id" ref="account_financial_risk.partner_risk_exceeded_wizard"/>        
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='button_continue']" position="attributes">
+                <attribute name="groups">account.group_account_manager,pronto.group_gestionar_riesgo_financiero</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

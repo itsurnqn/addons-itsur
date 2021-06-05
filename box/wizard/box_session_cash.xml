@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record id="ajustes caja - Ingreso" model="ir.ui.view">
+    <record id="view_cash_in" model="ir.ui.view">
         <field name="name">Ingreso de caja</field>
         <field name="model">box.session.cash.in</field>
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <group> <field name="description" /> </group>
+                    <group>
+                        <field name="description" />
+                        <field name="reason_id" />
+                    </group>
                     <group> <field name="amount" /> </group>
                     <!-- <group> <field name="box_session_id" invisible="True"/> </group> -->                    
                 </group>
@@ -26,7 +29,10 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <group> <field name="description" /> </group>
+                    <group> 
+                        <field name="description" />
+                        <field name="reason_id" />
+                    </group>
                     <group> <field name="amount" /> </group>
                     <!-- <group> <field name="box_session_id" invisible="True"/> </group> -->                    
                 </group>

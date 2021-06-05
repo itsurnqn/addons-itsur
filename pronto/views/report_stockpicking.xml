@@ -97,7 +97,26 @@
                     </div>
                     <br/>
 
-                    <t t-foreach="o.move_ids_without_package" t-as="move">                        
+                    <t t-foreach="o.move_ids_without_package" t-as="move">
+                        <t t-if="move.picking_voucher_id.id == voucher.id">
+                            <div class="row" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
+                                <div class="col-2 text-center">
+                                    <span><t t-esc="move.product_id.default_code" /></span>
+                                </div>
+                                <div class="col-8 text-left">
+                                    <t t-if="move.move_line_ids[0].lot_id">
+                                        <span><t t-esc="move.product_id.name + ' - Nro. de series: ' + '; '.join([x.name for x in move.move_line_ids.mapped('lot_id')]) " /></span>
+                                    </t>
+                                    <t t-else="">
+                                        <span><t t-esc="move.product_id.name" /></span>
+                                    </t>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <span><t t-esc="move.quantity_done" /></span>
+                                </div>
+                            </div>
+                        </t>
+
                         <t t-foreach="move.move_line_ids" t-as="line">
                             <t t-if="line.picking_voucher_id.id == voucher.id">
                                 <div class="row" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">

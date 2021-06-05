@@ -124,7 +124,7 @@
                     <separator string="Resumen por medio de pago" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
                     <field name="box_session_journal_ids" attrs="{'invisible' : [('state', '=', 'opening_control')]}">
                         <tree string="Medios de pago">
-                            <!-- <field name="name" /> -->
+                            <!-- <field name="name" /> -->                            
                             <field name="journal_id" />
                             <field name="balance_start" />
                             <field name="total_entry_encoding" />

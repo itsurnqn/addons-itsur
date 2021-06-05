@@ -24,6 +24,7 @@
                         <field name="confirmation_date"/>
                         <field name="pricelist_id"/>
                         <field name="product_id"/>
+                        <field name="product_uom_qty"/>
                         <field name="costo_total_pesos"/>                
                         <field name="precio_total_pesos"/>
                         <field name="discount"/>
@@ -47,6 +48,7 @@
                 <field name="confirmation_date"/>
                 <field name="pricelist_id"/>
                 <field name="product_id"/>
+                <field name="product_uom_qty"/>
                 <field name="costo_total_pesos"/>                
                 <field name="precio_total_pesos"/>
                 <field name="discount" avg="Descuento Promedio"/>

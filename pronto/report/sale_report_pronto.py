@@ -18,7 +18,7 @@ class SaleReportPronto(models.Model):
     confirmation_date = fields.Datetime('Fecha de confirmación', readonly=True)
     product_id = fields.Many2one('product.product', 'Producto', readonly=True)
     # product_uom = fields.Many2one('uom.uom', 'Unit of Measure', readonly=True)
-    # product_uom_qty = fields.Float('Qty Ordered', readonly=True)
+    product_uom_qty = fields.Float('Cant. pedida', readonly=True)
     # qty_delivered = fields.Float('Qty Delivered', readonly=True)
     # qty_to_invoice = fields.Float('Qty To Invoice', readonly=True)
     # qty_invoiced = fields.Float('Qty Invoiced', readonly=True)
@@ -66,6 +66,7 @@ class SaleReportPronto(models.Model):
             l.id as id,
             l.product_id as product_id,
             t.uom_id as product_uom,
+            l.product_uom_qty as product_uom_qty,
             s.name as name,
             s.date_order as date,
             s.confirmation_date as confirmation_date,
