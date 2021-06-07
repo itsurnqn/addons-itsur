@@ -207,8 +207,14 @@ class SaleOrder(models.Model):
 
     cotizacion = fields.Float(string='Cotización',help='Cotización de la moneda del pedido respecto a la moneda de la companía.')
 
+    debt_balance_currency_id = fields.Many2one(
+        string='Company Currency',
+        related='company_id.currency_id',
+    )
+
     debt_balance = fields.Monetary(
         related='partner_id.debt_balance',
+        currency_field = 'debt_balance_currency_id',
         string = 'Saldo'
     )
 
