@@ -39,6 +39,7 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="opportunity_id" />
+                <field name="tag_ids" />
             </field>
         </field>
     </record>
