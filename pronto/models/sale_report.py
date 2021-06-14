@@ -15,6 +15,8 @@ class SaleReport(models.Model):
     precio_total_pesos = fields.Float('Precio total en pesos', readonly=True)
     porcentaje = fields.Float('Porcentaje', readonly=True)
 
+    tag_ids = fields.Many2many(related="order_id.tag_ids",string = "Etiquetas")
+
     # este no hace falta. El filtro que usa (product_id not null) para que no se muestren las seccione
     # display_type = fields.Selection([
     #     ('line_section', "Section"),
