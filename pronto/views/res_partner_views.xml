@@ -38,6 +38,10 @@
                 <attribute name="attrs">{'required': [('customer','=',True),('country_id','=',10)]}</attribute>
             </field>
 
+            <field name="country_id" position="attributes">
+                <attribute name="attrs">{'required': [('customer','=',True)]}</attribute>
+            </field>
+
         </field>
     </record>
 
