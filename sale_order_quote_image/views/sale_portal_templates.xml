@@ -8,8 +8,8 @@
         </xpath>
         <xpath expr="//table[@id='sales_order_table']/tbody/t[2]/tr/t[1]/td[1]" position="before">
             <t t-if="sale_order.print_image">
-                <td id="image">                
-                    <span t-field="line.image_small" t-options="{'widget': 'image'}" class="media-object" />
+                <td id="image">
+                    <img class="media-object" t-if="line.image_small" t-att-src="image_data_uri(line.image_small)" alt="Imagen"/>                    
                 </td>
             </t>
         </xpath>
