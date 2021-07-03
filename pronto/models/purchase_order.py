@@ -10,6 +10,8 @@ import datetime
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
+    picking_type_id = fields.Many2one(default=False)
+
     @api.multi
     def actualizar_costos(self):
         net_price_installed = 'net_price' in self.env[

@@ -67,7 +67,13 @@
                     <field name="state"/>
                 </tree>
             </field>
-                        
+
+            <field name="move_ids_without_package" position="after">
+                <group>
+            	    <field name="reason_id" readonly="1" />
+                </group>
+            </field>
+
         </field>
     </record>
 

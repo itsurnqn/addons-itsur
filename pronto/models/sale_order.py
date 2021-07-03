@@ -207,10 +207,18 @@ class SaleOrder(models.Model):
 
     cotizacion = fields.Float(string='Cotización',help='Cotización de la moneda del pedido respecto a la moneda de la companía.')
 
+    debt_balance_currency_id = fields.Many2one(
+        string='Company Currency',
+        related='company_id.currency_id',
+    )
+
     debt_balance = fields.Monetary(
         related='partner_id.debt_balance',
+        currency_field = 'debt_balance_currency_id',
         string = 'Saldo'
     )
+
+    sale_order_reference = fields.Char("Referencia")
 
     @api.depends('partner_shipping_id')
     def _compute_available_carrier(self):
@@ -246,17 +254,22 @@ class SaleOrder(models.Model):
 
     @api.multi
     def _action_confirm(self):
-        if self.user_has_groups('pronto.group_commitment_date_required'):
-            if not self.commitment_date:
-                raise UserError(
-                                'Debe informar la fecha de compromiso'
-                                )
         super(SaleOrder, self)._action_confirm()
         for picking in self.picking_ids:
             self.env['procurement.group'].run_smart_scheduler(picking.id)
         # import pdb; pdb.set_trace()
         for line in self.order_line.filtered(lambda x: x.product_id.type == 'service' and x.product_id.entregar_al_confirmar_prespuesto):
             line.qty_delivered = line.product_uom_qty
+
+    @api.multi
+    def write(self, values):
+        if self.user_has_groups('pronto.group_commitment_date_required'):
+            if ('state' in values and self.state != 'done' and values['state'] == 'sale') or 'user_requesting_review' in values:
+                    if not self.commitment_date:
+                        raise UserError(
+                                'Debe informar la fecha de compromiso'
+                                )
+        return super(SaleOrder, self).write(values)
 
     @api.multi
     def update_prices(self):

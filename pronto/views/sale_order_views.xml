@@ -9,8 +9,11 @@
             <xpath expr="//button[@name='action_unlock']" position="attributes">
                 <attribute name="groups">sales_team.group_sale_manager,pronto.group_unlock_sale_order</attribute>
             </xpath>
-            <field name="payment_term_id" position="before">
-                <field name="debt_balance" decoration-danger="debt_balance &gt; 0" decoration-success="debt_balance &lt; 0" attrs="{'invisible': [('state', 'in', ['sale', 'done', 'cancel'])]}"/>
+            <field name="partner_shipping_id" position="after">                
+                <field name="sale_order_reference" />
+            </field>
+            <field name="payment_term_id" position="before">                
+                <field name="debt_balance" widget='monetary' options="{'currency_field': 'debt_balance_currency_id'}" decoration-danger="debt_balance &gt; 0" decoration-success="debt_balance &lt; 0" attrs="{'invisible': [('state', 'in', ['sale', 'done', 'cancel'])]}"/>                
             </field>
             <xpath expr="//group[@name='technical']" position="attributes">
                 <attribute name="groups">base.group_user</attribute>
@@ -39,6 +42,7 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="opportunity_id" />
+                <field name="tag_ids" />
             </field>
         </field>
     </record>
@@ -86,6 +90,17 @@
             <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="replace">
                 <field name="purchase_price" groups="base.group_user" readonly="1" force_save="1" />
             </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_tree_extend" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">                
+                <field name="sale_order_reference" />
+            </field>
         </field>
     </record>
 

@@ -42,19 +42,14 @@
                     <div class="page" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
                         <br/>
                         <br/>
-                        <br/>                        
-                        <t t-if="o.partner_id.parent_id">
-                            <t t-set="cliente_id" t-value="o.partner_id.parent_id"/>
-                        </t>
-                        <t t-else="">
-                            <t t-set="cliente_id" t-value="o.partner_id"/>
-                        </t>
+                        <br/>
+                        <t t-set="cliente_id" t-value="o.partner_id"/>
                         <div class="row">
                             <div class="col-2">
                             </div>
                             <div class="col-7">
                                 <!-- cliente -->
-                                <span><span t-field="cliente_id.name"/></span>
+                                <span><span t-field="cliente_id.display_name"/></span>
                             </div>
                             <div class="col-3">
                                 <!-- IVA -->
@@ -66,7 +61,7 @@
                             <div class="col-2">                                    
                             </div>
                             <div class="col-7">
-                                <span><t t-esc="cliente_id.street" /> - <t t-esc="cliente_id.city" /></span>
+                                <span><t t-esc="cliente_id.street" /> - <t t-esc="cliente_id.city" />  (<t t-esc="cliente_id.zip" />)</span>
                             </div>
                             <div class="col-3">
                                 <span><t t-esc="cliente_id.main_id_number" /> </span>
@@ -99,22 +94,24 @@
 
                     <t t-foreach="o.move_ids_without_package" t-as="move">
                         <t t-if="move.picking_voucher_id.id == voucher.id">
-                            <div class="row" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
-                                <div class="col-2 text-center">
-                                    <span><t t-esc="move.product_id.default_code" /></span>
+                            <t t-if="move.move_line_ids">
+                                <div class="row" style="font-size: 11pt;font-family:Helvetica,Verdana,Arial,sans,Lucida Grande,Calibri;">
+                                    <div class="col-2 text-center">
+                                        <span><t t-esc="move.product_id.default_code" /></span>
+                                    </div>
+                                    <div class="col-8 text-left">
+                                        <t t-if="move.move_line_ids[0].lot_id">
+                                            <span><t t-esc="move.product_id.name + ' - Nro. de series: ' + '; '.join([x.name for x in move.move_line_ids.mapped('lot_id')]) " /></span>
+                                        </t>
+                                        <t t-else="">
+                                            <span><t t-esc="move.product_id.name" /></span>
+                                        </t>
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <span><t t-esc="move.quantity_done" /></span>
+                                    </div>
                                 </div>
-                                <div class="col-8 text-left">
-                                    <t t-if="move.move_line_ids[0].lot_id">
-                                        <span><t t-esc="move.product_id.name + ' - Nro. de series: ' + '; '.join([x.name for x in move.move_line_ids.mapped('lot_id')]) " /></span>
-                                    </t>
-                                    <t t-else="">
-                                        <span><t t-esc="move.product_id.name" /></span>
-                                    </t>
-                                </div>
-                                <div class="col-2 text-center">
-                                    <span><t t-esc="move.quantity_done" /></span>
-                                </div>
-                            </div>
+                            </t>
                         </t>
 
                         <t t-foreach="move.move_line_ids" t-as="line">

@@ -26,6 +26,7 @@
 
     # always loaded
     'data': [
+        'views/stock_quant_views.xml',        
         'security/pronto_security.xml',
         'wizards/partner_risk_exceeded_view.xml',        
         'views/stock_return_picking_reason_views.xml',

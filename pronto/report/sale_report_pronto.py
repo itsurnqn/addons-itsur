@@ -59,6 +59,8 @@ class SaleReportPronto(models.Model):
     cotizacion = fields.Float('Cotización USD', readonly=True, group_operator='avg')
     precio_total_usd = fields.Float('Precio total en USD', readonly=True)
 
+    tag_ids = fields.Many2many(related="order_id.tag_ids",string = "Etiquetas")
+    
     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
         with_ = ("WITH %s" % with_clause) if with_clause else ""
 
