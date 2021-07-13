@@ -15,10 +15,10 @@ class ProductTemplate(models.Model):
     def _get_default_uom_id(self):
         return 0
 
-    uom_id = fields.Many2one(default=_get_default_uom_id)
-    uom_po_id = fields.Many2one(default=_get_default_uom_id)
+    # uom_id = fields.Many2one(default=_get_default_uom_id)
+    # uom_po_id = fields.Many2one(default=_get_default_uom_id)
 
-    categ_id = fields.Many2one(default=0)
+    # categ_id = fields.Many2one(default=0)
 
     show_components_to_customer = fields.Boolean("Mostrar componentes al cliente", default=True)
 
@@ -86,9 +86,9 @@ class ProductTemplate(models.Model):
     @api.model
     def create(self,values):
         # import pdb; pdb.set_trace()
-        # if 'type' in values or 'pack_ok' in values:
-        if values['pack_ok'] and values['type'] !='service':
-            raise UserError("El Tipo de producto de los pack´s debe ser 'Servicio' ")
+        if 'type' in values and 'pack_ok' in values:
+            if values['pack_ok'] and values['type'] !='service':
+                raise UserError("El Tipo de producto de los pack´s debe ser 'Servicio' ")
 
         if not self.user_has_groups('pronto.group_no_exigir_campos_producto_vendible'):
             mensaje_validacion = ""

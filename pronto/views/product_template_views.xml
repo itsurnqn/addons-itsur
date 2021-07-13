@@ -90,11 +90,15 @@
     </record>
 
     <record id="sale.product_template_action" model="ir.actions.act_window">
-        <field name="context">{"search_default_filter_to_sell":1, "sale_multi_pricelist_product_template": 1, 'default_type': 'product'}</field>
+        <field name="context">{"search_default_filter_to_sell":1, "sale_multi_pricelist_product_template": 1, 'default_type': 'product', 'default_categ_id':0, 'default_uom_id':0, 'default_uom_po_id':0}</field>
     </record>
 
     <record id="purchase.product_normal_action_puchased" model="ir.actions.act_window">
-        <field name="context">{"search_default_filter_to_purchase":1, "purchase_product_template": 1, 'default_type': 'product'}</field>
+        <field name="context">{"search_default_filter_to_purchase":1, "purchase_product_template": 1, 'default_type': 'product', 'default_categ_id':0, 'default_uom_id':0, 'default_uom_po_id':0}</field>
+    </record>
+
+    <record id="stock.product_template_action_product" model="ir.actions.act_window">
+        <field name="context">{"search_default_consumable": 1, 'default_type': 'product', 'default_categ_id':0, 'default_uom_id':0, 'default_uom_po_id':0}</field>
     </record>
 
     <record id="product_pack_product_template_form_view_inherit" model="ir.ui.view">
