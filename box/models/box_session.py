@@ -97,6 +97,8 @@ class BoxSession(models.Model):
     # https://stackoverflow.com/questions/48926199/how-to-get-the-current-logged-user-in-xml-odoo-v11
     usuario_actual_responsable = fields.Boolean('Usuario actual responsable de la sesión?', compute='_get_usuario_actual_responsable')
 
+    arqueo_inicial_realizado = fields.Boolean('Arqueo realizado',default=False)
+
     @api.depends()
     def _get_usuario_actual_responsable(self):
         # import pdb; pdb.set_trace()
@@ -189,8 +191,8 @@ class BoxSession(models.Model):
                 'journal_id': journal.id,
                 # 'user_id': self.env.user.id,
                 # 'name': box_name,
-                'box_session_id': res.id
-                # ,'balance_start': self.env["account.bank.statement"]._get_opening_balance(journal.id) if journal.type == 'cash' else 0
+                'box_session_id': res.id,
+                'balance_start': box_box.last_closed_session_id.box_session_journal_cash_ids.filtered(lambda x:x.journal_id.id==journal.id).balance_end_real if journal.type == 'cash' else 0
             }
 
             session_journals.append(ABS.with_context(ctx).sudo(uid).create(st_values).id)
@@ -212,8 +214,9 @@ class BoxSession(models.Model):
             raise UserError(_("Ya existe una sesión iniciada para esta caja"))
 
         for session in self.filtered(lambda session: session.state == 'opening_control'):
-            if session.cash_register_balance_start == 0:
-                raise UserError(_("Debe informar el saldo inicial"))
+            if not session.arqueo_inicial_realizado:
+            # if session.cash_register_balance_start == 0:
+                raise UserError(_("El arqueo inicial está pendiente."))
             values = {}
             if not session.start_at:
                 values['start_at'] = fields.Datetime.now()
@@ -312,3 +315,9 @@ class BoxSession(models.Model):
             'res_model': 'box.session.cash.expense',
             'target': 'new'  
         }
+
+    @api.multi
+    def write(self, values):
+        if not self.usuario_actual_responsable:
+            raise ValidationError("Solo el usuario responsable puede editar la sesión")
+        super(BoxSession,self).write(values)
