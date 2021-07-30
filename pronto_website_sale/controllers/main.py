@@ -205,3 +205,20 @@ class ProntoWebsiteSale(WebsiteSale):
         if post.get('xhr'):
             return 'ok'
         return request.render("website_sale.checkout", values)
+
+    # addons\website_sale\controllers\main.py:744
+    @route()
+    def confirm_order(self, **post):
+        res = super().confirm_order(**post)
+        order = request.website.sale_get_order()
+        # import pdb; pdb.set_trace()
+        notification_ids = []
+        notification_ids.append((0,0,{
+                'res_partner_id':order.user_id.id}))        
+        order.message_post(
+            body='Se confirmó el pedido!', 
+            message_type='notification', 
+            subtype='mail.mt_comment',
+            notification_ids=notification_ids)
+
+        return res

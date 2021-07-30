@@ -4,7 +4,7 @@
         <field name="name">box.session.form.view</field>
         <field name="model">box.session</field>
         <field name="arch" type="xml">
-            <form string="Sesión de caja" create="false" delete="false" edit="false">
+            <form string="Sesión de caja" create="false" delete="false" edit="true">
                 <header>
 
                     <button name="action_box_session_open" type="object" string="ABRIR SESIÓN"
@@ -54,7 +54,7 @@
                             </div>
                         </button>
 
-                        <button class="oe_stat_button" name="box_cash_open"
+                        <!-- <button class="oe_stat_button" name="box_cash_open"
                             type="object" 
                             icon="fa-money"
                             attrs="{'invisible':['|', '|', ('usuario_actual_responsable', '==', False),('cash_control', '=', False), ('state', '!=', 'opening_control')]}">
@@ -72,7 +72,7 @@
                                 <span class="o_stat_text">Informar</span>
                                 <span class="o_stat_text">saldo final</span>
                             </div>
-                        </button>
+                        </button> -->
 
                     </div>
                     <h1 class="oe_title">
@@ -82,9 +82,10 @@
                     <group>
                         <field name="cash_control" invisible="1" />
                         <group>
-                            <field name="user_id"/>                            
+                            <field name="user_id" readonly="1"/>                            
                             <field name="box_id" readonly="1"/>
                             <field name="usuario_actual_responsable" invisible='1' />
+                            <field name="arqueo_inicial_realizado" attrs="{'invisible' : [('state', '!=', 'opening_control')]}"/>
                         </group>
                         <group>
                             <field name="start_at" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
@@ -92,35 +93,22 @@
                         </group>
                         <newline/>
 
-                        <div attrs="{'invisible' : [('cash_control', '=', False)]}">
-                            <group class="oe_subtotal_footer oe_right">
-                                <field name="cash_register_balance_start" readonly="1" string="Saldo Inicial" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <label for="cash_register_total_entry_encoding" attrs="{'invisible' : [('state', '=', 'opening_control')]}" string="+ Transacciones" class="oe_force_bold oe_opening_total"/>
-                                <field name="cash_register_total_entry_encoding" nolabel="1" attrs="{'invisible' : [('state', '=', 'opening_control')]}" class="oe_bold oe_pos_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <label for="cash_register_balance_end" attrs="{'invisible' : [('state', '=', 'opening_control')]}" string="= Saldo Final Teórico" class="oe_force_bold oe_opening_total"/>
-                                <field name="cash_register_balance_end" nolabel="1" attrs="{'invisible' : [('state', '=', 'opening_control')]}" class="oe_bold oe_pos_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            </group>
-                            <div class="oe_clear"/>
-                            <!-- <div attrs="{'invisible' : ['|', ('cash_journal_id', '=', False), ('state', '!=', 'opening_control')]}" class="o_field_nocontent" groups="point_of_sale.group_pos_manager">
-                                <p>
-                                    You can define another list of available currencies on the
-                                    <i>Cash Registers</i> tab of the <b><field name="cash_journal_id" class="oe_inline"/></b>
-                                    payment method.
-                                </p>
-                            </div> -->
-                        </div>
-                        <div>
-                            <group class="oe_subtotal_footer oe_right" attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', '=', 'opening_control')]}">
-                                <field name="cash_register_balance_end_real" string="Saldo Final Real" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            </group>
-                            <group/>
-                            <group/>
-                            <group class="oe_subtotal_footer oe_right" attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', '=', 'opening_control')]}">
-                                <field name="cash_register_difference" class="oe_subtotal_footer_separator oe_right oe_pos_total oe_pos_difference" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            </group>
-                        </div>
-
                     </group>
+                    <separator string="EFECTIVO" attrs="{'invisible': ['|', ('state', '=', 'closed'), ('state', '=', 'opened')]}"/>
+                    <field name="box_session_journal_cash_ids" attrs="{'invisible': ['|', ('state', '=', 'closed'), ('state', '=', 'opened')]}">
+                        <tree string="Medios de pago" create="false" delete="false" edit="true" editable="bottom">
+                            <!-- <field name="name" /> -->                            
+                            <field name="journal_id" readonly="True"/>
+                            <field name="balance_start" attrs="{'readonly': [('parent.state', '=', 'closing_control')],'column_invisible': [('parent.state', '=', 'closing_control')]}"/>
+                            <!-- <field name="total_entry_encoding" attrs="{'column_invisible': [('parent.state', '=', 'opening_control')]}" readonly="True"/>                                                                     -->
+                            <!-- <field name="balance_end" attrs="{'column_invisible': [('parent.state', '=', 'opening_control')]}" readonly="True" />                             -->
+                            <field string="Saldo final REAL" name="balance_end_real" attrs="{'column_invisible': [('parent.state', '=', 'opening_control')]}"/>
+                            <!-- <field name="difference" attrs="{'column_invisible': [('parent.state', '=', 'opening_control')]}" readonly="True"/> -->
+                            <field name="currency_id" groups="base.group_multi_currency" readonly="True"/>
+                            <!-- <field name="state" /> -->
+                        </tree>
+                    </field>
+
                     <separator string="Resumen por medio de pago" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
                     <field name="box_session_journal_ids" attrs="{'invisible' : [('state', '=', 'opening_control')]}">
                         <tree string="Medios de pago">
@@ -128,8 +116,9 @@
                             <field name="journal_id" />
                             <field name="balance_start" />
                             <field name="total_entry_encoding" />
+                            <field name="balance_end" />                            
                             <field name="balance_end_real" />
-                            <!-- <field name="difference" /> -->
+                            <field name="difference" />
                             <field name="currency_id" groups="base.group_multi_currency" />
                             <!-- <field name="state" /> -->
                         </tree>

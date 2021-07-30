@@ -52,6 +52,8 @@ class BoxSession(models.Model):
 
     box_session_journal_ids = fields.One2many('box.session.journal', 'box_session_id', readonly=True)
     
+    box_session_journal_cash_ids = fields.One2many('box.session.journal', 'box_session_id',domain=[('journal_id.type','=','cash')])
+
     # statement_ids = fields.One2many('account.bank.statement', 'pos_session_id', string='Bank Statement', readonly=True)
 
     cash_control = fields.Boolean(compute='_compute_cash_all', string='Has Cash Control',default=True,readonly=True)
@@ -94,6 +96,8 @@ class BoxSession(models.Model):
     # is always computed.
     # https://stackoverflow.com/questions/48926199/how-to-get-the-current-logged-user-in-xml-odoo-v11
     usuario_actual_responsable = fields.Boolean('Usuario actual responsable de la sesión?', compute='_get_usuario_actual_responsable')
+
+    arqueo_inicial_realizado = fields.Boolean('Arqueo realizado',default=False)
 
     @api.depends()
     def _get_usuario_actual_responsable(self):
@@ -187,8 +191,8 @@ class BoxSession(models.Model):
                 'journal_id': journal.id,
                 # 'user_id': self.env.user.id,
                 # 'name': box_name,
-                'box_session_id': res.id
-                # ,'balance_start': self.env["account.bank.statement"]._get_opening_balance(journal.id) if journal.type == 'cash' else 0
+                'box_session_id': res.id,
+                'balance_start': box_box.last_closed_session_id.box_session_journal_cash_ids.filtered(lambda x:x.journal_id.id==journal.id).balance_end_real if journal.type == 'cash' else 0
             }
 
             session_journals.append(ABS.with_context(ctx).sudo(uid).create(st_values).id)
@@ -210,8 +214,9 @@ class BoxSession(models.Model):
             raise UserError(_("Ya existe una sesión iniciada para esta caja"))
 
         for session in self.filtered(lambda session: session.state == 'opening_control'):
-            if session.cash_register_balance_start == 0:
-                raise UserError(_("Debe informar el saldo inicial"))
+            if not session.arqueo_inicial_realizado:
+            # if session.cash_register_balance_start == 0:
+                raise UserError(_("El arqueo inicial está pendiente."))
             values = {}
             if not session.start_at:
                 values['start_at'] = fields.Datetime.now()
@@ -234,15 +239,17 @@ class BoxSession(models.Model):
     @api.multi
     def _check_box_session_balance(self):
         # el saldo final real, debería coincidir con el teórico. y sino que cargue el movimiento de ajuste?
-
+        mensaje_error = ''
         for session in self:
-            # if session.cash_register_difference != 0:
-            #     raise UserError(_("Para poder cerrar la caja la diferencia entre el saldo inicial y el final debe ser cero."))
-            if session.cash_register_balance_end < 0:
-                raise UserError(_("El saldo final no puede ser negativo."))
-            if session.cash_register_balance_end != session.cash_register_balance_end_real:
-                raise UserError(_("El saldo final teórico debe coincidir con el real. Informe correctamente el saldo real o haga el ajuste correspondiente."))
+            for journal in session.box_session_journal_ids.filtered(lambda x:x.journal_id.type=='cash'):
+                if journal.balance_end < 0:
+                    mensaje_error += "{}: El saldo final no puede ser negativo. \n\n".format(journal.journal_id.name)
 
+                if journal.balance_end != journal.balance_end_real:
+                    mensaje_error += "{}: El saldo final teórico debe coincidir con el real. Informe correctamente el saldo real o haga el ajuste correspondiente. \n\n".format(journal.journal_id.name)
+
+        if mensaje_error:
+            raise UserError(mensaje_error)
 
     @api.multi
     def action_box_session_validate(self):
@@ -308,3 +315,9 @@ class BoxSession(models.Model):
             'res_model': 'box.session.cash.expense',
             'target': 'new'  
         }
+
+    @api.multi
+    def write(self, values):
+        if not self.usuario_actual_responsable:
+            raise ValidationError("Solo el usuario responsable puede editar la sesión")
+        super(BoxSession,self).write(values)

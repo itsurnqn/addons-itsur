@@ -13,15 +13,19 @@ class BoxSessionCashIn(models.TransientModel):
 
     reason_id = fields.Many2one(comodel_name="box.session.cash.reason", string= 'Motivo de movimiento', domain=[('in_reason','=',True)])
 
+    session_journal_ids = fields.Many2many('account.journal',related='box_session_id.journal_ids')
+
+    journal_id = fields.Many2one('account.journal',string='Diario',domain="[('type','=','cash'),('id','in',session_journal_ids)]")
+
     @api.model
     def default_get(self, field_names):
         defaults = super(
-            BoxSessionCashIn, self).default_get(field_names)
+            BoxSessionCashIn, self).default_get(field_names)        
         defaults['box_session_id'] = self.env.context['active_id']
         return defaults
 
     def do_cash_in(self):
-        box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.box_session_id.cash_journal_id.id)])
+        box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.journal_id.id)])
         #import pdb;pdb.set_trace()
 
         vals = {
@@ -51,6 +55,10 @@ class BoxSessionCashOpen(models.TransientModel):
 
     description = fields.Char(string='Motivo')
 
+    session_journal_ids = fields.Many2many('account.journal',related='box_session_id.journal_ids')
+
+    journal_id = fields.Many2one('account.journal',string='Diario',domain="[('type','=','cash'),('id','in',session_journal_ids)]")
+
     @api.model
     def default_get(self, field_names):
         defaults = super(
@@ -59,7 +67,7 @@ class BoxSessionCashOpen(models.TransientModel):
         return defaults
 
     def do_box_open(self):
-        box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.box_session_id.cash_journal_id.id)]).id
+        box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.journal_id.id)]).id
 
         self.env['box.session.journal'].search([('id','=',box_session_journal_id)]).write({'balance_start':self.amount})
 
@@ -76,6 +84,10 @@ class BoxSessionCashOut(models.TransientModel):
 
     reason_id = fields.Many2one(comodel_name="box.session.cash.reason", string= 'Motivo de movimiento', domain=[('out_reason','=',True)])
 
+    session_journal_ids = fields.Many2many('account.journal',related='box_session_id.journal_ids')
+
+    journal_id = fields.Many2one('account.journal',string='Diario',domain="[('type','=','cash'),('id','in',session_journal_ids)]")
+
     @api.model
     def default_get(self, field_names):
         defaults = super(
@@ -84,7 +96,7 @@ class BoxSessionCashOut(models.TransientModel):
         return defaults
 
     def do_cash_out(self):
-        box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.box_session_id.cash_journal_id.id)])
+        box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.journal_id.id)])
         #import pdb;pdb.set_trace()
 
         vals = {
@@ -109,6 +121,10 @@ class BoxSessionCashClose(models.TransientModel):
 
     description = fields.Char(string='Motivo')
 
+    session_journal_ids = fields.Many2many('account.journal',related='box_session_id.journal_ids')
+
+    journal_id = fields.Many2one('account.journal',string='Diario',domain="[('type','=','cash'),('id','in',session_journal_ids)]")
+
     @api.model
     def default_get(self, field_names):
         defaults = super(
@@ -117,6 +133,6 @@ class BoxSessionCashClose(models.TransientModel):
         return defaults
 
     def do_box_close(self):
-        box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.box_session_id.cash_journal_id.id)]).id
+        box_session_journal_id = self.env['box.session.journal'].search(['&',('box_session_id','=',self.box_session_id.id),('journal_id','=',self.journal_id.id)]).id
 
         self.env['box.session.journal'].search([('id','=',box_session_journal_id)]).write({'balance_end_real':self.amount})
