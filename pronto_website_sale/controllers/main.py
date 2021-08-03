@@ -3,6 +3,7 @@
 # directory
 ##############################################################################
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.addons.website_sale_checkout_skip_payment.controllers.main import CheckoutSkipPayment
 from odoo.http import request, route
 from odoo.tools import config
 
@@ -222,3 +223,15 @@ class ProntoWebsiteSale(WebsiteSale):
             notification_ids=notification_ids)
 
         return res
+
+class CheckoutSkipPaymentPronto(CheckoutSkipPayment):
+
+    @route()
+    def payment_confirmation(self, **post):
+        if not request.website.checkout_skip_payment:
+            return super().payment_confirmation(**post)
+        order = request.env['sale.order'].sudo().browse(
+            request.session.get('sale_last_order_id'))
+        order.write({'state': 'sent'})
+        request.website.sale_reset()
+        return request.render("website_sale.confirmation", {'order': order})                

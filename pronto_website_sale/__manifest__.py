@@ -18,6 +18,7 @@
         'website_sale',
         'l10n_ar_partner',
         'website_sale_stock',
+        'website_sale_checkout_skip_payment',
     ],
     
     "data": [
