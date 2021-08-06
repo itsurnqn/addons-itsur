@@ -6,6 +6,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from datetime import timedelta
 import datetime
+from odoo.exceptions import UserError, ValidationError
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -100,3 +101,10 @@ class PurchaseOrder(models.Model):
                             }
                             # mail_activity_quick_update=True para que no le muestre un aviso al usuario. t-70
                             self.env['mail.activity'].with_context(mail_activity_quick_update=True).create(vals)
+
+    @api.multi
+    def write(self, values):
+        # import pdb; pdb.set_trace()
+        if self.user_has_groups('pronto.group_compras_solo_lectura_ordenes_compra'):
+            raise ValidationError("Su usuario solo está habilitado para escribir en el chatter ")
+        super(PurchaseOrder,self).write(values)
