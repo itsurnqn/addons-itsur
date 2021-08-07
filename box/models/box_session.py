@@ -318,6 +318,6 @@ class BoxSession(models.Model):
 
     @api.multi
     def write(self, values):
-        if not self.usuario_actual_responsable:
-            raise ValidationError("Solo el usuario responsable puede editar la sesión")
+        # if not self.usuario_actual_responsable:
+        #     raise ValidationError("Solo el usuario responsable puede editar la sesión")
         super(BoxSession,self).write(values)
