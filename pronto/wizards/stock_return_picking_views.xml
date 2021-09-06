@@ -6,6 +6,8 @@
         <field name="arch" type="xml">
             <field name="location_id" position="after">
                 <field name="reason_id" options="{'no_create': True, 'no_open': False}"/>
+                <field name="wait_replacement" string="Devolución con reemplazo" attrs="{'invisible':[('in_out','=','outgoing')]}"/>
+                <field name="in_out" invisible="1"/>                
             </field>
         </field>
     </record>
