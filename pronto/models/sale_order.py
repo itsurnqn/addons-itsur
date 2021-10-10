@@ -187,10 +187,10 @@ class SaleOrderLine(models.Model):
                 raise UserError(_(
                     "La cancelación de lo pendiente "
                     "no puede ser invocada para este tipo de pack."))
-            elif self.pack_parent_line_id:
-                raise UserError(_(
-                    "La cancelación de lo pendiente "
-                    "no puede ser invocada producto componente de un pack."))
+            # elif self.pack_parent_line_id:
+            #     raise UserError(_(
+            #         "La cancelación de lo pendiente "
+            #         "no puede ser invocada producto componente de un pack."))
         else:
             return super(SaleOrderLine, self).button_cancel_remaining()
 
