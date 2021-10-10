@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
 
 class SaleOrderLine(models.Model):
@@ -187,7 +187,7 @@ class SaleOrderLine(models.Model):
                 raise UserError(_(
                     "La cancelación de lo pendiente "
                     "no puede ser invocada para este tipo de pack."))
-        elif self.pack_parent_line_id:
+            elif self.pack_parent_line_id:
                 raise UserError(_(
                     "La cancelación de lo pendiente "
                     "no puede ser invocada producto componente de un pack."))
@@ -269,6 +269,9 @@ class SaleOrder(models.Model):
                         raise UserError(
                                 'Debe informar la fecha de compromiso'
                                 )
+
+        if self.user_has_groups('pronto.group_ventas_solo_lectura_pedidos'):
+            raise ValidationError("Su usuario solo está habilitado para escribir en el chatter ")        
         return super(SaleOrder, self).write(values)
 
     @api.multi
