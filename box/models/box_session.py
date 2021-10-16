@@ -187,12 +187,14 @@ class BoxSession(models.Model):
             # account.bank.statement to set the opening balance of the
             # newly created bank statement
             ctx['journal_id'] = journal.id
+            balance_last_session = box_box.last_closed_session_id.box_session_journal_cash_ids.filtered(lambda x:x.journal_id.id==journal.id).balance_end_real if journal.type == 'cash' else 0
             st_values = {
                 'journal_id': journal.id,
                 # 'user_id': self.env.user.id,
                 # 'name': box_name,
                 'box_session_id': res.id,
-                'balance_start': box_box.last_closed_session_id.box_session_journal_cash_ids.filtered(lambda x:x.journal_id.id==journal.id).balance_end_real if journal.type == 'cash' else 0
+                'balance_start': balance_last_session,
+                'balance_end_last_session': balance_last_session,                
             }
 
             session_journals.append(ABS.with_context(ctx).sudo(uid).create(st_values).id)
