@@ -22,6 +22,9 @@ class AccountPayment(models.Model):
     def onchange_box_session_id(self):
         if self.payment_type != 'transfer':
             self.journal_ids = self.box_session_id.journal_ids
+            # import pdb; pdb.set_trace()
+            if not self.box_session_id:
+                raise UserError(_("Debe iniciar una sesión para poder operar con la caja '%s'." % self.box_id.name))
 
     @api.multi
     def cancel(self):

@@ -36,6 +36,16 @@ class AccountPaymentGroup(models.Model):
         # si el usuario cambia la caja, que cargue la sesion activa para esa caja y que blanquee la grilla de pagos
         self.box_session_id = self.env['box.session'].search(['&',('box_id','=',self.box_id.id),('state','=','opened')])
         self.payment_ids = False
+        if not self.box_session_id:
+            raise UserError(_("Debe iniciar una sesión para poder operar con la caja '%s'." % self.box_id.name))
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        # si el usuario cambia la caja, que cargue la sesion activa para esa caja y que blanquee la grilla de pagos
+        self.box_session_id = self.env['box.session'].search(['&',('box_id','=',self.box_id.id),('state','=','opened')])
+        self.payment_ids = False
+        if not self.box_session_id:
+            raise UserError(_("Debe iniciar una sesión para poder operar con la caja '%s'." % self.box_id.name))
 
     @api.multi
     def post(self):
