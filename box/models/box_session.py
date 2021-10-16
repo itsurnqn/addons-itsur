@@ -40,7 +40,8 @@ class BoxSession(models.Model):
     state = fields.Selection(
         POS_SESSION_STATE, string='Status',
         required=True, readonly=True,
-        index=True, copy=False, default='opening_control')
+        index=True, copy=False, default='opening_control',
+        track_visibility='always')
     
     journal_ids = fields.Many2many(
         'account.journal',
@@ -237,6 +238,11 @@ class BoxSession(models.Model):
             session.write({'state': 'closing_control', 'stop_at': fields.Datetime.now()})
             if not session.box_id.cash_control:
                 session.action_box_session_close()
+
+    @api.multi
+    def action_box_session_back_to_opened(self):
+        for session in self:
+            session.write({'state': 'opened'})
 
     @api.multi
     def _check_box_session_balance(self):
