@@ -7,7 +7,8 @@ from odoo.exceptions import UserError
 from datetime import datetime
 
 class AccountPaymentGroup(models.Model):
-    _inherit = 'account.payment.group'
+    _name = 'account.payment.group'
+    _inherit = ['account.payment.group', 'mail.activity.mixin']
 
     def _get_default_box_id(self):
         return self.env.user.default_box_id.id
