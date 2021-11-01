@@ -27,7 +27,11 @@
                     </tree>
                 </field>
             </field>
-            
+
+            <xpath expr="//button[@name='cancel']" position="replace">
+                <button name="cancel_payment" attrs="{'invisible': [('state', '=', 'cancel')]}" string="Cancelar" type="object"/>
+            </xpath>
+
         </field>
     </record>
 

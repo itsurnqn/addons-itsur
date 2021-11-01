@@ -24,6 +24,7 @@
 
     # always loaded
     'data': [
+        'wizard/payment_group_cancel.xml',        
         'views/hr_expense_sheet_views.xml',
         'views/hr_expense_views.xml',
         'wizard/box_session_expense.xml',        

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="cancelar_recibo" model="ir.ui.view">
+        <field name="name">Cancelar recibo</field>
+        <field name="model">payment.group.cancel</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="cancel_reason_note" required="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button type="object" name="do_cancel"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -84,7 +84,7 @@ class AccountPayment(models.Model):
                                     'name': renglon_caja.display_name, 
                                     'amount': -renglon_caja.amount, 
                                     'partner_id': renglon_caja.partner_id.id,
-                                    'ref': ref + ' - Cancelación',
+                                    'ref': ref + ' - Motivo Cancelación: ' + rec.payment_group_id.cancel_reason_note,
                                     'account_payment_id': renglon_caja.account_payment_id.id,
                                     'box_session_journal_id': box_session_journal_id.id,
                                     'anulado': True
