@@ -10,6 +10,7 @@ class SaleOrder(models.Model):
         string='Porcentaje',
         compute='_compute_percent',
         digits=(16, 2),
+        store=True,
         )
 
     @api.depends('margin', 'amount_untaxed')
