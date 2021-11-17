@@ -127,3 +127,16 @@ class ProntoStockPicking(models.Model):
         # res.update({'search_default_by_product':1})
 
         return res
+
+    @api.multi
+    def new_force_availability(self):
+        self.action_assign()
+        for rec in self.mapped('move_lines').filtered(lambda x:x.state != 'cancel'):
+            # this two could go together but we keep similar to odoo sm._quantity_done_set
+            if not rec.move_line_ids:
+                rec.quantity_done = rec.product_uom_qty
+            elif len(rec.move_line_ids) == 1:
+                rec.quantity_done = rec.product_uom_qty
+            else:
+                for line in rec.move_line_ids:
+                    line.qty_done = line.product_uom_qty
