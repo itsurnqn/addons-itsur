@@ -70,6 +70,6 @@ class BoxSessionJournal(models.Model):
     def write(self, values):
         super(BoxSessionJournal,self).write(values)
         for rec in self:
-            if rec.balance_start != rec.balance_end_last_session:
+            if rec.balance_start != rec.balance_end_last_session and rec.box_session_id.state == 'opening_control':
                 if not self.user_has_groups('box.group_box_session_balance_start'):
                     raise ValidationError("El saldo inicial informado no coincide con el saldo final de la última sesión.")
