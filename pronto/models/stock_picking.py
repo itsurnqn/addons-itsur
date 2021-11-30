@@ -64,6 +64,13 @@ class ProntoStockPicking(models.Model):
 
     @api.multi
     def button_validate(self):
+        # solo en los movimientos de salida
+        if (self.picking_type_id.code == 'outgoing'):
+            # Control de productos agregados al pedido pero que no se facturaron
+            if not self.user_has_groups('pronto.group_stock_omitir_bloqueo_pendiente_facturar'):
+                if self.sale_id.order_line.filtered(lambda x: x.qty_invoiced < x.product_uom_qty):
+                    raise UserError("El pedido asociado al movimiento tiene productos pendientes de facturar.")
+
         result = super(ProntoStockPicking,self).button_validate()
         # solo en los movimientos de salida
         if (self.picking_type_id.code == 'outgoing'):
