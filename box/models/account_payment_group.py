@@ -7,7 +7,8 @@ from odoo.exceptions import UserError
 from datetime import datetime
 
 class AccountPaymentGroup(models.Model):
-    _inherit = 'account.payment.group'
+    _name = 'account.payment.group'
+    _inherit = ['account.payment.group', 'mail.activity.mixin']
 
     def _get_default_box_id(self):
         return self.env.user.default_box_id.id
@@ -31,11 +32,23 @@ class AccountPaymentGroup(models.Model):
     # para mostrar los renglones de caja asociados en el recibo
     box_session_journal_line_ids = fields.One2many(related='payment_ids.box_session_journal_line_ids', string='Renglones de caja')
 
+    cancel_reason_note = fields.Char("Detalle el motivo de la cancelación",track_visibility='always')
+
     @api.onchange('box_id')
     def _onchange_box_id(self):
         # si el usuario cambia la caja, que cargue la sesion activa para esa caja y que blanquee la grilla de pagos
         self.box_session_id = self.env['box.session'].search(['&',('box_id','=',self.box_id.id),('state','=','opened')])
         self.payment_ids = False
+        if not self.box_session_id:
+            raise UserError(_("Debe iniciar una sesión para poder operar con la caja '%s'." % self.box_id.name))
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        # si el usuario cambia la caja, que cargue la sesion activa para esa caja y que blanquee la grilla de pagos
+        self.box_session_id = self.env['box.session'].search(['&',('box_id','=',self.box_id.id),('state','=','opened')])
+        self.payment_ids = False
+        if not self.box_session_id:
+            raise UserError(_("Debe iniciar una sesión para poder operar con la caja '%s'." % self.box_id.name))
 
     @api.multi
     def post(self):
@@ -119,3 +132,12 @@ class AccountPaymentGroup(models.Model):
                     }                  
                     
                     rec2.box_session_journal_line_id = self.env['box.session.journal.line'].create(vals)
+
+    def cancel_payment(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Cancelar recibos',
+            'view_mode': 'form',
+            'res_model': 'payment.group.cancel',
+            'target': 'new'  
+        }

@@ -71,7 +71,7 @@ class ProcurementGroup(models.Model):
                 if (delta.days == dias_registrar_actividad or delta.days < 0) and picking.create_date.date() != fields.Date.context_today(self):    
                     activity = picking._schedule_activity(activity_type_id)
                     line = linea1 + ' - Actividad'
-                    self.escribir_log(archivo_log, line)
+                    # self.escribir_log(archivo_log, line)
 
             # esta dentro del periodo de reserva? 10 días antes
             if delta.days <= dias_reservar:

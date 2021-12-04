@@ -22,6 +22,9 @@ class AccountPayment(models.Model):
     def onchange_box_session_id(self):
         if self.payment_type != 'transfer':
             self.journal_ids = self.box_session_id.journal_ids
+            # import pdb; pdb.set_trace()
+            if not self.box_session_id:
+                raise UserError(_("Debe iniciar una sesión para poder operar con la caja '%s'." % self.box_id.name))
 
     @api.multi
     def cancel(self):
@@ -81,7 +84,7 @@ class AccountPayment(models.Model):
                                     'name': renglon_caja.display_name, 
                                     'amount': -renglon_caja.amount, 
                                     'partner_id': renglon_caja.partner_id.id,
-                                    'ref': ref + ' - Cancelación',
+                                    'ref': ref + ' - Motivo Cancelación: ' + rec.payment_group_id.cancel_reason_note,
                                     'account_payment_id': renglon_caja.account_payment_id.id,
                                     'box_session_journal_id': box_session_journal_id.id,
                                     'anulado': True

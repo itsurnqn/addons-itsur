@@ -213,6 +213,9 @@ class ProntoWebsiteSale(WebsiteSale):
         res = super().confirm_order(**post)
         order = request.website.sale_get_order()
         # import pdb; pdb.set_trace()
+        if order.partner_id.user_id:
+            order.user_id = order.partner_id.user_id
+        
         notification_ids = []
         notification_ids.append((0,0,{
                 'res_partner_id':order.user_id.id}))        

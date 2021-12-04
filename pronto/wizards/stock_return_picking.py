@@ -8,6 +8,10 @@ from odoo.exceptions import UserError
 class StockReturnPicking(models.TransientModel):
     _inherit = 'stock.return.picking'
 
+    # location_id = fields.Many2one(
+    #     'stock.location', 'Return Location',
+    #     domain="[]")
+
     reason_id = fields.Many2one(comodel_name="stock.return.picking.reason", string= 'Motivo de devolución')
     wait_replacement = fields.Boolean('Wait for vendor replacement', default=True)
     in_out = fields.Selection([('incoming', 'Vendors'), ('outgoing', 'Customers'), ('internal', 'Internal')], related='picking_id.picking_type_id.code')

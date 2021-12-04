@@ -14,7 +14,7 @@ class BoxSessionJournal(models.Model):
     @api.depends('line_ids', 'balance_start', 'line_ids.amount', 'balance_end_real')
     def _end_balance(self):
         self.total_entry_encoding = sum([line.amount for line in self.line_ids])
-        self.balance_end = self.balance_start + self.total_entry_encoding
+        self.balance_end = self.balance_start + self.total_entry_encoding        
         self.difference = self.balance_end_real - self.balance_end
         self.total_entry_encoding_in = sum([line.amount for line in self.line_ids.filtered(lambda x: x.amount > 0)])
         self.total_entry_encoding_out = sum([line.amount for line in self.line_ids.filtered(lambda x: x.amount < 0)])
@@ -50,6 +50,7 @@ class BoxSessionJournal(models.Model):
     line_ids = fields.One2many('box.session.journal.line', 'box_session_journal_id', string='Detalle movimientos', copy=True)
 
     balance_start = fields.Monetary(string='Saldo inicial', default=_default_opening_balance)
+    balance_end_last_session = fields.Monetary(string='Saldo última sesión')    
     balance_end = fields.Monetary('Saldo final calculado', compute='_end_balance', store=True, help='Balance as calculated based on Opening Balance and transaction lines')
     total_entry_encoding = fields.Monetary('Transacciones', compute='_end_balance', store=True, help="Total of transaction lines.")
     balance_end_real = fields.Monetary('Saldo final')
@@ -64,3 +65,11 @@ class BoxSessionJournal(models.Model):
 
     total_entry_encoding_in = fields.Monetary('Ingresos', compute='_end_balance', store=True)
     total_entry_encoding_out = fields.Monetary('Egresos', compute='_end_balance', store=True)
+
+    @api.multi
+    def write(self, values):
+        super(BoxSessionJournal,self).write(values)
+        for rec in self:
+            if rec.balance_start != rec.balance_end_last_session and rec.box_session_id.state == 'opening_control':
+                if not self.user_has_groups('box.group_box_session_balance_start'):
+                    raise ValidationError("El saldo inicial informado no coincide con el saldo final de la última sesión.")

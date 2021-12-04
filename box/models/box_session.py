@@ -40,7 +40,8 @@ class BoxSession(models.Model):
     state = fields.Selection(
         POS_SESSION_STATE, string='Status',
         required=True, readonly=True,
-        index=True, copy=False, default='opening_control')
+        index=True, copy=False, default='opening_control',
+        track_visibility='always')
     
     journal_ids = fields.Many2many(
         'account.journal',
@@ -187,12 +188,14 @@ class BoxSession(models.Model):
             # account.bank.statement to set the opening balance of the
             # newly created bank statement
             ctx['journal_id'] = journal.id
+            balance_last_session = box_box.last_closed_session_id.box_session_journal_cash_ids.filtered(lambda x:x.journal_id.id==journal.id).balance_end_real if journal.type == 'cash' else 0
             st_values = {
                 'journal_id': journal.id,
                 # 'user_id': self.env.user.id,
                 # 'name': box_name,
                 'box_session_id': res.id,
-                'balance_start': box_box.last_closed_session_id.box_session_journal_cash_ids.filtered(lambda x:x.journal_id.id==journal.id).balance_end_real if journal.type == 'cash' else 0
+                'balance_start': balance_last_session,
+                'balance_end_last_session': balance_last_session,                
             }
 
             session_journals.append(ABS.with_context(ctx).sudo(uid).create(st_values).id)
@@ -235,6 +238,11 @@ class BoxSession(models.Model):
             session.write({'state': 'closing_control', 'stop_at': fields.Datetime.now()})
             if not session.box_id.cash_control:
                 session.action_box_session_close()
+
+    @api.multi
+    def action_box_session_back_to_opened(self):
+        for session in self:
+            session.write({'state': 'opened'})
 
     @api.multi
     def _check_box_session_balance(self):

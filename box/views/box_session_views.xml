@@ -22,6 +22,9 @@
                         attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('state', '!=', 'closing_control')]}"                        
                         class="oe_highlight"/>
                     
+                    <button name="action_box_session_back_to_opened" type="object" string='VOLVER A "EN PROCESO"' 
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('state', '!=', 'closing_control')]}"/>
+
                     <field name="state" widget="statusbar" statusbar_visible="opening_control,opened,closing_control,closed" nolabel="1" />
                     
                 </header>
@@ -100,6 +103,7 @@
                             <!-- <field name="name" /> -->                            
                             <field name="journal_id" readonly="True"/>
                             <field name="balance_start" attrs="{'readonly': [('parent.state', '=', 'closing_control')],'column_invisible': [('parent.state', '=', 'closing_control')]}"/>
+                            <field name="balance_end_last_session" readonly="True" attrs="{'column_invisible': [('parent.state', '=', 'closing_control')]}"/>
                             <!-- <field name="total_entry_encoding" attrs="{'column_invisible': [('parent.state', '=', 'opening_control')]}" readonly="True"/>                                                                     -->
                             <!-- <field name="balance_end" attrs="{'column_invisible': [('parent.state', '=', 'opening_control')]}" readonly="True" />                             -->
                             <field string="Saldo final REAL" name="balance_end_real" attrs="{'column_invisible': [('parent.state', '=', 'opening_control')]}"/>
