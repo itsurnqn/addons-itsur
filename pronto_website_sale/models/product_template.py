@@ -25,5 +25,16 @@ class ProductTemplate(models.Model):
                 'qty_available': product.qty_available,
             })            
             # import pdb; pdb.set_trace()
+            
+            # esto es para los packs. No lo puedo agregar en website_sale_product_pack porque el orden
+            # de la ejecución de los métodos heredados hace que se pise (este metódo se ejecuta al final)
+            # Probé haciendo que website_sale_product_pack dependa de pronto_website_sale pero no funcionó
+
+            if product.pack_ok:
+                combination_info.update({
+                    'qty_available': product.qty_available,
+                    'inventory_availability': 'always',
+                    'pack_ok': product.pack_ok,
+            })
 
         return combination_info

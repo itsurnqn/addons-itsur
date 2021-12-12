@@ -56,4 +56,9 @@
         <field name="category_id" ref="base.module_category_warehouse_management"/>
     </record>
 
+    <record id="group_ventas_solo_lectura_pedidos" model="res.groups">
+        <field name="name">Ventas - Pedidos solo lectura (con chatter)</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
 </odoo>
