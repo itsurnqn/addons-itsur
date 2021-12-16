@@ -4,7 +4,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_compare
+from odoo.tools import float_compare, float_is_zero
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
@@ -193,6 +193,26 @@ class SaleOrderLine(models.Model):
             #         "no puede ser invocada producto componente de un pack."))
         else:
             return super(SaleOrderLine, self).button_cancel_remaining()
+
+    # src/addons/sale/models/sale.py:942
+    # que contemple ...
+    @api.depends('state', 'product_uom_qty', 'qty_delivered', 'qty_to_invoice', 'qty_invoiced')
+    def _compute_invoice_status(self):
+        super()._compute_invoice_status()
+        precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+        for line in self:
+            if line.state not in ('sale', 'done'):
+                line.invoice_status = 'no'
+            elif not float_is_zero(line.qty_to_invoice, precision_digits=precision):
+                line.invoice_status = 'to invoice'
+            elif line.state == 'sale' and line.product_id.invoice_policy == 'order' and\
+                    float_compare(line.qty_delivered, line.product_uom_qty, precision_digits=precision) == 1:
+                line.invoice_status = 'upselling'
+            elif float_compare(line.qty_invoiced + line.qty_returned, line.product_uom_qty, precision_digits=precision) >= 0:
+                line.invoice_status = 'invoiced'
+            else:
+                # import pdb; pdb.set_trace()
+                line.invoice_status = 'no'
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
