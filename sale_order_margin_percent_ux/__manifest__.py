@@ -8,7 +8,8 @@
     "license": "AGPL-3",
     "installable": True,
     "depends": [
-        'sale_margin'
+        'sale_margin',
+        'pronto'
     ],
     "data": [
         'views/sale_order_margin_percent_view.xml',
