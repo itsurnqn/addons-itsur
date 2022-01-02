@@ -49,11 +49,12 @@
                 <field name="pricelist_id"/>
                 <field name="product_id"/>
                 <field name="product_uom_qty"/>
-                <field name="costo_total_pesos"/>                
-                <field name="precio_total_pesos"/>
-                <field name="discount" avg="Descuento Promedio"/>
-                <field name="porcentaje" avg="Porcentaje Promedio"/>
-                <field name="cotizacion" avg="Cotización Promedio"/>
+                <field name="costo_total_pesos" sum="Costo total"/>                
+                <field name="precio_total_pesos" />
+                <field name="margin" sum="Margen total" />
+                <field name="discount" />
+                <field name="porcentaje"/>
+                <field name="cotizacion"/>
                 <field name="precio_total_usd"/>
             </tree>
         </field>
@@ -100,27 +101,57 @@
          </field>
     </record>
 
+    <record id="sale_report_view_pivot_simple" model="ir.ui.view">
+        <field name="name">sale.report.pronto.pivot</field>
+        <field name="model">sale.report.pronto</field>
+        <field name="arch" type="xml">
+            <pivot string="Sales Analysis" display_quantity="true">
+                <field name="categ_id" type="row"/>                
+                <field name="precio_total_pesos" type="measure"/>
+                <field name="costo_total_pesos" type="measure"/>
+                <field name="margin" type="measure"/>
+                <field name="porcentaje" type="measure" />
+                <!-- <field name="order_id" type="measure"/>
+                <field name="price_subtotal" type="measure"/>
+                <field name="price_total" type="measure"/> -->
+            </pivot>
+        </field>
+   </record>
+
+    <record id="sale_report_view_dashboard_simple" model="ir.ui.view">
+        <field name="name">sale.report.pronto.view.dashboard</field>
+        <field name="model">sale.report.pronto</field>
+        <field name="mode">primary</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <dashboard>
+                <group>
+                    <group>
+                        <aggregate name="agg_precio_total_pesos" field="precio_total_pesos" string="Precio total en pesos"/>
+                        <aggregate name="agg_costo_total_pesos" field="costo_total_pesos" string="Costo total en pesos"/>
+                        <aggregate name="agg_margen" field="margin" string="Margen"/>
+                        <formula name="Porcentaje" string="Porcentaje" value="(record.agg_precio_total_pesos / record.agg_costo_total_pesos - 1) * 100"/>
+                        <!-- <aggregate name="customers" string="# Customers" field="partner_id"/>
+                        <aggregate name="lines" string="# Lines" field="nbr"/> -->
+                    </group>
+                </group>
+                <view type="pivot" ref="pronto.sale_report_view_pivot_simple"/>
+            </dashboard>
+        </field>
+    </record>
+
     <record id="action_order_report_all_simple" model="ir.actions.act_window">
         <field name="name">Análisis de ventas</field>
         <field name="res_model">sale.report.pronto</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,graph,form</field>
-        <field name="view_id" ref="view_order_product_simple_tree" />
+        <field name="view_mode">dashboard,tree,graph,form</field>
+        <field name="view_id" ref="sale_report_view_pivot_simple" />
         <field name="search_view_id" ref="view_order_product_simple_search"/>
         <field name="context">{'search_default_confirm_month': 1,'search_default_Sales': 1}</field>
     </record>
 
-    <!-- <record id="action_view_pagos_tarjeta" model="ir.actions.act_window">
-        <field name="name">Pagos con Tarjeta</field>
-        <field name="res_model">account.payment</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="view_pagos_tarjeta_tree" />
-        <field name="domain">[('is_credit_card','=','1')]</field>
-        <field name="view_mode">tree,form</field>
-    </record> -->
-
     <menuitem id="menu_report_product_all_PRONTO_simple"
-        name="Ventas PRONTO simple"
+        name="Ventas PRONTO - Rentabilidad "
         action="pronto.action_order_report_all_simple"
         parent="sale.menu_sale_report"
         sequence="1"/>

@@ -12,6 +12,22 @@ class SaleOrderLine(models.Model):
     costo_total_pesos = fields.Float(string = 'Costo total pesos', compute='_computed_costo_total_pesos', readonly=False, store=True)
     precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=False, store=True)
 
+    excluir_markup = fields.Boolean(string="Excluir del calculo del mark-up (Porcentaje) en los pedidos",
+                    compute='_computed_excluir_markup', 
+                    readonly=False, 
+                    store=True)
+    
+    @api.depends('product_id','product_id.excluir_calculo_markup')
+    def _computed_excluir_markup(self):
+        for rec in self:
+            if rec.product_id.excluir_calculo_markup == 'siempre':                
+                rec.excluir_markup = True
+            elif rec.product_id.excluir_calculo_markup == 'componente_pack':
+                if rec.pack_parent_line_id:
+                    rec.excluir_markup = True
+            else:
+                rec.excluir_markup = False
+
     @api.depends('product_id', 'product_uom_qty','purchase_price')
     def _computed_costo_total_pesos(self):
         # import pdb; pdb.set_trace()
@@ -28,15 +44,20 @@ class SaleOrderLine(models.Model):
                 rec.costo_total_pesos = costo_total_pesos
 
     @api.depends('product_id', 'product_uom_qty','purchase_price')
-    def _computed_precio_total_pesos(self):
-        #  import pdb; pdb.set_trace()
+    def _computed_precio_total_pesos(self,precio_total=False):
+        # se llama desde lo módulo clima
+        # clima es el que determina el precio_total (sin desc. clima)
         
         for rec in self:
             if rec.display_type:
                 # es una sección
                 continue
-
-            precio_total_pesos = rec.price_subtotal
+            
+            if precio_total:
+                precio_total_pesos = precio_total
+            else:
+                precio_total_pesos = rec.price_subtotal
+                
             # precio_total_pesos = rec.product_uom_qty * rec.price_unit
             if rec.order_id.pricelist_id.currency_id != rec.env.user.company_id.currency_id:
                 rec.precio_total_pesos = precio_total_pesos * rec.order_id.cotizacion
@@ -214,6 +235,13 @@ class SaleOrderLine(models.Model):
                 # import pdb; pdb.set_trace()
                 line.invoice_status = 'no'
 
+    @api.multi
+    def expand_pack_line(self, write=False):
+        super().expand_pack_line(write)
+        if self.product_id.pack_ok and self.product_id.pack_type == 'detailed' and self.product_id.pack_component_price == 'totalized':
+            # import pdb; pdb.set_trace()
+            self.purchase_price = sum(self.pack_child_line_ids.mapped('purchase_price'))
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -320,7 +348,7 @@ class SaleOrder(models.Model):
             #     elif line.pack_child_line_ids:
             #         line.expand_pack_line()
             line.product_uom_change()
-            line._onchange_discount()
+            line._onchange_discount()       
         
         self._obtener_cotizacion()
 
@@ -335,3 +363,14 @@ class SaleOrder(models.Model):
             compania = self.env.user.company_id
 
             self.cotizacion = moneda_origen._convert(1,moneda_destino,compania, self.date_order)
+
+    @api.depends('order_line.margin','order_line.product_id.excluir_calculo_markup')
+    def _product_margin(self):
+        for order in self:
+            order.margin = sum(order.order_line.filtered(lambda r: r.state != 'cancel' and not r.excluir_markup).mapped('margin'))
+
+    @api.onchange('pricelist_id')
+    def _onchange_pricelist(self):
+        super()._onchange_pricelist()
+        for line in self.order_line.filtered(lambda x: x.product_id.pack_ok and x.product_id.pack_type == 'detailed' and x.product_id.pack_component_price == 'totalized'):
+            line.purchase_price = sum(line.pack_child_line_ids.mapped('purchase_price'))

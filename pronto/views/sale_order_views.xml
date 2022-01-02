@@ -35,6 +35,19 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="sale_margin_sale_order">
+        <field name="name">sale.order.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_subtotal']" position="after">
+                <field name="margin" readonly="True"  groups="base.group_no_one" />
+                <field name="excluir_markup" readonly="True"  groups="base.group_no_one" />
+                <field name="precio_total_pesos" readonly="True"  groups="base.group_no_one" />
+            </xpath>
+        </field>
+    </record>
+
     <record id="view_sales_order_filter" model="ir.ui.view">
         <field name="name">sale.order.filter</field>
         <field name="model">sale.order</field>
