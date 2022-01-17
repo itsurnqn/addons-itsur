@@ -43,7 +43,7 @@ class SaleOrderLine(models.Model):
             else:
                 rec.costo_total_pesos = costo_total_pesos
 
-    @api.depends('product_id', 'product_uom_qty','purchase_price')
+    @api.depends('product_id', 'product_uom_qty','purchase_price', 'price_unit', 'order_id.pricelist_id')    
     def _computed_precio_total_pesos(self,precio_total=False):
         # se llama desde lo módulo clima
         # clima es el que determina el precio_total (sin desc. clima)
@@ -235,12 +235,24 @@ class SaleOrderLine(models.Model):
                 # import pdb; pdb.set_trace()
                 line.invoice_status = 'no'
 
-    @api.multi
-    def expand_pack_line(self, write=False):
-        super().expand_pack_line(write)
-        if self.product_id.pack_ok and self.product_id.pack_type == 'detailed' and self.product_id.pack_component_price == 'totalized':
-            # import pdb; pdb.set_trace()
-            self.purchase_price = sum(self.pack_child_line_ids.mapped('purchase_price'))
+    # src/addons/sale_margin/models/sale_order.py:14
+    # lo tengo que sobre-escribir porque no encuentro otra forma de hacerlo
+    # Cuando es un pack detallado-totalizado, el costo del producto se debe totalizar en el pack
+    # de la forma que estaba hecho (en expand_pack_line) fallaba en el update_price (botón de adhoc)
+    def _compute_margin(self, order_id, product_id, product_uom_id):
+        frm_cur = self.env.user.company_id.currency_id
+        to_cur = order_id.pricelist_id.currency_id
+        if product_id.pack_ok and product_id.pack_type == 'detailed' and product_id.pack_component_price == 'totalized':
+            purchase_price = sum(product_id.pack_line_ids.mapped('product_id.standard_price'))
+        else:
+            purchase_price = product_id.standard_price
+        if product_uom_id != product_id.uom_id:
+            purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
+        price = frm_cur._convert(
+            purchase_price, to_cur, order_id.company_id or self.env.user.company_id,
+            order_id.date_order or fields.Date.today(), round=False)
+        return price
+
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
