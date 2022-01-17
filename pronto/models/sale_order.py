@@ -10,7 +10,7 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     costo_total_pesos = fields.Float(string = 'Costo total pesos', compute='_computed_costo_total_pesos', readonly=False, store=True)
-    precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=False, store=True)
+    precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=False, store=True, copy=False)
 
     excluir_markup = fields.Boolean(string="Excluir del calculo del mark-up (Porcentaje) en los pedidos",
                     compute='_computed_excluir_markup', 
@@ -254,6 +254,7 @@ class SaleOrderLine(models.Model):
         return price
 
 
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -386,3 +387,11 @@ class SaleOrder(models.Model):
         super()._onchange_pricelist()
         for line in self.order_line.filtered(lambda x: x.product_id.pack_ok and x.product_id.pack_type == 'detailed' and x.product_id.pack_component_price == 'totalized'):
             line.purchase_price = sum(line.pack_child_line_ids.mapped('purchase_price'))
+
+    @api.model
+    def create(self,values):
+        res = super(SaleOrder,self).create(values)
+        # esto lo hago porque sino cuando duplico un pedido
+        # no quedan bien el precio_total_pesos de cada renglón
+        res.update_prices()
+        return res
