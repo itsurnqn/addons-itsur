@@ -64,6 +64,10 @@ class SaleOrderLine(models.Model):
             else:
                 rec.precio_total_pesos = precio_total_pesos
     
+            if rec.product_id.pack_ok and rec.product_id.pack_type == 'detailed' and rec.product_id.pack_component_price == 'detailed':
+                # el precio_total_pesos está en los componentes del pack
+                rec.precio_total_pesos = 0
+            
         # import pdb; pdb.set_trace()
 
     @api.multi
