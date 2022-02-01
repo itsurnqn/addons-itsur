@@ -5,6 +5,9 @@
         <field name="model">stock.inventory</field>
         <field name="inherit_id" ref="stock.view_inventory_form"/>
         <field name="arch" type="xml">
+            <button name="action_inventory_line_tree" position="attributes">
+                <attribute name="groups"></attribute>
+            </button>
             <xpath expr="//sheet" position="after">
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>

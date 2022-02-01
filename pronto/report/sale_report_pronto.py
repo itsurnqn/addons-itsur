@@ -55,6 +55,7 @@ class SaleReportPronto(models.Model):
 
     costo_total_pesos = fields.Float('Costo total en pesos', readonly=True)
     precio_total_pesos = fields.Float('Precio total en pesos', readonly=True)
+    margin = fields.Float('Margen', readonly=True)
     porcentaje = fields.Float('Porcentaje', readonly=True, group_operator='avg')
     cotizacion = fields.Float('Cotización USD', readonly=True, group_operator='avg')
     precio_total_usd = fields.Float('Precio total en USD', readonly=True)
@@ -87,7 +88,8 @@ class SaleReportPronto(models.Model):
             s.id as order_id, 
             l.id as line_id,
             l.costo_total_pesos as costo_total_pesos, 
-            l.precio_total_pesos as precio_total_pesos, 
+            l.precio_total_pesos as precio_total_pesos,
+            l.precio_total_pesos - l.costo_total_pesos as margin, 
             CASE WHEN l.costo_total_pesos > 0 and l.precio_total_pesos > 0 THEN  (l.precio_total_pesos / l.costo_total_pesos - 1) * 100 ELSE 0 END as porcentaje,
             s.cotizacion as cotizacion,
             l.precio_total_pesos / nullif(s.cotizacion,0) as precio_total_usd
@@ -132,7 +134,7 @@ class SaleReportPronto(models.Model):
 
         # return '%s (SELECT %s FROM %s WHERE l.product_id IS NOT NULL GROUP BY %s)' % (with_, select_, from_, groupby_)
 
-        return '%s (SELECT %s FROM %s WHERE l.product_id IS NOT NULL)' % (with_, select_, from_)
+        return '%s (SELECT %s FROM %s WHERE l.product_id IS NOT NULL AND NOT l.excluir_markup)' % (with_, select_, from_)
 
     @api.model_cr
     def init(self):

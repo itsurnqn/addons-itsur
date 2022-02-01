@@ -33,6 +33,13 @@ class ProductTemplate(models.Model):
     dias_costo_sin_actualizar = fields.Integer(string="Días costo sin actualizar",
                                 help= "Días tomados en cuenta hasta mostrar una actividad porque el costo no fue actualizado o no se realizó una verificación manual")
 
+    excluir_calculo_markup = fields.Selection([
+                        ('nunca', 'Nunca'),
+                        ('componente_pack', 'Cuando es componente de pack'),
+                        ('siempre', 'Siempre')],
+                        default='nunca',
+                        string='Excluir del cálculo del markup')
+
     @api.model
     def _actualizar_costo(self, product_tmpl_id = 0):
 

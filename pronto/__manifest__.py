@@ -22,7 +22,8 @@
     # any module necessary for this one to work correctly
     'depends': ['base','account_payment_group','crm','purchase','sale_crm',
                 'sale_order_type','stock','stock_voucher','stock_picking_invoice_link','purchase_ux',
-                'sale_stock_info_popup','sale_ux','product_pack','delivery','sale_stock_ux','stock_ux','account_financial_risk','product'],
+                'sale_stock_info_popup','sale_ux','product_pack','delivery','sale_stock_ux','stock_ux','account_financial_risk','product',
+                'sale_margin'],
 
     # always loaded
     'data': [

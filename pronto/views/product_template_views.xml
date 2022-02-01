@@ -48,6 +48,7 @@
             <field name="categ_id" position="after">
                 <field name="entregar_al_confirmar_prespuesto" attrs="{'invisible': [('type', '!=', 'service')]}"/>
                 <field name="dias_costo_sin_actualizar"/>
+                <field name="excluir_calculo_markup" />
             </field>
 
             <xpath expr="//tree/field[@name='fixed_price']" position="replace">

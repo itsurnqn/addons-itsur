@@ -17,7 +17,7 @@ class SaleOrder(models.Model):
     def _compute_percent(self):
         for order in self:
             purchase_price_total = 0
-            for line in order.order_line:
+            for line in order.order_line.filtered(lambda r: r.state != 'cancel' and not r.excluir_markup):
                 purchase_price_total += line.purchase_price * line.product_uom_qty
             if order.margin and purchase_price_total:
                 # caso Pronto

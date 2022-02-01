@@ -4,13 +4,29 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_compare
+from odoo.tools import float_compare, float_is_zero
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     costo_total_pesos = fields.Float(string = 'Costo total pesos', compute='_computed_costo_total_pesos', readonly=False, store=True)
-    precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=False, store=True)
+    precio_total_pesos = fields.Float(string = 'Precio total pesos', compute='_computed_precio_total_pesos', readonly=False, store=True, copy=False)
+
+    excluir_markup = fields.Boolean(string="Excluir del calculo del mark-up (Porcentaje) en los pedidos",
+                    compute='_computed_excluir_markup', 
+                    readonly=False, 
+                    store=True)
+    
+    @api.depends('product_id','product_id.excluir_calculo_markup')
+    def _computed_excluir_markup(self):
+        for rec in self:
+            if rec.product_id.excluir_calculo_markup == 'siempre':                
+                rec.excluir_markup = True
+            elif rec.product_id.excluir_calculo_markup == 'componente_pack':
+                if rec.pack_parent_line_id:
+                    rec.excluir_markup = True
+            else:
+                rec.excluir_markup = False
 
     @api.depends('product_id', 'product_uom_qty','purchase_price')
     def _computed_costo_total_pesos(self):
@@ -27,22 +43,31 @@ class SaleOrderLine(models.Model):
             else:
                 rec.costo_total_pesos = costo_total_pesos
 
-    @api.depends('product_id', 'product_uom_qty','purchase_price')
-    def _computed_precio_total_pesos(self):
-        #  import pdb; pdb.set_trace()
+    @api.depends('product_id', 'product_uom_qty','purchase_price', 'price_unit', 'order_id.pricelist_id')    
+    def _computed_precio_total_pesos(self,precio_total=False):
+        # se llama desde lo módulo clima
+        # clima es el que determina el precio_total (sin desc. clima)
         
         for rec in self:
             if rec.display_type:
                 # es una sección
                 continue
-
-            precio_total_pesos = rec.price_subtotal
+            
+            if precio_total:
+                precio_total_pesos = precio_total
+            else:
+                precio_total_pesos = rec.price_subtotal
+                
             # precio_total_pesos = rec.product_uom_qty * rec.price_unit
             if rec.order_id.pricelist_id.currency_id != rec.env.user.company_id.currency_id:
                 rec.precio_total_pesos = precio_total_pesos * rec.order_id.cotizacion
             else:
                 rec.precio_total_pesos = precio_total_pesos
     
+            if rec.product_id.pack_ok and rec.product_id.pack_type == 'detailed' and rec.product_id.pack_component_price == 'detailed':
+                # el precio_total_pesos está en los componentes del pack
+                rec.precio_total_pesos = 0
+            
         # import pdb; pdb.set_trace()
 
     @api.multi
@@ -194,6 +219,46 @@ class SaleOrderLine(models.Model):
         else:
             return super(SaleOrderLine, self).button_cancel_remaining()
 
+    # src/addons/sale/models/sale.py:942
+    # que contemple ...
+    @api.depends('state', 'product_uom_qty', 'qty_delivered', 'qty_to_invoice', 'qty_invoiced')
+    def _compute_invoice_status(self):
+        super()._compute_invoice_status()
+        precision = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+        for line in self:
+            if line.state not in ('sale', 'done'):
+                line.invoice_status = 'no'
+            elif not float_is_zero(line.qty_to_invoice, precision_digits=precision):
+                line.invoice_status = 'to invoice'
+            elif line.state == 'sale' and line.product_id.invoice_policy == 'order' and\
+                    float_compare(line.qty_delivered, line.product_uom_qty, precision_digits=precision) == 1:
+                line.invoice_status = 'upselling'
+            elif float_compare(line.qty_invoiced + line.qty_returned, line.product_uom_qty, precision_digits=precision) >= 0:
+                line.invoice_status = 'invoiced'
+            else:
+                # import pdb; pdb.set_trace()
+                line.invoice_status = 'no'
+
+    # src/addons/sale_margin/models/sale_order.py:14
+    # lo tengo que sobre-escribir porque no encuentro otra forma de hacerlo
+    # Cuando es un pack detallado-totalizado, el costo del producto se debe totalizar en el pack
+    # de la forma que estaba hecho (en expand_pack_line) fallaba en el update_price (botón de adhoc)
+    def _compute_margin(self, order_id, product_id, product_uom_id):
+        frm_cur = self.env.user.company_id.currency_id
+        to_cur = order_id.pricelist_id.currency_id
+        if product_id.pack_ok and product_id.pack_type == 'detailed' and product_id.pack_component_price == 'totalized':
+            purchase_price = sum(product_id.pack_line_ids.mapped('product_id.standard_price'))
+        else:
+            purchase_price = product_id.standard_price
+        if product_uom_id != product_id.uom_id:
+            purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
+        price = frm_cur._convert(
+            purchase_price, to_cur, order_id.company_id or self.env.user.company_id,
+            order_id.date_order or fields.Date.today(), round=False)
+        return price
+
+
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -300,7 +365,7 @@ class SaleOrder(models.Model):
             #     elif line.pack_child_line_ids:
             #         line.expand_pack_line()
             line.product_uom_change()
-            line._onchange_discount()
+            line._onchange_discount()       
         
         self._obtener_cotizacion()
 
@@ -315,3 +380,22 @@ class SaleOrder(models.Model):
             compania = self.env.user.company_id
 
             self.cotizacion = moneda_origen._convert(1,moneda_destino,compania, self.date_order)
+
+    @api.depends('order_line.margin','order_line.product_id.excluir_calculo_markup')
+    def _product_margin(self):
+        for order in self:
+            order.margin = sum(order.order_line.filtered(lambda r: r.state != 'cancel' and not r.excluir_markup).mapped('margin'))
+
+    @api.onchange('pricelist_id')
+    def _onchange_pricelist(self):
+        super()._onchange_pricelist()
+        for line in self.order_line.filtered(lambda x: x.product_id.pack_ok and x.product_id.pack_type == 'detailed' and x.product_id.pack_component_price == 'totalized'):
+            line.purchase_price = sum(line.pack_child_line_ids.mapped('purchase_price'))
+
+    @api.model
+    def create(self,values):
+        res = super(SaleOrder,self).create(values)
+        # esto lo hago porque sino cuando duplico un pedido
+        # no quedan bien el precio_total_pesos de cada renglón
+        res.update_prices()
+        return res
