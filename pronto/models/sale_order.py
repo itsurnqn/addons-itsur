@@ -43,7 +43,7 @@ class SaleOrderLine(models.Model):
             else:
                 rec.costo_total_pesos = costo_total_pesos
 
-    @api.depends('product_id', 'product_uom_qty','purchase_price', 'price_unit', 'order_id.pricelist_id')    
+    @api.depends('product_id', 'product_uom_qty','purchase_price', 'price_unit', 'order_id.pricelist_id', 'discount')    
     def _computed_precio_total_pesos(self,precio_total=False):
         # se llama desde lo módulo clima
         # clima es el que determina el precio_total (sin desc. clima)
